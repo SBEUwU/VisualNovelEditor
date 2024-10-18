@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="icons\windNewProjects\turnoff.png" />
+      <Resource Include="icons\windNewProject\turnoff.png" />
+      <None Remove="fonts\windNewProject\RobotoMono-Medium.ttf" />
+      <None Remove="fonts\windNewProject\RobotoMono-Light.ttf" />
+      <None Remove="fonts\windNewProject\Roboto Mono.ttf" />
+      <Resource Include="fonts\windNewProject\Roboto Mono.ttf" />
+      <None Remove="temp\Viewport.png" />
+      <Resource Include="temp\Viewport.png" />
+      <None Remove="icons\windScene\add.png" />
+      <Resource Include="icons\windScene\add.png" />
+      <None Remove="icons\windScene\arrow_back_ios.png" />
+      <Resource Include="icons\windScene\arrow_back.png" />
+    </ItemGroup>
+
+</Project>

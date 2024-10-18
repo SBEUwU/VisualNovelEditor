@@ -1,0 +1,25 @@
+﻿<Window x:Class="VisualNovelEditor.NewProject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:VisualNovelEditor"
+        mc:Ignorable="d"
+        Title="windNewProject" Width="746" Height="365"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+    
+    <Border CornerRadius="19" Background="#0F0F0F">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="htrhtrhrth" 
+                   FontSize="24" 
+                   FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"
+                   Foreground="White"/>
+    </Grid>
+    </Border>
+</Window>
