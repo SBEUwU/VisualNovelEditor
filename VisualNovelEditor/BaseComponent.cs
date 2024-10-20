@@ -65,10 +65,6 @@ public class Character : SceneComponent
     public int Width;
     public int X;
     public int Y;
-
-    public Character()
-    {
-    }
     
     public virtual void addImage(string imagepath)
     {
