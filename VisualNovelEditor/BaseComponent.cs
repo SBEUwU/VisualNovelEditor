@@ -108,10 +108,10 @@ public class Dialog
 public class DialogBox : SceneComponent
 {
     public Color BackgroundColor;
-    public string imagePath;
-    public int height;
-    public bool visible;
-    public float opacity;
+    public string ImagePath;
+    public int Height;
+    public bool Visible;
+    public float Opacity;
 
     public void changeBackgroundColor(Color newColor)
     {
@@ -120,33 +120,33 @@ public class DialogBox : SceneComponent
     
     public void changeImage(string imagePath)
     {
-        this.imagePath = imagePath;
+        this.ImagePath = imagePath;
     }
     
     public void changeHeight(int h)
     {
-        this.height = h;
+        this.Height = h;
     }
     
     public void VisibleTrue()
     {
-        this.visible = true;
+        this.Visible = true;
         
     }
     
     public void VisibleFalse()
     {
-        this.visible = false;
+        this.Visible = false;
     }
 }
 
 public class Background : SceneComponent
 {
-    public string imagePath;
+    public string ImagePath;
     
     public void changeImage(string imagePath)
     {
-        this.imagePath = imagePath;
+        this.ImagePath = imagePath;
     }
 }
 

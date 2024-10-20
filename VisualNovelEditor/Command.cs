@@ -39,7 +39,7 @@ public class PropertyDisplayer
         checkNameProperty(background.Name);
 
         // Property - ImagePath
-        CreateStringProperty("Imagepath", "Image Path", background.imagePath);
+        CreateStringProperty("ImagePath", "Image Path", background.ImagePath);
     }
 
     public void DisplayDialogBoxProperties(DialogBox dialogBox)
@@ -48,16 +48,16 @@ public class PropertyDisplayer
         checkNameProperty(dialogBox.Name);
 
         // Property - ImagePath
-        CreateStringProperty("Imagepath", "Image Path", dialogBox.imagePath);
+        CreateStringProperty("Imagepath", "Image Path", dialogBox.ImagePath);
 
         // Property - Height
-        CreateStringProperty("Height", "Height", dialogBox.height.ToString());
+        CreateStringProperty("Height", "Height", dialogBox.Height.ToString());
 
         // Property - Visible
-        CreateStringProperty("Visible", "Visible", dialogBox.visible.ToString());
+        CreateStringProperty("Visible", "Visible", dialogBox.Visible.ToString());
 
         // Property - Opacity
-        CreateStringProperty("Opacity", "Opacity", dialogBox.opacity.ToString("F2"));
+        CreateStringProperty("Opacity", "Opacity", dialogBox.Opacity.ToString("F2"));
 
         // Property - BackgroundColor
         CreateStringProperty("Backgroundcolor", "Background Color", dialogBox.BackgroundColor.ToString());
@@ -216,74 +216,42 @@ public class Invoker
     public void Edit(int sceneIndex, int componentIndex, string propertyName, string value)
     {
         BaseComponent component = ((SceneComponent)scenesContainer.scenes[sceneIndex]).components[componentIndex];
+        if(propertyName == "Name") component.Name = value;
         switch (component)
         {
             case Character character:
             {
-                ChangeProperty(character, propertyName, value);
-
+                switch (propertyName)
+                {
+                    case "Caption": character.Caption = value; break;
+                    case "Height": try { character.Height = Convert.ToInt32(value); } catch (Exception e) {} break;
+                    case "Width": try { character.Width = Convert.ToInt32(value); } catch (Exception e) {} break;
+                    case "X": try { character.X = Convert.ToInt32(value); } catch (Exception e) {} break;
+                    case "Y": try { character.Y = Convert.ToInt32(value); } catch (Exception e) {} break;
+                }
                 break;
             }
-            // case DialogBox dialogBox:
-            // {
-            //     ChangeProperty(dialogBox, propertyName, value);
-            //     break;
-            // }
-            // case Background background:
-            // {
-            //     ChangeProperty(background, propertyName, value);
-            //     break;
-            // }
+            case DialogBox dialogBox:
+            {
+                switch (propertyName)
+                {
+                    case "ImagePath": dialogBox.ImagePath = value; break;
+                    case "Height": try { dialogBox.Height = Convert.ToInt32(value); } catch (Exception e) {} break;
+                    case "Visible": try { dialogBox.Visible = Convert.ToBoolean(value); } catch (Exception e) {} break;
+                    case "Opacity": try { dialogBox.Opacity = float.Parse(value); } catch (Exception e) {} break;
+                    case "BackgroundColor": try { dialogBox.BackgroundColor = (System.Drawing.Color)ColorConverter.ConvertFromString(value); } catch (Exception e) {} break;
+                }
+                break;
+            }
+            case Background background:
+            {
+                switch (propertyName)
+                {
+                    case "ImagePath": background.ImagePath = value; break;
+                }
+                break;
+            }
         }
-
-        void ChangeProperty(BaseComponent component, string propertyName, string value)
-        {
-            // var property = component.GetType().GetProperty(propertyName, 
-            //     BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            // if (property != null && property.CanWrite)
-            // {
-            //     if (property.PropertyType == typeof(string))
-            //     {
-            //         property.SetValue(component, value);
-            //     }
-            //     else if (property.PropertyType == typeof(int) && int.TryParse(value, out int intValue))
-            //     {
-            //         property.SetValue(component, intValue);
-            //     }
-            //     else if (property.PropertyType == typeof(float) && float.TryParse(value, out float floatValue))
-            //     {
-            //         property.SetValue(component, floatValue);
-            //     }
-            //     else if (property.PropertyType == typeof(bool) && bool.TryParse(value, out bool boolValue))
-            //     {
-            //         property.SetValue(component, boolValue);
-            //     }
-            //     else if (property.PropertyType == typeof(Color))
-            //     {
-            //         ColorConverter colorConverter = new ColorConverter();
-            //         //var color = (Color)colorConverter.ConvertFromString(value);
-            //         var color = (SolidColorBrush)new BrushConverter().ConvertFromString(value);
-            //         property.SetValue(component, color);
-            //     }
-            // }
-            // switch (propertyName)
-            // {
-            //     case "Name":
-            //         if (component is Character character)
-            //             character.Name = value;
-            //         else if (component is DialogBox dialogBox)
-            //             dialogBox.Name = value;
-            //         else if (component is Background background)
-            //             background.Name = value;
-            //         break;
-            //     
-            //     case "Caption":
-            //         if (component is Character character)
-            // }
-        }
-
-        TextBox tb = FindTextBoxInPanel(_stackPanel, propertyName);
-        tb.Text = value;
     }
 
     public void SetCommand(ICommand command)

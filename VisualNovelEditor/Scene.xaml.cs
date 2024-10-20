@@ -206,6 +206,7 @@ public partial class Scene : Window
 
                     // Вызов метода Edit для обновления свойств
                     invoker.Edit(sceneIndex, componentIndex, propertyName, value);
+                    refreshLbSceneComp();
                 }
             }
         }
@@ -248,5 +249,5 @@ public partial class Scene : Window
     }
 }
 
-//2 listbox для сцен і компонентів сцени
+//Binding для lbSceneComp
 //
