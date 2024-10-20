@@ -60,16 +60,15 @@ public class Character : SceneComponent
     public List<string> images;
     public List<Dialog> dialogs;
     public DialogBox DialogBox;
-
-    public Character()
-    {
-    }
-        
-
+    
     public int Height;
     public int Width;
     public int X;
     public int Y;
+
+    public Character()
+    {
+    }
     
     public virtual void addImage(string imagepath)
     {
@@ -113,7 +112,7 @@ public class Dialog
 public class DialogBox : SceneComponent
 {
     public Color BackgroundColor;
-    public string image;
+    public string imagePath;
     public int height;
     public bool visible;
     public float opacity;
@@ -125,7 +124,7 @@ public class DialogBox : SceneComponent
     
     public void changeImage(string imagePath)
     {
-        this.image = imagePath;
+        this.imagePath = imagePath;
     }
     
     public void changeHeight(int h)
@@ -180,14 +179,3 @@ public class Music : SceneComponent
         this.volume = volume;
     }
 }
-
-// Компонувальник
-// Підготувати картинки
-//
-//
-//
-//
-//
-//
-//
-//

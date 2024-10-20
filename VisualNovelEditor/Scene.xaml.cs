@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -11,6 +12,9 @@ public partial class Scene : Window
     Canvas currentCanvas;
     PropertyDisplayer propertyDisplayer;
     DisplaySceneComponentCommand displaySceneComponentCommand;
+    DisplayBackgroundCommand displayBackgroundCommand;
+    DisplayDialogBoxCommand displayDialogBoxCommand;
+    DisplayCharacterCommand displayCharacterCommand;
     Invoker invoker;
 
     public Scene()
@@ -19,6 +23,9 @@ public partial class Scene : Window
         scenesContainer = new ScenesContainer();
         propertyDisplayer = new PropertyDisplayer();
         displaySceneComponentCommand = new DisplaySceneComponentCommand();
+        displayBackgroundCommand = new DisplayBackgroundCommand();
+        displayDialogBoxCommand = new DisplayDialogBoxCommand();
+        displayCharacterCommand = new DisplayCharacterCommand();
         invoker = new Invoker(stkpnlProperties);
         
         PropertyDisplayer.stkpnlProperties = stkpnlProperties;
@@ -47,6 +54,11 @@ public partial class Scene : Window
     {
         lbSceneComp.Items.Clear();
 
+        while (stkpnlProperties.Children.Count > 1)
+        {
+            stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
+        }
+        
         refreshLbSceneComp();
         
         cvsScene.Children.Clear();
@@ -67,17 +79,6 @@ public partial class Scene : Window
 
     private void btnNewCharacter_OnClick(object sender, RoutedEventArgs e)
     {
-        // Button button = new Button
-        // {
-        //     Content = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas.Name,
-        //     Width = 300,
-        //     Height = 300
-        // };
-        //
-        // // Установка позиции кнопки на Canvas
-        // Canvas.SetLeft(button, 50); // Отступ слева
-        // Canvas.SetTop(button, 50); // Отступ сверху
-
         Character newCharacter = new Character()
         {
             Name = "Character" + (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
@@ -108,7 +109,42 @@ public partial class Scene : Window
 
     private void lbSceneComp_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        while (stkpnlProperties.Children.Count > 1)
+        {
+            stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
+        }
+
+        if (lbSceneComp.SelectedIndex != -1)
+        {
+            switch (((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                        lbSceneComp.SelectedIndex])
+            {
+                case VisualNovelEditor.Background background:
+                {
+                    displayBackgroundCommand.set(propertyDisplayer,
+                        (Background)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                            lbSceneComp.SelectedIndex]);
+                    invoker.SetCommand(displayBackgroundCommand);
+                } break;
+                case VisualNovelEditor.DialogBox dialogBox:
+                {
+                    displayDialogBoxCommand.set(propertyDisplayer,
+                        (DialogBox)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                            lbSceneComp.SelectedIndex]);
+                    invoker.SetCommand(displayDialogBoxCommand);
+                } break;
+                case VisualNovelEditor.Character character:
+                {
+                    displayCharacterCommand.set(propertyDisplayer,
+                        (Character)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                            lbSceneComp.SelectedIndex]);
+                    invoker.SetCommand(displayCharacterCommand);
+                } break;
+            }
+        }
+        invoker.ExecuteCommand();
         
+        InitializeTextBoxes();
         
         // if (lbSceneComp.SelectedIndex == -1 && lbSceneComp.Items.Count > 0)
         // {
@@ -134,8 +170,82 @@ public partial class Scene : Window
             }
         }
     }
-    
-    
+
+
+    private void BtnNewDialogBox_OnClick(object sender, RoutedEventArgs e)
+    {
+        DialogBox dialogBox = new DialogBox()
+        {
+            Name = "DialogBox" + (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
+        };
+
+        ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(dialogBox);
+        
+        //currentCanvas.Children.Add(newCharacter);
+        
+        refreshLbSceneComp();
+    }
+    public void tbProper_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            // Получаем ссылку на TextBox, который вызвал событие
+            TextBox textBox = sender as TextBox;
+
+            // Здесь можно выполнять логику обновления свойств
+            if (textBox != null)
+            {
+                // Предположим, что мы хотим обновить какое-то свойство компонента
+                int sceneIndex = lbScenes.SelectedIndex;
+                int componentIndex = lbSceneComp.SelectedIndex;
+
+                if (sceneIndex >= 0 && componentIndex >= 0)
+                {
+                    string propertyName = textBox.Name.Replace("tbProper", ""); // Имя свойства из имени TextBox
+                    string value = textBox.Text; // Получаем значение из TextBox
+
+                    // Вызов метода Edit для обновления свойств
+                    invoker.Edit(sceneIndex, componentIndex, propertyName, value);
+                }
+            }
+        }
+    }
+    private void InitializeTextBoxes()
+    {
+        foreach (var child in stkpnlProperties.Children)
+        {
+            if (child is StackPanel stackPanel)
+            {
+                foreach (var innerChild in stackPanel.Children)
+                {
+                    if (innerChild is TextBox textBox)
+                    {
+                        // Проверяем, установлен ли обработчик
+                        if (!IsHandlerSet(textBox, nameof(textBox.KeyDown)))
+                        {
+                            textBox.KeyDown += tbProper_KeyDown;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private bool IsHandlerSet(TextBox textBox, string eventName)
+    {
+        // Используем рефлексию, чтобы получить информацию о событиях
+        var eventField = typeof(TextBox).GetEvent(eventName);
+        if (eventField != null)
+        {
+            var fieldInfo = typeof(TextBox).GetField(eventName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (fieldInfo != null)
+            {
+                var invocationList = (MulticastDelegate)fieldInfo.GetValue(textBox);
+                return invocationList != null && invocationList.GetInvocationList().Contains((EventHandler<KeyEventArgs>)tbProper_KeyDown);
+            }
+        }
+        return false;
+    }
 }
 
 //2 listbox для сцен і компонентів сцени

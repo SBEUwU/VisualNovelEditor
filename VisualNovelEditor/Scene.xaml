@@ -174,7 +174,7 @@
                                        FontWeight="Medium"
                                        FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"
                                        Name="lblProperName"/>
-                            <TextBox Width="312" Height="29" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#0F0F0F" Foreground="#FFFFFF" Name="tbProperName">
+                            <TextBox Width="312" Height="29" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#0F0F0F" Foreground="#FFFFFF" Name="tbProperName" KeyDown="tbProper_KeyDown">
                                 <!-- <TextBox.Style> -->
                                 <!--     <Style TargetType="TextBox"> -->
                                 <!--         <Setter Property="Template"> -->
@@ -327,7 +327,7 @@
                     <Border Grid.Column="0" CornerRadius="4"
                             Background="#0F0F0F"
                             Margin="5,0,5,0" Width="122" Height="51">
-                        <Button Background="Transparent" Content="DIALOG BOX" FontSize="18" 
+                        <Button Background="Transparent" Content="DIALOG BOX" FontSize="18" Name="btnNewDialogBox" Click="BtnNewDialogBox_OnClick"
                                 Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
                         </Button>
                     </Border>
