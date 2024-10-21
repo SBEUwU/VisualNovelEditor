@@ -13,10 +13,11 @@ namespace VisualNovelEditor;
 // 1. Визначення об'єктів з різними властивостями
 
 // 2. Інтерфейс команди
+public delegate void TextBoxKeyDownHandler(object sender, KeyEventArgs e);
 
 public interface ICommand
 {
-    void Execute();
+    void Execute(TextBoxKeyDownHandler handler);
 }
 
 // 3. Receiver - Клас, який виконує фактичну логіку
@@ -66,25 +67,25 @@ public class PropertyDisplayer
         CreateStringProperty("BackgroundColor", "Background Color", dialogBox.BackgroundColor.ToString());
     }
 
-    public void DisplayCharacterProperties(Character character)
+    public void DisplayCharacterProperties(Character character, TextBoxKeyDownHandler? handler)
     {
         // Property - Name
         checkNameProperty(character.Name);
 
         // Property - Caption
-        CreateStringProperty("Caption", "Caption", character.Caption);
+        CreateStringProperty("Caption", "Caption", character.Caption, handler);
 
         // Property - Height
-        CreateStringProperty("Height", "Height", character.Height.ToString());
+        CreateStringProperty("Height", "Height", character.Height.ToString(), handler);
 
         // Property - Visible
-        CreateStringProperty("Width", "Width", character.Width.ToString());
+        CreateStringProperty("Width", "Width", character.Width.ToString(), handler);
 
         // Property - Opacity
-        CreateStringProperty("X", "X", character.X.ToString("F2"));
+        CreateStringProperty("X", "X", character.X.ToString("F2"), handler);
 
         // Property - BackgroundColor
-        CreateStringProperty("Y", "Y", character.Y.ToString());
+        CreateStringProperty("Y", "Y", character.Y.ToString(), handler);
 
         // Property - ImagesPath
         CreateListImagePathProperty("ImagesPath", "Images Path", character);
@@ -97,7 +98,8 @@ public class PropertyDisplayer
         tbName.Text = NameValue;
     }
 
-    private void CreateStringProperty(string PropertyName, string VisualPropertyName, string value)
+    private void CreateStringProperty(string PropertyName, string VisualPropertyName, string value,
+        TextBoxKeyDownHandler? handler = null)
     {
         StackPanel stkpnl;
         TextBox tb;
@@ -130,34 +132,7 @@ public class PropertyDisplayer
             Name = "tbProper" + PropertyName
         };
 
-        tb.KeyDown += tbProper_KeyDown;
-        void tbProper_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                // Получаем ссылку на TextBox, который вызвал событие
-                TextBox textBox = sender as TextBox;
-
-                // Здесь можно выполнять логику обновления свойств
-                if (textBox != null)
-                {
-                    // Предположим, что мы хотим обновить какое-то свойство компонента
-                    int sceneIndex = lbScenes.SelectedIndex;
-                    int componentIndex = lbSceneComp.SelectedIndex;
-
-                    if (sceneIndex >= 0 && componentIndex >= 0)
-                    {
-                        string propertyName = textBox.Name.Replace("tbProper", ""); // Имя свойства из имени TextBox
-                        string value = textBox.Text; // Получаем значение из TextBox
-
-                        // Вызов метода Edit для обновления свойств
-                        invoker.Edit(sceneIndex, componentIndex, propertyName, value);
-                        refreshLbSceneComp();
-                    }
-                }
-            }
-        }
-
+        if (handler != null) tb.KeyDown += new KeyEventHandler(handler);
         stkpnl.Children.Add(tbk);
         stkpnl.Children.Add(tb);
         stkpnlProperties.Children.Add(stkpnl);
@@ -195,8 +170,8 @@ public class PropertyDisplayer
             Name = "stkpnlchildProper" + PropertyName,
             Orientation = Orientation.Vertical
         };
-        
-        if(character.ImagesPath.Count > 0)
+
+        if (character.ImagesPath.Count > 0)
             ImagePath = character.ImagesPath[^1];
         tb = new TextBox()
         {
@@ -262,7 +237,7 @@ public class PropertyDisplayer
         }
 
         //character.ImagesPath[(int)(Button(sender)).Tag];
-        
+
         stkpnl.Children.Add(tb);
         stkpnl.Children.Add(btn);
 
@@ -286,7 +261,7 @@ public class DisplaySceneComponentCommand : ICommand
         _scene = scene;
     }
 
-    public void Execute()
+    public void Execute(TextBoxKeyDownHandler handler)
     {
         _displayer.DisplaySceneComponentProperties(_scene);
     }
@@ -303,7 +278,7 @@ public class DisplayBackgroundCommand : ICommand
         _background = background;
     }
 
-    public void Execute()
+    public void Execute(TextBoxKeyDownHandler handler)
     {
         _displayer.DisplayBackgroundProperties(_background);
     }
@@ -320,7 +295,7 @@ public class DisplayDialogBoxCommand : ICommand
         _dialogBox = dialogBox;
     }
 
-    public void Execute()
+    public void Execute(TextBoxKeyDownHandler handler)
     {
         _displayer.DisplayDialogBoxProperties(_dialogBox);
     }
@@ -337,9 +312,9 @@ public class DisplayCharacterCommand : ICommand
         _character = character;
     }
 
-    public void Execute()
+    public void Execute(TextBoxKeyDownHandler handler)
     {
-        _displayer.DisplayCharacterProperties(_character);
+        _displayer.DisplayCharacterProperties(_character, handler);
     }
 }
 
@@ -348,7 +323,7 @@ public class DisplayCharacterCommand : ICommand
 public class Invoker
 {
     private ICommand _command;
-    public static ScenesContainer scenesContainer;
+    static public ScenesContainer scenesContainer;
     private StackPanel _stackPanel;
 
     public Invoker(StackPanel stkpnlProperties)
@@ -483,11 +458,11 @@ public class Invoker
         _command = command;
     }
 
-    public void ExecuteCommand()
+    public void ExecuteCommand(TextBoxKeyDownHandler handler)
     {
         if (_command != null)
         {
-            _command.Execute();
+            _command.Execute(handler);
         }
     }
 

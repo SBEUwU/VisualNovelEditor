@@ -70,6 +70,7 @@ public class Character : SceneComponent
     {
         ImagesPath = new List<string>();
         dialogs = new List<Dialog>();
+        DialogBox = new DialogBox();
     }
     
     public virtual void addImage(string imagepath)
