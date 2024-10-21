@@ -57,7 +57,7 @@ public class SceneComponent : BaseComponent
 public class Character : SceneComponent
 {
     public string Caption;
-    public List<string> images;
+    public List<string> ImagesPath;
     public List<Dialog> dialogs;
     public DialogBox DialogBox;
     
@@ -65,15 +65,21 @@ public class Character : SceneComponent
     public int Width;
     public int X;
     public int Y;
+
+    public Character()
+    {
+        ImagesPath = new List<string>();
+        dialogs = new List<Dialog>();
+    }
     
     public virtual void addImage(string imagepath)
     {
-        images.Add(imagepath);
+        ImagesPath.Add(imagepath);
     }
 
     public virtual void removeImage(string imagepath)
     {
-        images.Remove(imagepath);
+        ImagesPath.Remove(imagepath);
     }
 
     public void move(int x, int y)

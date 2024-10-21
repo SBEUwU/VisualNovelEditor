@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace VisualNovelEditor;
 
@@ -22,6 +24,7 @@ public interface ICommand
 public class PropertyDisplayer
 {
     static public StackPanel stkpnlProperties;
+    static public WrapPanel wrpnlProperLists;
 
     public PropertyDisplayer()
     {
@@ -48,7 +51,7 @@ public class PropertyDisplayer
         checkNameProperty(dialogBox.Name);
 
         // Property - ImagePath
-        CreateStringProperty("Imagepath", "Image Path", dialogBox.ImagePath);
+        CreateStringProperty("ImagePath", "Image Path", dialogBox.ImagePath);
 
         // Property - Height
         CreateStringProperty("Height", "Height", dialogBox.Height.ToString());
@@ -60,7 +63,7 @@ public class PropertyDisplayer
         CreateStringProperty("Opacity", "Opacity", dialogBox.Opacity.ToString("F2"));
 
         // Property - BackgroundColor
-        CreateStringProperty("Backgroundcolor", "Background Color", dialogBox.BackgroundColor.ToString());
+        CreateStringProperty("BackgroundColor", "Background Color", dialogBox.BackgroundColor.ToString());
     }
 
     public void DisplayCharacterProperties(Character character)
@@ -68,7 +71,7 @@ public class PropertyDisplayer
         // Property - Name
         checkNameProperty(character.Name);
 
-        // Property - ImagePath
+        // Property - Caption
         CreateStringProperty("Caption", "Caption", character.Caption);
 
         // Property - Height
@@ -82,6 +85,9 @@ public class PropertyDisplayer
 
         // Property - BackgroundColor
         CreateStringProperty("Y", "Y", character.Y.ToString());
+
+        // Property - ImagesPath
+        CreateListImagePathProperty("ImagesPath", "Images Path", character);
     }
 
     private void checkNameProperty(string NameValue)
@@ -124,9 +130,146 @@ public class PropertyDisplayer
             Name = "tbProper" + PropertyName
         };
 
+        tb.KeyDown += tbProper_KeyDown;
+        void tbProper_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                // Получаем ссылку на TextBox, который вызвал событие
+                TextBox textBox = sender as TextBox;
+
+                // Здесь можно выполнять логику обновления свойств
+                if (textBox != null)
+                {
+                    // Предположим, что мы хотим обновить какое-то свойство компонента
+                    int sceneIndex = lbScenes.SelectedIndex;
+                    int componentIndex = lbSceneComp.SelectedIndex;
+
+                    if (sceneIndex >= 0 && componentIndex >= 0)
+                    {
+                        string propertyName = textBox.Name.Replace("tbProper", ""); // Имя свойства из имени TextBox
+                        string value = textBox.Text; // Получаем значение из TextBox
+
+                        // Вызов метода Edit для обновления свойств
+                        invoker.Edit(sceneIndex, componentIndex, propertyName, value);
+                        refreshLbSceneComp();
+                    }
+                }
+            }
+        }
+
         stkpnl.Children.Add(tbk);
         stkpnl.Children.Add(tb);
         stkpnlProperties.Children.Add(stkpnl);
+    }
+
+    private void CreateListImagePathProperty(string PropertyName, string VisualPropertyName, Character character)
+    {
+        StackPanel stkpnlMain;
+        StackPanel stkpnl;
+        TextBox tb;
+        TextBlock tbk;
+        Button btn;
+        Button btnWrapImage;
+        Image image;
+        int itterator = 0;
+        string ImagePath = "";
+
+        stkpnlMain = new StackPanel()
+        {
+            Margin = new Thickness(0, 10, 0, 0),
+            Name = "stkpnlProper" + PropertyName
+        };
+        tbk = new TextBlock()
+        {
+            Text = VisualPropertyName,
+            FontSize = 14,
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#F3DFD8"),
+            Margin = new Thickness(0, 0, 0, 10),
+            FontWeight = FontWeights.Medium,
+            FontFamily = (FontFamily)Application.Current.Resources["RobotoMono"],
+            Name = "lblProper" + PropertyName,
+        };
+        stkpnl = new StackPanel()
+        {
+            Name = "stkpnlchildProper" + PropertyName,
+            Orientation = Orientation.Vertical
+        };
+        
+        if(character.ImagesPath.Count > 0)
+            ImagePath = character.ImagesPath[^1];
+        tb = new TextBox()
+        {
+            Text = ImagePath,
+            Width = 262,
+            Height = 29,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF"),
+            Name = "tbProper" + PropertyName
+        };
+        btn = new Button()
+        {
+            Name = "btnProper" + PropertyName,
+            Width = 50,
+            Height = 29,
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF")
+        };
+        btn.Click += btn_OnClick;
+        tb.MouseDown += tbProperName_OnMouseDown;
+
+        void btn_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == true)
+            {
+                if (!character.ImagesPath.Contains(ofd.FileName.ToString() ?? string.Empty))
+                {
+                    NewWrapBtn(ofd.FileName);
+                }
+            }
+        }
+
+        void tbProperName_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            wrpnlProperLists.Children.Clear();
+            foreach (string imagePath in character.ImagesPath)
+            {
+                NewWrapBtn(imagePath);
+            }
+        }
+
+        void NewWrapBtn(string imagePath)
+        {
+            btnWrapImage = new Button()
+            {
+                Width = 100,
+                Height = 150
+            };
+            btnWrapImage.Tag = itterator;
+            image = new Image()
+            {
+                Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
+                Width = Double.NaN,
+                Height = Double.NaN,
+                Stretch = Stretch.Fill
+            };
+            btnWrapImage.Content = image;
+            itterator++;
+            wrpnlProperLists.Children.Add(btnWrapImage);
+        }
+
+        //character.ImagesPath[(int)(Button(sender)).Tag];
+        
+        stkpnl.Children.Add(tb);
+        stkpnl.Children.Add(btn);
+
+        stkpnlMain.Children.Add(tbk);
+        stkpnlMain.Children.Add(stkpnl);
+
+        stkpnlProperties.Children.Add(stkpnlMain);
     }
 }
 
@@ -205,7 +348,7 @@ public class DisplayCharacterCommand : ICommand
 public class Invoker
 {
     private ICommand _command;
-    static public ScenesContainer scenesContainer;
+    public static ScenesContainer scenesContainer;
     private StackPanel _stackPanel;
 
     public Invoker(StackPanel stkpnlProperties)
@@ -216,39 +359,120 @@ public class Invoker
     public void Edit(int sceneIndex, int componentIndex, string propertyName, string value)
     {
         BaseComponent component = ((SceneComponent)scenesContainer.scenes[sceneIndex]).components[componentIndex];
-        if(propertyName == "Name") component.Name = value;
+        if (propertyName == "Name") component.Name = value;
         switch (component)
         {
             case Character character:
             {
                 switch (propertyName)
                 {
-                    case "Caption": character.Caption = value; break;
-                    case "Height": try { character.Height = Convert.ToInt32(value); } catch (Exception e) {} break;
-                    case "Width": try { character.Width = Convert.ToInt32(value); } catch (Exception e) {} break;
-                    case "X": try { character.X = Convert.ToInt32(value); } catch (Exception e) {} break;
-                    case "Y": try { character.Y = Convert.ToInt32(value); } catch (Exception e) {} break;
+                    case "Caption":
+                        character.Caption = value;
+                        break;
+                    case "Height":
+                        try
+                        {
+                            character.Height = Convert.ToInt32(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
+                    case "Width":
+                        try
+                        {
+                            character.Width = Convert.ToInt32(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
+                    case "X":
+                        try
+                        {
+                            character.X = Convert.ToInt32(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
+                    case "Y":
+                        try
+                        {
+                            character.Y = Convert.ToInt32(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
                 }
+
                 break;
             }
             case DialogBox dialogBox:
             {
                 switch (propertyName)
                 {
-                    case "ImagePath": dialogBox.ImagePath = value; break;
-                    case "Height": try { dialogBox.Height = Convert.ToInt32(value); } catch (Exception e) {} break;
-                    case "Visible": try { dialogBox.Visible = Convert.ToBoolean(value); } catch (Exception e) {} break;
-                    case "Opacity": try { dialogBox.Opacity = float.Parse(value); } catch (Exception e) {} break;
-                    case "BackgroundColor": try { dialogBox.BackgroundColor = (System.Drawing.Color)ColorConverter.ConvertFromString(value); } catch (Exception e) {} break;
+                    case "ImagePath":
+                        dialogBox.ImagePath = value;
+                        break;
+                    case "Height":
+                        try
+                        {
+                            dialogBox.Height = Convert.ToInt32(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
+                    case "Visible":
+                        try
+                        {
+                            dialogBox.Visible = Convert.ToBoolean(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
+                    case "Opacity":
+                        try
+                        {
+                            dialogBox.Opacity = float.Parse(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
+                    case "BackgroundColor":
+                        try
+                        {
+                            dialogBox.BackgroundColor = (System.Drawing.Color)ColorConverter.ConvertFromString(value);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+
+                        break;
                 }
+
                 break;
             }
             case Background background:
             {
                 switch (propertyName)
                 {
-                    case "ImagePath": background.ImagePath = value; break;
+                    case "ImagePath":
+                        background.ImagePath = value;
+                        break;
                 }
+
                 break;
             }
         }

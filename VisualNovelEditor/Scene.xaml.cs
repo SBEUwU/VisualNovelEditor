@@ -29,6 +29,7 @@ public partial class Scene : Window
         invoker = new Invoker(stkpnlProperties);
         
         PropertyDisplayer.stkpnlProperties = stkpnlProperties;
+        PropertyDisplayer.wrpnlProperLists = wrpnlProperLists;
         Invoker.scenesContainer = scenesContainer;
     }
 
@@ -246,6 +247,11 @@ public partial class Scene : Window
             }
         }
         return false;
+    }
+
+    private void TbProperName_OnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        
     }
 }
 
