@@ -92,10 +92,10 @@ public class PropertyDisplayer
         // Property - ImagesPath
         CreateListImagePathProperty("ImagesPath", "Images Path", character);
         
-        
+        // Property - Dialogs
         CreateDialogProperty("Dialogs", "Dialogs", character);
         
-        
+        // Property - WrapPanel -> ImagesPath
         ShowWrapPanelProperty(character);
     }
 
@@ -153,8 +153,6 @@ public class PropertyDisplayer
         TextBox tb;
         TextBlock tbk;
         Button btn;
-        Button btnWrapImage;
-        Image image;
         int itterator = 0;
         string ImagePath = "";
 
