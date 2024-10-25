@@ -294,19 +294,17 @@
             <!-- VIEWPORT WINDOW  -->
             <!-- _________________ -->
             
-            
-            
             <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
                 <Canvas Width="NaN" Height="NaN" Name="cvsScene"/>
             </Grid>
             
             <!-- _________________________ -->
-            <!-- COMPONENT CREATION WINDOW  -->
-            <!--   !!! TEMPORARILY  !!!     -->
+            <!-- LIST PROPERTY EDITOR      -->
+            <!--        IMAGESPATH         -->
             <!-- _________________________ -->
             
-            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#191919" BorderBrush="#CE7D63" BorderThickness="2,1,1,2" >
-                <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Name="wrpnlProperLists"/>
+            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#191919" BorderBrush="#CE7D63" BorderThickness="2,1,1,2" Name="brdrProperLists">
+                <!-- <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Name="wrpnlProperLists"/> -->
             </Border>
             
             <!-- ____________________ -->

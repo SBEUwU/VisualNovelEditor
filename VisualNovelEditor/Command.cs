@@ -25,7 +25,9 @@ public interface ICommand
 public class PropertyDisplayer
 {
     static public StackPanel stkpnlProperties;
-    static public WrapPanel wrpnlProperLists;
+    //static public WrapPanel wrpnlProperLists;
+    static public Border brdrProperLists;
+    WrapPanel wrpnlProperLists;
 
     public PropertyDisplayer()
     {
@@ -89,6 +91,12 @@ public class PropertyDisplayer
 
         // Property - ImagesPath
         CreateListImagePathProperty("ImagesPath", "Images Path", character);
+        
+        
+        CreateDialogProperty("Dialogs", "Dialogs", character);
+        
+        
+        ShowWrapPanelProperty(character);
     }
 
     private void checkNameProperty(string NameValue)
@@ -168,7 +176,7 @@ public class PropertyDisplayer
         stkpnl = new StackPanel()
         {
             Name = "stkpnlchildProper" + PropertyName,
-            Orientation = Orientation.Vertical
+            Orientation = Orientation.Horizontal
         };
 
         if (character.ImagesPath.Count > 0)
@@ -189,52 +197,91 @@ public class PropertyDisplayer
             Name = "btnProper" + PropertyName,
             Width = 50,
             Height = 29,
+            Content = "Add",
             Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
             Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF")
         };
-        btn.Click += btn_OnClick;
-        tb.MouseDown += tbProperName_OnMouseDown;
 
         void btn_OnClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() == true)
+            if (character.wrapPanel != null)
             {
-                if (!character.ImagesPath.Contains(ofd.FileName.ToString() ?? string.Empty))
+                OpenFileDialog ofd = new OpenFileDialog();
+                if (ofd.ShowDialog() == true)
                 {
-                    NewWrapBtn(ofd.FileName);
+                    if (!character.ImagesPath.Contains(ofd.FileName))
+                    {
+                        character.ImagesPath.Add(ofd.FileName);
+                        character.NewWrapBtn(ofd.FileName);
+                    }
                 }
             }
         }
 
-        void tbProperName_OnMouseDown(object sender, MouseButtonEventArgs e)
+        void tbProperName_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            wrpnlProperLists.Children.Clear();
-            foreach (string imagePath in character.ImagesPath)
+            // if (brdrProperLists.Child is Panel panel)
+            //     panel.Children.Clear();
+            // else
+            //     brdrProperLists.Child = null;
+            
+            ScrollViewer scrllviewProperLists = new ScrollViewer()
             {
-                NewWrapBtn(imagePath);
-            }
-        }
-
-        void NewWrapBtn(string imagePath)
-        {
-            btnWrapImage = new Button()
-            {
-                Width = 100,
-                Height = 150
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
             };
-            btnWrapImage.Tag = itterator;
-            image = new Image()
-            {
-                Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
-                Width = Double.NaN,
-                Height = Double.NaN,
-                Stretch = Stretch.Fill
-            };
-            btnWrapImage.Content = image;
-            itterator++;
-            wrpnlProperLists.Children.Add(btnWrapImage);
+            // wrpnlProperLists = new WrapPanel()
+            // {
+            //     HorizontalAlignment = HorizontalAlignment.Left,
+            //     VerticalAlignment = VerticalAlignment.Top,
+            //     Orientation = Orientation.Horizontal,
+            //     Name = "wrpnlProperLists"
+            // };
+            
+            scrllviewProperLists.Content = character.wrapPanel;
+            brdrProperLists.Child = scrllviewProperLists;
+            
+            // foreach (string imagePath in character.ImagesPath)
+            // {
+            //     //NewWrapBtn(imagePath);
+            //     character.NewWrapBtn(imagePath);
+            // }
         }
+        
+        btn.Click += btn_OnClick;
+        tb.PreviewMouseDown += tbProperName_OnPreviewMouseDown;
+        
+        // void NewWrapBtn(string imagePath)
+        // {
+        //     btnWrapImage = new Button()
+        //     {
+        //         Width = 200,
+        //         Height = 250
+        //     };
+        //     btnWrapImage.Tag = itterator;
+        //     image = new Image()
+        //     {
+        //         Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
+        //         Width = Double.NaN,
+        //         Height = Double.NaN,
+        //         Stretch = Stretch.Uniform,
+        //         VerticalAlignment = VerticalAlignment.Bottom
+        //     };
+        //     
+        //     void btn_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //     {
+        //         if (sender is Button btn && wrpnlProperLists != null)
+        //         {
+        //             character.ImagesPath.RemoveAt(wrpnlProperLists.Children.IndexOf(btn));
+        //             wrpnlProperLists.Children.Remove(btn);
+        //         }
+        //     }
+        //
+        //     btnWrapImage.PreviewMouseDoubleClick += btn_OnPreviewMouseDoubleClick;
+        //     
+        //     btnWrapImage.Content = image;
+        //     itterator++;
+        //     wrpnlProperLists.Children.Add(btnWrapImage);
+        // }
 
         //character.ImagesPath[(int)(Button(sender)).Tag];
 
@@ -245,6 +292,74 @@ public class PropertyDisplayer
         stkpnlMain.Children.Add(stkpnl);
 
         stkpnlProperties.Children.Add(stkpnlMain);
+    }
+    
+    private void CreateDialogProperty(string PropertyName, string VisualPropertyName, Character character)
+    {
+        StackPanel stkpnl;
+        TextBlock tbk;
+        Button btn;
+        
+        stkpnl = new StackPanel()
+        {
+            Margin = new Thickness(0, 10, 0, 0),
+            Name = "stkpnlProper" + PropertyName
+        };
+        
+        tbk = new TextBlock()
+        {
+            Text = VisualPropertyName,
+            FontSize = 14,
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#F3DFD8"),
+            Margin = new Thickness(0, 0, 0, 10),
+            FontWeight = FontWeights.Medium,
+            FontFamily = (FontFamily)Application.Current.Resources["RobotoMono"],
+            Name = "lblProper" + PropertyName,
+        };
+        
+        btn = new Button()
+        {
+            Name = "btnProper" + PropertyName,
+            Width = 262,
+            Height = 29,
+            Content = "Open",
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF")
+        };
+        
+        void btn_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        
+        btn.Click += btn_OnClick;
+        
+        stkpnl.Children.Add(tbk);
+        stkpnl.Children.Add(btn);
+        
+        stkpnlProperties.Children.Add(stkpnl);
+    }
+
+    public void ShowWrapPanelProperty(Character character)
+    {
+        // if (brdrProperLists.Child is Panel panel)
+        //     panel.Children.Clear();
+        // else
+            brdrProperLists.Child = null;
+            
+        ScrollViewer scrllviewProperLists = new ScrollViewer()
+        {
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
+        };
+        
+        scrllviewProperLists.Content = character.wrapPanel;
+        brdrProperLists.Child = scrllviewProperLists;
+            
+        // foreach (string imagePath in character.ImagesPath)
+        // {
+        //     //NewWrapBtn(imagePath);
+        //     character.NewWrapBtn(imagePath);
+        // }
     }
 }
 

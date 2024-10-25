@@ -1,8 +1,11 @@
 ﻿using System.Configuration.Internal;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Color = System.Drawing.Color;
 
 namespace VisualNovelEditor;
@@ -58,21 +61,69 @@ public class Character : SceneComponent
 {
     public string Caption;
     public List<string> ImagesPath;
-    public List<Dialog> dialogs;
+    public List<Dialog> Dialogs;
     public DialogBox DialogBox;
+    public WrapPanel wrapPanel;
     
     public int Height;
     public int Width;
     public int X;
     public int Y;
 
+    public int itterator;
+
     public Character()
     {
         ImagesPath = new List<string>();
-        dialogs = new List<Dialog>();
+        Dialogs = new List<Dialog>();
         DialogBox = new DialogBox();
+
+        itterator = 0;
+
+        wrapPanel = new WrapPanel()
+        {
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            Orientation = Orientation.Horizontal,
+            Name = "wrpnlProperLists"
+        };
+        
+        
     }
     
+    
+    public void NewWrapBtn(string imagePath)
+    {
+        Button btnWrapImage = new Button()
+        {
+            Width = 200,
+            Height = 250
+        };
+        btnWrapImage.Tag = itterator;
+        Image image = new Image()
+        {
+            Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
+            Width = Double.NaN,
+            Height = Double.NaN,
+            Stretch = Stretch.Uniform,
+            VerticalAlignment = VerticalAlignment.Bottom
+        };
+            
+        void btn_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Button btn && wrapPanel != null)
+            {
+                ImagesPath.RemoveAt(wrapPanel.Children.IndexOf(btn));
+                wrapPanel.Children.Remove(btn);
+            }
+        }
+
+        btnWrapImage.PreviewMouseDoubleClick += btn_OnPreviewMouseDoubleClick;
+            
+        btnWrapImage.Content = image;
+        itterator++;
+        wrapPanel.Children.Add(btnWrapImage);
+    }
     public virtual void addImage(string imagepath)
     {
         ImagesPath.Add(imagepath);

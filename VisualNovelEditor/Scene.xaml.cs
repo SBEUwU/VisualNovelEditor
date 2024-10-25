@@ -29,8 +29,10 @@ public partial class Scene : Window
         invoker = new Invoker(stkpnlProperties);
 
         PropertyDisplayer.stkpnlProperties = stkpnlProperties;
-        PropertyDisplayer.wrpnlProperLists = wrpnlProperLists;
+        //PropertyDisplayer.wrpnlProperLists = wrpnlProperLists;
+        PropertyDisplayer.brdrProperLists = brdrProperLists;
         Invoker.scenesContainer = scenesContainer;
+        
     }
 
 
@@ -114,6 +116,13 @@ public partial class Scene : Window
 
     private void lbSceneComp_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        brdrProperLists.Child = null;
+        
+        // if (brdrProperLists.Child is Panel panel)
+        //     panel.Children.Clear();
+        // else
+        //     brdrProperLists.Child = null;
+        
         while (stkpnlProperties.Children.Count > 1)
         {
             stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
@@ -121,6 +130,9 @@ public partial class Scene : Window
 
         if (lbSceneComp.SelectedIndex != -1)
         {
+            if(((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[lbSceneComp.SelectedIndex] is Character)
+                propertyDisplayer.ShowWrapPanelProperty((Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[lbSceneComp.SelectedIndex]);
+            
             switch (((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
                         lbSceneComp.SelectedIndex])
             {
