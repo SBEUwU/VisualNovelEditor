@@ -323,7 +323,7 @@
                     <Border Grid.Column="0" CornerRadius="4"
                             Background="#0F0F0F"
                             Margin="5,0,5,0" Width="79" Height="51">
-                        <Button Background="Transparent" Content="SCENE " FontSize="18" Name="btnNewScene" Click="BtnNewScene_OnClick"
+                        <Button Background="Transparent" Content="SCENE " FontSize="18" Name="btnNewScene" Click="BtnNewScene_OnClick" PreviewMouseDown="BtnNewScene_OnPreviewMouseDown"
                                 Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono" Tag="1">
                         </Button>
                     </Border>

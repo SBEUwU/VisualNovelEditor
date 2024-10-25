@@ -55,6 +55,7 @@ public partial class Scene : Window
 
     private void lbScenes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        brdrProperLists.Child = null;
         lbSceneComp.Items.Clear();
 
         while (stkpnlProperties.Children.Count > 1)
@@ -278,8 +279,15 @@ public partial class Scene : Window
     private void TbProperName_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
     }
+
+    private void BtnNewScene_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        brdrProperLists.Child = null;
+    }
 }
 
-//WrapPanel видалення/додавання при натисканні на різні види свойств
-//Delete для ImagesPath , WrapPanel buttons
-//Окно для DialogBox (ОІПЗ ЛАБА 4)
+//DialogBox зробити макет, скидувати на перевірку
+//Кнопки створення перенести
+
+//TimeLine зробити макет, скидувати на перевірку
+//придумати алгоритм
