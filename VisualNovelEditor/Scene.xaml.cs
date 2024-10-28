@@ -38,6 +38,8 @@ public partial class Scene : Window
 
     private void BtnNewScene_OnClick(object sender, RoutedEventArgs e)
     {
+        brdrProperLists.Child = null;
+        
         scenesContainer.addComponent(new SceneComponent());
         lbScenes.Items.Add(scenesContainer.getInfoLast());
         // if (lbScenes.SelectedIndex == -1 && lbScenes.Items.Count > 0)
@@ -76,11 +78,11 @@ public partial class Scene : Window
         invoker.SetCommand(displaySceneComponentCommand);
         invoker.ExecuteCommand(tbProper_KeyDown);
 
-        if (currentCanvas != null)
-            MessageBox.Show("current Canvas childrens: " + currentCanvas.Children.Count.ToString()
-                                                         + "\ncurrent Scene components: " +
-                                                         ((SceneComponent)scenesContainer.getScene(
-                                                             lbScenes.SelectedIndex)).components.Count.ToString());
+        // if (currentCanvas != null)
+        //     MessageBox.Show("current Canvas childrens: " + currentCanvas.Children.Count.ToString()
+        //                                                  + "\ncurrent Scene components: " +
+        //                                                  ((SceneComponent)scenesContainer.getScene(
+        //                                                      lbScenes.SelectedIndex)).components.Count.ToString());
     }
 
     private void btnNewCharacter_OnClick(object sender, RoutedEventArgs e)
@@ -276,13 +278,18 @@ public partial class Scene : Window
     //     return false;
     // }
 
-    private void TbProperName_OnMouseDown(object sender, MouseButtonEventArgs e)
-    {
-    }
+    // private void TbProperName_OnMouseDown(object sender, MouseButtonEventArgs e)
+    // {
+    // }
 
-    private void BtnNewScene_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+    // private void BtnNewScene_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+    // {
+    //     brdrProperLists.Child = null;
+    // }
+
+    private void BtnNewCompMenu_OnClick(object sender, RoutedEventArgs e)
     {
-        brdrProperLists.Child = null;
+        btnNewCompMenu.ContextMenu.IsOpen = true;
     }
 }
 

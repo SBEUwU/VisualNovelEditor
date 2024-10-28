@@ -75,11 +75,20 @@
                                 Background="#CE7D63"
                                 Margin="10,0,0,0" Width="26" Height="26" VerticalAlignment="Center" HorizontalAlignment="Left">
                             <Button Background="Transparent" FontSize="8" 
-                                    Foreground="#81807E" FontWeight="Bold" BorderThickness="0">
+                                    Foreground="#81807E" FontWeight="Bold" BorderThickness="0" Name="btnNewCompMenu" Click="BtnNewCompMenu_OnClick">
                                 <Image Source="icons/windScene/add.png" Margin="4"/>
+                                <Button.ContextMenu>
+                                    <ContextMenu x:Name="MyContextMenu">
+                                        <MenuItem Header="New Scene" Click="BtnNewScene_OnClick"/>
+                                        <Separator />
+                                        <MenuItem Header="New Character" Click="btnNewCharacter_OnClick"/>
+                                        <MenuItem Header="New Background" Click="btnNewBackground_OnClick"/>
+                                        <MenuItem Header="New DialogBox" Click="BtnNewDialogBox_OnClick"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
                             </Button>
                         </Border>
-                        <Border Grid.Column="2" CornerRadius="2"
+                        <Border Grid.Column="2" CornerRadius="2" Visibility="Hidden"
                                 Background="#CE7D63"
                                 Margin="10,0,0,0" Width="26" Height="26" VerticalAlignment="Center" HorizontalAlignment="Left">
                             <Button Background="Transparent" FontSize="8" 
@@ -173,7 +182,7 @@
                                        FontWeight="Medium"
                                        FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"
                                        Name="lblProperName"/>
-                            <TextBox Width="312" Height="29" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#0F0F0F" Foreground="#FFFFFF" Name="tbProperName" KeyDown="tbProper_KeyDown" MouseDown="TbProperName_OnMouseDown">
+                            <TextBox Width="312" Height="29" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#0F0F0F" Foreground="#FFFFFF" Name="tbProperName" KeyDown="tbProper_KeyDown">
                                 <!-- <TextBox.Style> -->
                                 <!--     <Style TargetType="TextBox"> -->
                                 <!--         <Setter Property="Template"> -->
@@ -312,44 +321,7 @@
             <!-- ____________________ -->
             
             <Border Grid.Row="2" Grid.Column="2" Background="#191919" BorderBrush="#CE7D63" BorderThickness="1,2,2,2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions> 
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Border Grid.Column="0" CornerRadius="4"
-                            Background="#0F0F0F"
-                            Margin="5,0,5,0" Width="79" Height="51">
-                        <Button Background="Transparent" Content="SCENE " FontSize="18" Name="btnNewScene" Click="BtnNewScene_OnClick" PreviewMouseDown="BtnNewScene_OnPreviewMouseDown"
-                                Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono" Tag="1">
-                        </Button>
-                    </Border>
-                    <Border Grid.Column="0" CornerRadius="4"
-                            Background="#0F0F0F"
-                            Margin="5,0,5,0" Width="122" Height="51">
-                        <Button Background="Transparent" Content="CHARACTER" FontSize="18" Click="btnNewCharacter_OnClick" Name="btnNewCharacter" 
-                                Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
-                        </Button>
-                    </Border>
-                    <Border Grid.Column="0" CornerRadius="4"
-                            Background="#0F0F0F"
-                            Margin="5,0,5,0" Width="122" Height="51">
-                        <Button Background="Transparent" Content="BACKGROUND" FontSize="18" Click="btnNewBackground_OnClick" Name="btnNewBackground" 
-                                Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
-                        </Button>
-                    </Border>
-                    <Border Grid.Column="0" CornerRadius="4"
-                            Background="#0F0F0F"
-                            Margin="5,0,5,0" Width="122" Height="51">
-                        <Button Background="Transparent" Content="DIALOG BOX" FontSize="18" Name="btnNewDialogBox" Click="BtnNewDialogBox_OnClick"
-                                Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
-                        </Button>
-                    </Border>
-                </StackPanel>
-                </Grid>
+                
             </Border>
         </Grid>
     </DockPanel>
