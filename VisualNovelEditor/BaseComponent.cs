@@ -151,6 +151,21 @@ public class Character : SceneComponent
             }
         }
     }
+
+    public void addNewDialog()
+    {
+        Dialog newDialog = new Dialog();
+        
+        Dialogs.Add(newDialog);
+        lbDialogs.Items.Add(newDialog.Caption);
+    }
+    
+    public void deleteSelectedDialog(int DialogSelectedIndex)
+    {
+        
+        Dialogs.RemoveAt(DialogSelectedIndex);
+        refreshListBox();
+    }
     
     public virtual void addImage(string imagepath)
     {
@@ -180,8 +195,9 @@ public class Dialog
     public Dialog()
     {
         Caption = "Dialog";
-        
+        Text = "";
     }
+    
     public void setFontSize(int size)
     {
         this.fontSize = size;

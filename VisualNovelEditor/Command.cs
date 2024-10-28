@@ -445,21 +445,22 @@ public class PropertyDisplayer
 
         //gridProperLists.Children.Add(character.lbDialogs);
         //Grid.SetColumn(character.lbDialogs, 1);
-    }
-
-    public void btnNewDialog_Click(object sender, RoutedEventArgs e)
-    {
         
-    }
+        void btnNewDialog_Click(object sender, RoutedEventArgs e)
+        {
+            character.addNewDialog();
+        }
     
-    public void btnOpenDialog_Click(object sender, RoutedEventArgs e)
-    {
-        
-    }
+        void btnOpenDialog_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     
-    public void btnDeleteDialog_Click(object sender, RoutedEventArgs e)
-    {
-        
+        void btnDeleteDialog_Click(object sender, RoutedEventArgs e)
+        {
+            if(character.lbDialogs.SelectedIndex != -1)
+                character.deleteSelectedDialog(character.lbDialogs.SelectedIndex);
+        }
     }
 }
 
