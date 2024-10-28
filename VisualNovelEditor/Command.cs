@@ -26,7 +26,11 @@ public class PropertyDisplayer
 {
     static public StackPanel stkpnlProperties;
     //static public WrapPanel wrpnlProperLists;
-    static public Border brdrProperLists;
+    //static public Border brdrProperLists;
+    //static public Grid gridProperLists;
+    static public Border brdrLeftProperLists;
+    static public Border brdrRightProperLists;
+    
     WrapPanel wrpnlProperLists;
 
     public PropertyDisplayer()
@@ -96,7 +100,7 @@ public class PropertyDisplayer
         CreateDialogProperty("Dialogs", "Dialogs", character);
         
         // Property - WrapPanel -> ImagesPath
-        ShowWrapPanelProperty(character);
+        //ShowWrapPanelProperty(character);
     }
 
     private void checkNameProperty(string NameValue)
@@ -223,20 +227,21 @@ public class PropertyDisplayer
             // else
             //     brdrProperLists.Child = null;
             
-            ScrollViewer scrllviewProperLists = new ScrollViewer()
-            {
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
-            };
-            // wrpnlProperLists = new WrapPanel()
+            // ScrollViewer scrllviewProperLists = new ScrollViewer()
             // {
-            //     HorizontalAlignment = HorizontalAlignment.Left,
-            //     VerticalAlignment = VerticalAlignment.Top,
-            //     Orientation = Orientation.Horizontal,
-            //     Name = "wrpnlProperLists"
+            //     HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
             // };
-            
-            scrllviewProperLists.Content = character.wrapPanel;
-            brdrProperLists.Child = scrllviewProperLists;
+            // // wrpnlProperLists = new WrapPanel()
+            // // {
+            // //     HorizontalAlignment = HorizontalAlignment.Left,
+            // //     VerticalAlignment = VerticalAlignment.Top,
+            // //     Orientation = Orientation.Horizontal,
+            // //     Name = "wrpnlProperLists"
+            // // };
+            //
+            // scrllviewProperLists.Content = character.wrapPanel;
+            // gridProperLists.Children.Add(scrllviewProperLists);
+            // Grid.SetColumn(gridProperLists, 0);
             
             // foreach (string imagePath in character.ImagesPath)
             // {
@@ -343,21 +348,118 @@ public class PropertyDisplayer
         // if (brdrProperLists.Child is Panel panel)
         //     panel.Children.Clear();
         // else
-            brdrProperLists.Child = null;
+            //gridProperLists.Children.Clear();
             
         ScrollViewer scrllviewProperLists = new ScrollViewer()
         {
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Hidden
         };
         
         scrllviewProperLists.Content = character.wrapPanel;
-        brdrProperLists.Child = scrllviewProperLists;
-            
+        brdrLeftProperLists.Child = scrllviewProperLists;
+        //gridProperLists.Children.Add(scrllviewProperLists);
+        //Grid.SetColumn(scrllviewProperLists, 0);
         // foreach (string imagePath in character.ImagesPath)
         // {
         //     //NewWrapBtn(imagePath);
         //     character.NewWrapBtn(imagePath);
         // }
+    }
+
+    public void ShowListBoxProperty(Character character)
+    {
+        brdrRightProperLists.Child = null;
+        
+         StackPanel stkpnlDialogs = new StackPanel()
+         {
+             Orientation = Orientation.Vertical,
+         };
+         StackPanel stkpnlDialogBtns = new StackPanel()
+         {
+             Orientation = Orientation.Horizontal,
+         };
+        
+         //---------------------------------------
+        
+         Image[] images = new Image[3]
+         {
+             new Image()
+             {
+                 Source = new BitmapImage(new Uri("Resources/New.png", UriKind.Relative)),
+                 Width = Double.NaN,
+                 Height = Double.NaN
+             },
+             new Image()
+             {
+                 Source = new BitmapImage(new Uri("Resources/Open.png", UriKind.Relative)),
+                 Width = Double.NaN,
+                 Height = Double.NaN
+             },
+             new Image()
+             {
+                 Source = new BitmapImage(new Uri("Resources/Delete.png", UriKind.Relative)),
+                 Width = Double.NaN,
+                 Height = Double.NaN
+             },
+         };
+         String[] btnNames = new String[3]
+         {
+             "btnNewDialog", "btnOpenDialog", "btnDeleteDialog"
+         };
+        
+         for (int i = 0; i < images.Length; i++)
+         {
+             Button btn = new Button()
+             {
+                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0F0F0F")),
+                 Margin = new Thickness(15, 0, 0, 0),
+                 Width = 50,
+                 Height = 30,
+                 FontSize = 16,
+                 Name = btnNames[i],
+                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#81807E")),
+                 BorderThickness = new Thickness(0),
+                 FontWeight = FontWeights.Medium,
+                 FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./fonts/windNewProject/#Roboto Mono")
+             };
+             
+             btn.Content = images[i];
+             stkpnlDialogBtns.Children.Add(btn);
+         }
+         ((Button)stkpnlDialogBtns.Children[0]).Click += btnNewDialog_Click;
+         ((Button)stkpnlDialogBtns.Children[1]).Click += btnOpenDialog_Click;
+         ((Button)stkpnlDialogBtns.Children[2]).Click += btnDeleteDialog_Click;
+         
+         if (character.lbDialogs.Parent is Panel parentPanel)
+         {
+             parentPanel.Children.Remove(character.lbDialogs);
+         }
+         
+        stkpnlDialogs.Children.Add(character.lbDialogs);
+        stkpnlDialogs.Children.Add(stkpnlDialogBtns);
+
+        brdrRightProperLists.Child = stkpnlDialogs;
+        // gridProperLists.Children.Add(stkpnlDialogs);
+        // Grid.SetColumn(stkpnlDialogs, 1);
+
+        //gridProperLists.Children.Add(character.lbDialogs);
+        //Grid.SetColumn(character.lbDialogs, 1);
+    }
+
+    public void btnNewDialog_Click(object sender, RoutedEventArgs e)
+    {
+        
+    }
+    
+    public void btnOpenDialog_Click(object sender, RoutedEventArgs e)
+    {
+        
+    }
+    
+    public void btnDeleteDialog_Click(object sender, RoutedEventArgs e)
+    {
+        
     }
 }
 

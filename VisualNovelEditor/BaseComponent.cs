@@ -63,14 +63,16 @@ public class Character : SceneComponent
     public List<string> ImagesPath;
     public List<Dialog> Dialogs;
     public DialogBox DialogBox;
+    
     public WrapPanel wrapPanel;
+    public ListBox lbDialogs;
     
     public int Height;
     public int Width;
     public int X;
     public int Y;
 
-    public int itterator;
+    //public int itterator;
 
     public Character()
     {
@@ -78,7 +80,7 @@ public class Character : SceneComponent
         Dialogs = new List<Dialog>();
         DialogBox = new DialogBox();
 
-        itterator = 0;
+        //itterator = 0;
 
         wrapPanel = new WrapPanel()
         {
@@ -87,8 +89,20 @@ public class Character : SceneComponent
             Orientation = Orientation.Horizontal,
             Name = "wrpnlProperLists"
         };
-        
-        
+
+        lbDialogs = new ListBox()
+        {
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#2B2B2B"),
+            BorderThickness = new Thickness(0),
+            Name = "lbDialogs",
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF"),
+            Width = 200,
+            Height = 213,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(5)
+            //ItemsSource = Dialogs//????
+        };
     }
     
     
@@ -99,7 +113,7 @@ public class Character : SceneComponent
             Width = 200,
             Height = 250
         };
-        btnWrapImage.Tag = itterator;
+        //btnWrapImage.Tag = itterator;
         Image image = new Image()
         {
             Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute)),
@@ -121,9 +135,23 @@ public class Character : SceneComponent
         btnWrapImage.PreviewMouseDoubleClick += btn_OnPreviewMouseDoubleClick;
             
         btnWrapImage.Content = image;
-        itterator++;
+        //itterator++;
         wrapPanel.Children.Add(btnWrapImage);
     }
+
+    public void refreshListBox()
+    {
+        lbDialogs.Items.Clear();
+
+        if (lbDialogs.SelectedIndex != -1)
+        {
+            foreach (Dialog dialog in Dialogs)
+            {
+                lbDialogs.Items.Add(dialog.Caption);
+            }
+        }
+    }
+    
     public virtual void addImage(string imagepath)
     {
         ImagesPath.Add(imagepath);
@@ -143,18 +171,24 @@ public class Character : SceneComponent
 
 public class Dialog
 {
-    public string dialog;
-    public Color fontColor;
+    public string Caption;
+    public string Text;
+    public Color FontColor;
     public float dialogRenderSpeed;
     public int fontSize;
-    
+
+    public Dialog()
+    {
+        Caption = "Dialog";
+        
+    }
     public void setFontSize(int size)
     {
         this.fontSize = size;
     }
     public void setFontColor(Color newColor)
     {
-        this.fontColor = newColor;
+        this.FontColor = newColor;
     }
     
     public void renderText()

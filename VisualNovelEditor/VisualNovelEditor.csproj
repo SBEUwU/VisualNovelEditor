@@ -16,11 +16,16 @@
       <None Remove="fonts\windNewProject\Roboto Mono.ttf" />
       <Resource Include="fonts\windNewProject\Roboto Mono.ttf" />
       <None Remove="temp\Viewport.png" />
-      <Resource Include="temp\Viewport.png" />
       <None Remove="icons\windScene\add.png" />
       <Resource Include="icons\windScene\add.png" />
       <None Remove="icons\windScene\arrow_back_ios.png" />
       <Resource Include="icons\windScene\arrow_back.png" />
+      <None Remove="Resourses\New.png" />
+      <Resource Include="Resourses\New.png" />
+      <None Remove="Resourses\Delete.png" />
+      <Resource Include="Resourses\Delete.png" />
+      <None Remove="Resourses\Open.png" />
+      <Resource Include="Resourses\Open.png" />
     </ItemGroup>
 
 </Project>

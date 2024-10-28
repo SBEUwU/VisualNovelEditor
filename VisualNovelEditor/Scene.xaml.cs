@@ -30,7 +30,10 @@ public partial class Scene : Window
 
         PropertyDisplayer.stkpnlProperties = stkpnlProperties;
         //PropertyDisplayer.wrpnlProperLists = wrpnlProperLists;
-        PropertyDisplayer.brdrProperLists = brdrProperLists;
+        //PropertyDisplayer.brdrProperLists = brdrProperLists;
+        //PropertyDisplayer.gridProperLists = gridProperLists;
+        PropertyDisplayer.brdrLeftProperLists = brdrLeftProperLists;
+        PropertyDisplayer.brdrRightProperLists = brdrRightProperLists;
         Invoker.scenesContainer = scenesContainer;
         
     }
@@ -38,7 +41,9 @@ public partial class Scene : Window
 
     private void BtnNewScene_OnClick(object sender, RoutedEventArgs e)
     {
-        brdrProperLists.Child = null;
+        //gridProperLists.Children.Clear();
+        brdrLeftProperLists.Child = null;
+        brdrRightProperLists.Child = null;
         
         scenesContainer.addComponent(new SceneComponent());
         lbScenes.Items.Add(scenesContainer.getInfoLast());
@@ -57,7 +62,10 @@ public partial class Scene : Window
 
     private void lbScenes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        brdrProperLists.Child = null;
+        //gridProperLists.Children.Clear();
+        brdrLeftProperLists.Child = null;
+        brdrRightProperLists.Child = null;
+        
         lbSceneComp.Items.Clear();
 
         while (stkpnlProperties.Children.Count > 1)
@@ -119,12 +127,13 @@ public partial class Scene : Window
 
     private void lbSceneComp_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        brdrProperLists.Child = null;
+        //brdrProperLists.Child = null;
         
         // if (brdrProperLists.Child is Panel panel)
         //     panel.Children.Clear();
         // else
         //     brdrProperLists.Child = null;
+        
         
         while (stkpnlProperties.Children.Count > 1)
         {
@@ -133,9 +142,17 @@ public partial class Scene : Window
 
         if (lbSceneComp.SelectedIndex != -1)
         {
-            if(((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[lbSceneComp.SelectedIndex] is Character)
-                propertyDisplayer.ShowWrapPanelProperty((Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[lbSceneComp.SelectedIndex]);
-            
+            if (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[lbSceneComp.SelectedIndex]
+                is Character)
+            {
+                propertyDisplayer.ShowWrapPanelProperty(
+                    (Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
+                        lbSceneComp.SelectedIndex]);
+                propertyDisplayer.ShowListBoxProperty(
+                    (Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
+                        lbSceneComp.SelectedIndex]);
+            }
+
             switch (((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
                         lbSceneComp.SelectedIndex])
             {
@@ -293,8 +310,10 @@ public partial class Scene : Window
     }
 }
 
-//DialogBox зробити макет, скидувати на перевірку
-//Кнопки створення перенести
+//Фикс или роллбек // ПОФИКШЕНО
+//Зробити видалення компонентів
+//Створити кнопки New Edit Delete для діалогів
+//Для Edit зробити окреме вікно для редагування вибраного діалогу з кнопками Save Exit
 
 //TimeLine зробити макет, скидувати на перевірку
 //придумати алгоритм
