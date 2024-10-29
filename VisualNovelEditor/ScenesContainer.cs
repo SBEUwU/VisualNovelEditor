@@ -2,8 +2,8 @@
 
 public class ScenesContainer : BaseComponent
 {
-    public List<BaseComponent> scenes = new List<BaseComponent>();
-    public int maxSize = 0;
+    public List<BaseComponent> scenes  { get; set; } = new List<BaseComponent>();
+    public int maxSize  { get; set; } = 0;
     
     public virtual void addComponent(BaseComponent scene)
     {

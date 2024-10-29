@@ -11,8 +11,8 @@
         <Menu DockPanel.Dock="Top" Background="#1A1A1A" Height="20" BorderBrush="#CE7D63" BorderThickness="0,0,0,2">
             <MenuItem Header="File" Foreground="#FFFFFF" >
                 <MenuItem Header="New" Foreground="#1A1A1A"/>
-                <MenuItem Header="Open" Foreground="#1A1A1A"/>
-                <MenuItem Header="Save" Foreground="#1A1A1A"/>
+                <MenuItem Header="Open" Foreground="#1A1A1A" Click="mmFileOpen_OnClick"/>
+                <MenuItem Header="Save" Foreground="#1A1A1A" Click="mmFileSave_OnClick"/>
                 <Separator Foreground="#1A1A1A"/>
                 <MenuItem Header="Exit" Foreground="#1A1A1A"/>
             </MenuItem>

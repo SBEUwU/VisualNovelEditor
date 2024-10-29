@@ -8,6 +8,7 @@ namespace VisualNovelEditor;
 
 public partial class Scene : Window
 {
+    private Logger logger;
     ScenesContainer scenesContainer;
     Canvas currentCanvas;
     PropertyDisplayer propertyDisplayer;
@@ -27,6 +28,7 @@ public partial class Scene : Window
         displayDialogBoxCommand = new DisplayDialogBoxCommand();
         displayCharacterCommand = new DisplayCharacterCommand();
         invoker = new Invoker(stkpnlProperties);
+        logger = Logger.getInstance();
 
         PropertyDisplayer.stkpnlProperties = stkpnlProperties;
         //PropertyDisplayer.wrpnlProperLists = wrpnlProperLists;
@@ -198,6 +200,15 @@ public partial class Scene : Window
         // MessageBox.Show(cvsScene.Children.Count.ToString());
     }
 
+    public void refreshLbScenes()
+    {
+        lbScenes.Items.Clear();
+        
+            foreach (SceneComponent scene in scenesContainer.scenes)
+            {
+                lbScenes.Items.Add(scene.Name);
+            }
+    }
     public void refreshLbSceneComp()
     {
         lbSceneComp.Items.Clear();
@@ -209,6 +220,18 @@ public partial class Scene : Window
             {
                 lbSceneComp.Items.Add(component.Name);
             }
+        }
+    }
+    
+    public void refreshLbSceneCompTest()
+    {
+        lbSceneComp.Items.Clear();
+
+        lbScenes.SelectedIndex = 0;
+        foreach (BaseComponent component in
+                 ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components)
+        {
+            lbSceneComp.Items.Add(component.Name);
         }
     }
 
@@ -308,12 +331,29 @@ public partial class Scene : Window
     {
         btnNewCompMenu.ContextMenu.IsOpen = true;
     }
+
+    private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
+    {
+        scenesContainer = logger.Txt_Deserialize("C:\\Users\\SBEUwU\\Desktop");
+        Invoker.scenesContainer = scenesContainer;
+        refreshLbScenes();
+        //refreshLbSceneCompTest();
+    }
+
+    private void mmFileSave_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
+        {
+            logger.Txt_Serialize("C:\\Users\\SBEUwU\\Desktop", scenesContainer);
+        }
+    }
 }
 
-//Фикс или роллбек // ПОФИКШЕНО
 //Зробити видалення компонентів
-//Створити кнопки New Edit Delete для діалогів
+//Створити кнопки Edit Delete для діалогів
 //Для Edit зробити окреме вікно для редагування вибраного діалогу з кнопками Save Exit
+//Баг з переключенням між character & background
+//Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName
 
 //TimeLine зробити макет, скидувати на перевірку
 //придумати алгоритм

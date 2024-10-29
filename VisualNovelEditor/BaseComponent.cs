@@ -12,7 +12,7 @@ namespace VisualNovelEditor;
 
 public class BaseComponent
 {
-    public string Name;
+    public string Name { get; set; } = "";
 
     public virtual void getInfo()
     {
@@ -79,6 +79,11 @@ public class Character : SceneComponent
         ImagesPath = new List<string>();
         Dialogs = new List<Dialog>();
         DialogBox = new DialogBox();
+        Caption = "";
+        Height = 100;
+        Width = 100;
+        X = 0;
+        Y = 0;
 
         //itterator = 0;
 
@@ -162,7 +167,6 @@ public class Character : SceneComponent
     
     public void deleteSelectedDialog(int DialogSelectedIndex)
     {
-        
         Dialogs.RemoveAt(DialogSelectedIndex);
         refreshListBox();
     }
@@ -188,9 +192,9 @@ public class Dialog
 {
     public string Caption;
     public string Text;
-    public Color FontColor;
-    public float dialogRenderSpeed;
-    public int fontSize;
+    public Color FontColor; //не зберігається
+    public float dialogRenderSpeed; //не зберігається
+    public int fontSize; //не зберігається
 
     public Dialog()
     {
@@ -220,6 +224,15 @@ public class DialogBox : SceneComponent
     public int Height;
     public bool Visible;
     public float Opacity;
+
+    public DialogBox()
+    {
+        BackgroundColor = System.Drawing.Color.Black;
+        ImagePath = "";
+        Height = 300;
+        Visible = true;
+        Opacity = 0.5F;
+    }
 
     public void changeBackgroundColor(Color newColor)
     {
@@ -251,6 +264,11 @@ public class DialogBox : SceneComponent
 public class Background : SceneComponent
 {
     public string ImagePath;
+
+    public Background()
+    {
+        ImagePath = "";
+    }
     
     public void changeImage(string imagePath)
     {
