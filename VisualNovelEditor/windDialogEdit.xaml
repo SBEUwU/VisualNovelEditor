@@ -5,8 +5,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:VisualNovelEditor"
         mc:Ignorable="d"
-        Title="windDialogEdit" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="windDialogEdit" Height="360" Width="600"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+        <Border CornerRadius="19" Background="#191919">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "1*"/>
+                    <RowDefinition Height = "3*"/>
+                    <RowDefinition Height = "1*"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" Margin="20,15,20,0" Name="stkpnlProperCaption" VerticalAlignment="Top">
+                            <TextBlock Text="Caption" 
+                                       FontSize="14" 
+                                       Foreground="#F3DFD8"
+                                       Margin="0,0,0,10"
+                                       FontWeight="Medium"
+                                       FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"
+                                       Name="lblProperCaption"/>
+                            <TextBox Width="560" Height="29" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#0F0F0F" Foreground="#FFFFFF" Name="tbProperCaption">
+                            </TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Margin="20,15,20,0" Name="stkpnlProperText" VerticalAlignment="Top">
+                    <TextBlock Text="Text" 
+                               FontSize="14" 
+                               Foreground="#F3DFD8"
+                               Margin="0,0,0,10"
+                               FontWeight="Medium"
+                               FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"
+                               Name="lblProperText"/>
+                    <TextBox Width="560" Height="165" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#0F0F0F" Foreground="#FFFFFF" Name="tbProperText" TextWrapping="Wrap">
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Margin="20,15,20,0" Name="stkpnlBtn" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Border Grid.Column="0" CornerRadius="4" Background="#0F0F0F" Margin="5,0,5,0" Width="122" Height="43">
+                        <Button Background="Transparent" Content="SAVE" FontSize="18" Name="btnSave" Click="BtnSave_OnClick" 
+                                Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
+                        </Button>
+                    </Border>
+                    <Border Grid.Column="0" CornerRadius="4" Background="#0F0F0F" Margin="5,0,5,0" Width="122" Height="43">
+                        <Button Background="Transparent" Content="CANCEL" FontSize="18" Name="btnCancel" Click="BtnCancel_OnClick" 
+                                Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
+                        </Button>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
 </Window>

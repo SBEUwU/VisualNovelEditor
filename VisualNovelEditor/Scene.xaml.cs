@@ -135,6 +135,8 @@ public partial class Scene : Window
         //     panel.Children.Clear();
         // else
         //     brdrProperLists.Child = null;
+        brdrLeftProperLists.Child = null;
+        brdrRightProperLists.Child = null;
         
         
         while (stkpnlProperties.Children.Count > 1)
@@ -350,10 +352,11 @@ public partial class Scene : Window
 }
 
 //Зробити видалення компонентів
-//Створити кнопки Edit Delete для діалогів
-//Для Edit зробити окреме вікно для редагування вибраного діалогу з кнопками Save Exit
-//Баг з переключенням між character & background
-//Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName
+
+//Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName --
+//Відкриття проекту з іншого вікна
+// - питати куди хоче користувач зберігати проект
+
 
 //TimeLine зробити макет, скидувати на перевірку
 //придумати алгоритм

@@ -453,7 +453,25 @@ public class PropertyDisplayer
     
         void btnOpenDialog_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (character.lbDialogs.SelectedIndex != -1)
+            {
+                windDialogEdit windDialogEdit = new windDialogEdit();
+
+                windDialogEdit.tbProperCaption.Text = character.Dialogs[character.lbDialogs.SelectedIndex].Caption;
+                windDialogEdit.tbProperText.Text = character.Dialogs[character.lbDialogs.SelectedIndex].Text;
+                windDialogEdit.ShowDialog();
+                if (windDialogEdit.DialogResult == false)
+                {
+                    windDialogEdit.Close();
+                }
+                else if (windDialogEdit.DialogResult == true)
+                {
+                    character.Dialogs[character.lbDialogs.SelectedIndex].Caption = windDialogEdit.tbProperCaption.Text;
+                    character.Dialogs[character.lbDialogs.SelectedIndex].Text = windDialogEdit.tbProperText.Text;
+                    character.refreshListBox();
+                    windDialogEdit.Close();
+                }
+            }
         }
     
         void btnDeleteDialog_Click(object sender, RoutedEventArgs e)

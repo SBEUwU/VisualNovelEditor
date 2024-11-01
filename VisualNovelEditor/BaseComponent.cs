@@ -147,14 +147,11 @@ public class Character : SceneComponent
     public void refreshListBox()
     {
         lbDialogs.Items.Clear();
-
-        if (lbDialogs.SelectedIndex != -1)
-        {
+        
             foreach (Dialog dialog in Dialogs)
             {
                 lbDialogs.Items.Add(dialog.Caption);
             }
-        }
     }
 
     public void addNewDialog()

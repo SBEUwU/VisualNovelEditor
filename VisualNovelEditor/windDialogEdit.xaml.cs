@@ -8,4 +8,14 @@ public partial class windDialogEdit : Window
     {
         InitializeComponent();
     }
+
+    private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
+    {
+        DialogResult = false;
+    }
+
+    private void BtnSave_OnClick(object sender, RoutedEventArgs e)
+    {
+        DialogResult = true;
+    }
 }
