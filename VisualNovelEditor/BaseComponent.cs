@@ -146,13 +146,16 @@ public class Character : SceneComponent
 
         void btn_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            currentImageIndex = -1;
+            Position = -1;
+            
             if (sender is Button btn && wrapPanel != null)
             {
                 ImagesPath.RemoveAt(wrapPanel.Children.IndexOf(btn));
                 wrapPanel.Children.Remove(btn);
             }
-
-            currentImageIndex = -1;
+            
+            SupportViewPort.getInstance().Refresh();
         }
 
         void btn_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)

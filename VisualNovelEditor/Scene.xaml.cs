@@ -75,11 +75,7 @@ public partial class Scene : Window
     {
         if (lbScenes.SelectedIndex != -1)
         {
-            VPimageBackground.Source = null;
-            VPimageCharacter1.Source = null;
-            VPimageCharacter2.Source = null;
-            VPtbkDialogText.Text = "";
-            VPtbkDialogCaption.Text = "";
+            ClearViewport();
 
             //gridProperLists.Children.Clear();
             brdrLeftProperLists.Child = null;
@@ -263,6 +259,15 @@ public partial class Scene : Window
         }
     }
 
+    public void ClearViewport()
+    {
+        VPimageBackground.Source = null;
+        VPimageCharacter1.Source = null;
+        VPimageCharacter2.Source = null;
+        VPtbkDialogText.Text = "";
+        VPtbkDialogCaption.Text = "";
+    }
+
 
     private void BtnNewDialogBox_OnClick(object sender, RoutedEventArgs e)
     {
@@ -376,14 +381,41 @@ public partial class Scene : Window
             logger.Txt_Serialize("C:\\Users\\SBEUwU\\Desktop", scenesContainer);
         }
     }
+
+    private void mmEditDeleteScene_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (lbScenes.SelectedIndex != -1)
+        {
+            scenesContainer.scenes.RemoveAt(lbScenes.SelectedIndex);
+            refreshLbScenes();
+            refreshLbSceneComp();
+            ClearViewport();
+        }
+    }
+
+    private void mmEditDeleteComponent_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (lbScenes.SelectedIndex != -1 && lbSceneComp.SelectedIndex != -1)
+        {
+            ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.RemoveAt(lbSceneComp.SelectedIndex);
+            refreshLbSceneComp();
+            SupportViewPort.getInstance().Refresh();
+        }
+    }
 }
 
-//Зробити видалення компонентів
+//----------------------------------------НИЗЬКИЙ ПРИОРІТЕТ--------------------------------------
 
 //Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName --
 //Відкриття проекту з іншого вікна
 // - питати куди хоче користувач зберігати проект
-// Виправити баг з видаленням персонажа, діалогу в який вже встановлений position, currentDialog
 
-//перевірки на вже встановлені картинки, background. +++++
+//----------------------------------------ВИСОКИЙ ПРИОРІТЕТ--------------------------------------
+
 //продумати команди для черги TimeLine
+
+//--------------------------------------ВИКОНАНІ-------------------------------------------------
+
+//Зробити видалення компонентів
+//Виправити баг з видаленням персонажа, діалогу в який вже встановлений position, currentDialog
+//перевірки на вже встановлені картинки, background.

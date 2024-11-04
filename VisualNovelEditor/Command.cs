@@ -626,8 +626,10 @@ public class PropertyDisplayer
     
         void btnDeleteDialog_Click(object sender, RoutedEventArgs e)
         {
+            character.currentDialogIndex = -1;
             if(character.lbDialogs.SelectedIndex != -1)
                 character.deleteSelectedDialog(character.lbDialogs.SelectedIndex);
+            SupportViewPort.getInstance().Refresh();
         }
         
         void btnClearSelectedDialog_Click(object sender, RoutedEventArgs e)

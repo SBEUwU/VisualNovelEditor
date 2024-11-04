@@ -17,9 +17,8 @@
                 <MenuItem Header="Exit" Foreground="#1A1A1A"/>
             </MenuItem>
             <MenuItem Header="Edit" Foreground="#FFFFFF">
-                <MenuItem Header="Cut" Foreground="#1A1A1A"/>
-                <MenuItem Header="Copy" Foreground="#1A1A1A"/>
-                <MenuItem Header="Paste" Foreground="#1A1A1A"/>
+                <MenuItem Header="Delete Scene" Foreground="#1A1A1A" Click="mmEditDeleteScene_OnClick"/>
+                <MenuItem Header="Delete Component" Foreground="#1A1A1A" Click="mmEditDeleteComponent_OnClick"/>
             </MenuItem>
             <MenuItem Header="View" Foreground="#FFFFFF">
                 <MenuItem Header="---" Foreground="#1A1A1A"/>
