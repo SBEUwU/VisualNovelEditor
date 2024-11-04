@@ -48,4 +48,28 @@ public class SupportViewPort
             }
         }
     }
+    
+    public void ClearCurrentImage(int lbScenesSelectedIndex, int position)
+    {
+        foreach (BaseComponent character in ((SceneComponent)scenesContainer.scenes[lbScenesSelectedIndex]).components)
+        {
+            if (character is Character characterComponent && characterComponent.Position == position)
+            {
+                characterComponent.Position = -1;
+                break;
+            }
+        }
+    }
+    
+    public void ClearCurrentBackground(int lbScenesSelectedIndex)
+    {
+        foreach (BaseComponent background in ((SceneComponent)scenesContainer.scenes[lbScenesSelectedIndex]).components)
+        {
+            if (background is Background backgroundComponent && backgroundComponent.currentBackground != false)
+            {
+                backgroundComponent.currentBackground = false;
+                break;
+            }
+        }
+    }
 }

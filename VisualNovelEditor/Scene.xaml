@@ -319,10 +319,11 @@
                         
                     </Image>
                     
-                    <Image Grid.Row="1" Grid.Column="0" Width="NaN" Height="NaN" Name="VPimageCharacter1">
+                    <Image Grid.Row="1" Grid.Column="0" Width="NaN" Height="NaN" Name="VPimageCharacter1" VerticalAlignment="Bottom">
                         
                     </Image>
-                    <Image Grid.Row="1" Grid.Column="2" Width="NaN" Height="NaN" Name="VPimageCharacter2">
+                    
+                    <Image Grid.Row="1" Grid.Column="2" Width="NaN" Height="NaN" Name="VPimageCharacter2" VerticalAlignment="Bottom">
                         
                     </Image>
                     <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Width="NaN" Height="NaN" Background="Black" Name="VPbrdrDialogBox">

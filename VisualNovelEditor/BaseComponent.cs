@@ -168,9 +168,9 @@ public class Character : SceneComponent
 
                 if (windSelectCharacterImagePosition.DialogResult == true)
                 {
+                    SupportViewPort.getInstance().ClearCurrentImage(SupportViewPort.getInstance().lbScenes.SelectedIndex, windSelectCharacterImagePosition.position);
                     currentImageIndex = wrapPanel.Children.IndexOf(btn);
                     Position = windSelectCharacterImagePosition.position;
-
                     SupportViewPort.getInstance().Refresh();
                 }
 

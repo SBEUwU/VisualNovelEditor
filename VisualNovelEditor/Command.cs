@@ -471,8 +471,8 @@ public class PropertyDisplayer
         
         void btnSelectBackground_OnClick(object sender, RoutedEventArgs e)
         {
+            SupportViewPort.getInstance().ClearCurrentBackground(SupportViewPort.getInstance().lbScenes.SelectedIndex);
             background.currentBackground = true;
-            
             SupportViewPort.getInstance().Refresh();
         }
         
