@@ -104,6 +104,10 @@ public class Logger
                                 writer.WriteLine(character.X);
                                 writer.WriteLine(character.Y);
                                 
+                                writer.WriteLine(character.Position);
+                                writer.WriteLine(character.currentImageIndex);
+                                writer.WriteLine(character.currentDialogIndex);
+                                
                                 writer.WriteLine(character.ImagesPath.Count);
                                 foreach (string images in character.ImagesPath)
                                 {
@@ -133,6 +137,7 @@ public class Logger
                                 writer.WriteLine("Background");
                                 writer.WriteLine(background.Name);
                                 writer.WriteLine(background.ImagePath);
+                                writer.WriteLine(background.currentBackground);
                             }
                             break;
                         case DialogBox dialogBox:
@@ -193,7 +198,10 @@ public class Logger
                                     Height = Convert.ToInt32(reader.ReadLine()),
                                     Width = Convert.ToInt32(reader.ReadLine()),
                                     X = Convert.ToInt32(reader.ReadLine()),
-                                    Y = Convert.ToInt32(reader.ReadLine())
+                                    Y = Convert.ToInt32(reader.ReadLine()),
+                                    Position = Convert.ToInt32(reader.ReadLine()),
+                                    currentImageIndex = Convert.ToInt32(reader.ReadLine()),
+                                    currentDialogIndex = Convert.ToInt32(reader.ReadLine())
                                 };
 
                                 int ImagePathsCount = Convert.ToInt32(reader.ReadLine());
@@ -242,6 +250,7 @@ public class Logger
                                 {
                                     Name = reader.ReadLine(),
                                     ImagePath = reader.ReadLine(),
+                                    currentBackground = Convert.ToBoolean(reader.ReadLine())
                                 };
 
                                 sceneComponent.components.Add(background);

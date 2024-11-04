@@ -146,7 +146,7 @@ public class PropertyDisplayer
         CreateListImagePathProperty("ImagesPath", "Images Path", character);
         
         // Property - Dialogs
-        //CreateDialogProperty("Dialogs", "Dialogs", character);
+        // CreateDialogProperty("Dialogs", "Dialogs", character);
         
         // Property - WrapPanel -> ImagesPath
         //ShowWrapPanelProperty(character);
@@ -466,14 +466,14 @@ public class PropertyDisplayer
         {
             background.currentBackground = false;
             
-            RefreshViewPort.getInstance().Refresh();
+            SupportViewPort.getInstance().Refresh();
         }
         
         void btnSelectBackground_OnClick(object sender, RoutedEventArgs e)
         {
             background.currentBackground = true;
             
-            RefreshViewPort.getInstance().Refresh();
+            SupportViewPort.getInstance().Refresh();
         }
         
         btnSelect.Click += btnSelectBackground_OnClick;
@@ -633,7 +633,7 @@ public class PropertyDisplayer
         void btnClearSelectedDialog_Click(object sender, RoutedEventArgs e)
         {
             character.currentDialogIndex = -1;
-            character.statusVPtbkDialog = false;
+            SupportViewPort.getInstance().Refresh();
         }
     }
 }

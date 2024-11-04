@@ -22,12 +22,7 @@ public class SceneComponent : BaseComponent
     public List<SceneComponent> components;
     public Canvas canvas;
     //public Commands commands;
-    
-    public bool statusVPimageCharacter1; // save
-    public bool statusVPimageCharacter2;
-    public bool statusVPimageBackground;
-    public bool statusVPtbkDialog;
-    
+
 
     public SceneComponent()
     {
@@ -36,17 +31,14 @@ public class SceneComponent : BaseComponent
         canvas.Height = Double.NaN;
         canvas.Width = Double.NaN;
         canvas.Background = Brushes.Transparent;
-        statusVPimageCharacter1 = false; // save
-        statusVPimageCharacter2 = false;
-        statusVPimageBackground = false;
-        statusVPtbkDialog = false;
     }
-        
+
     public void setCanvasSize(int width, int height)
     {
         this.canvas.Width = width;
         this.canvas.Height = height;
     }
+
     public virtual void addComponent(SceneComponent component)
     {
         component.canvas = this.canvas;
@@ -60,7 +52,6 @@ public class SceneComponent : BaseComponent
 
     public void createCanvas()
     {
-        
     }
 }
 
@@ -70,19 +61,19 @@ public class Character : SceneComponent
     public List<string> ImagesPath;
     public List<Dialog> Dialogs;
     public DialogBox DialogBox;
-    
+
     public WrapPanel wrapPanel;
     public ListBox lbDialogs;
-    
+
     public int Height; // видалити
     public int Width; // видалити
     public int X; // видалити
     public int Y; // видалити
 
     public int Position; // редагування зробити, дописати save
-    
-    public int currentImageIndex; // save
-    public int currentDialogIndex; // save
+
+    public int currentImageIndex; 
+    public int currentDialogIndex; 
 
     //public int itterator;
 
@@ -125,24 +116,17 @@ public class Character : SceneComponent
 
         lbDialogs.MouseDoubleClick += lbDialogs_OnMouseDoubleClick; ////////////////////////
     }
-    
+
     private void lbDialogs_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if (statusVPtbkDialog == false)
+        if (sender is ListBox listBox && listBox.SelectedIndex >= 0)
         {
-            if (sender is ListBox listBox && listBox.SelectedIndex >= 0)
-            {
-                statusVPtbkDialog = true;
-                currentDialogIndex = listBox.SelectedIndex;
-                RefreshViewPort.getInstance().Refresh();
-            }
-        }
-        else
-        {
-            MessageBox.Show("Dialog already selected");
+            SupportViewPort.getInstance().ClearCurrentDialog(SupportViewPort.getInstance().lbScenes.SelectedIndex);
+            currentDialogIndex = listBox.SelectedIndex;
+            SupportViewPort.getInstance().Refresh();
         }
     }
-    
+
     public void NewWrapBtn(string imagePath)
     {
         Button btnWrapImage = new Button()
@@ -159,7 +143,7 @@ public class Character : SceneComponent
             Stretch = Stretch.Uniform,
             VerticalAlignment = VerticalAlignment.Bottom
         };
-            
+
         void btn_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (sender is Button btn && wrapPanel != null)
@@ -167,16 +151,16 @@ public class Character : SceneComponent
                 ImagesPath.RemoveAt(wrapPanel.Children.IndexOf(btn));
                 wrapPanel.Children.Remove(btn);
             }
-            
+
             currentImageIndex = -1;
         }
-        
+
         void btn_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is Button btn && wrapPanel != null)
             {
                 int index = wrapPanel.Children.IndexOf(btn);
-                
+
                 windSelectCharacterImagePosition windSelectCharacterImagePosition =
                     new windSelectCharacterImagePosition();
 
@@ -186,13 +170,14 @@ public class Character : SceneComponent
                 {
                     currentImageIndex = wrapPanel.Children.IndexOf(btn);
                     Position = windSelectCharacterImagePosition.position;
-                    
-                    RefreshViewPort.getInstance().Refresh();
+
+                    SupportViewPort.getInstance().Refresh();
                 }
+
                 windSelectCharacterImagePosition.Close();
             }
         }
-        
+
         // void btn_OnClick(object sender, RoutedEventArgs e)
         // {
         //     if (sender is Button btn && wrapPanel != null)
@@ -204,7 +189,7 @@ public class Character : SceneComponent
         btnWrapImage.PreviewMouseDoubleClick += btn_OnPreviewMouseDoubleClick;
         //btnWrapImage.Click += btn_OnClick;
         btnWrapImage.MouseRightButtonDown += btn_OnPreviewMouseRightButtonDown;
-            
+
         btnWrapImage.Content = image;
         //itterator++;
         wrapPanel.Children.Add(btnWrapImage);
@@ -213,27 +198,27 @@ public class Character : SceneComponent
     public void refreshListBox()
     {
         lbDialogs.Items.Clear();
-        
-            foreach (Dialog dialog in Dialogs)
-            {
-                lbDialogs.Items.Add(dialog.Caption);
-            }
+
+        foreach (Dialog dialog in Dialogs)
+        {
+            lbDialogs.Items.Add(dialog.Caption);
+        }
     }
 
     public void addNewDialog()
     {
         Dialog newDialog = new Dialog();
-        
+
         Dialogs.Add(newDialog);
         lbDialogs.Items.Add(newDialog.Caption);
     }
-    
+
     public void deleteSelectedDialog(int DialogSelectedIndex)
     {
         Dialogs.RemoveAt(DialogSelectedIndex);
         refreshListBox();
     }
-    
+
     public virtual void addImage(string imagepath)
     {
         ImagesPath.Add(imagepath);
@@ -258,7 +243,7 @@ public class Dialog
     public Color FontColor; //не зберігається
     public float dialogRenderSpeed; //не зберігається
     public int fontSize; //не зберігається
-    
+
     public bool ViewPortVisible;
 
     public Dialog()
@@ -266,19 +251,19 @@ public class Dialog
         Caption = "Dialog";
         Text = "";
     }
-    
+
     public void setFontSize(int size)
     {
         this.fontSize = size;
     }
+
     public void setFontColor(Color newColor)
     {
         this.FontColor = newColor;
     }
-    
+
     public void renderText()
     {
-        
     }
 }
 
@@ -303,23 +288,22 @@ public class DialogBox : SceneComponent
     {
         this.BackgroundColor = newColor;
     }
-    
+
     public void changeImage(string imagePath)
     {
         this.ImagePath = imagePath;
     }
-    
+
     public void changeHeight(int h)
     {
         this.Height = h;
     }
-    
+
     public void VisibleTrue()
     {
         this.Visible = true;
-        
     }
-    
+
     public void VisibleFalse()
     {
         this.Visible = false;
@@ -337,7 +321,7 @@ public class Background : SceneComponent
         ImagePath = "";
         currentBackground = false;
     }
-    
+
     public void changeImage(string imagePath)
     {
         this.ImagePath = imagePath;

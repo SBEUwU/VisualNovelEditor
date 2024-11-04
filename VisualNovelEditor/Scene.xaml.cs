@@ -16,7 +16,7 @@ public partial class Scene : Window
     DisplayBackgroundCommand displayBackgroundCommand;
     DisplayDialogBoxCommand displayDialogBoxCommand;
     DisplayCharacterCommand displayCharacterCommand;
-    RefreshViewPort refreshViewPort;
+    SupportViewPort _supportViewPort;
     Invoker invoker;
 
     public Scene()
@@ -45,10 +45,8 @@ public partial class Scene : Window
         PropertyDisplayer.VPimageCharacter1 = VPimageCharacter1;
         PropertyDisplayer.VPimageCharacter2 = VPimageCharacter2;
         PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
-
-        RefreshViewPort.lbScenes = lbScenes;
-        RefreshViewPort.lbSceneComp = lbSceneComp;
-        refreshViewPort = RefreshViewPort.getInstance();
+        
+        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp);
     }
 
 
@@ -366,6 +364,7 @@ public partial class Scene : Window
     {
         scenesContainer = logger.Txt_Deserialize("C:\\Users\\SBEUwU\\Desktop");
         Invoker.scenesContainer = scenesContainer;
+        SupportViewPort.getInstance().scenesContainer = scenesContainer;
         refreshLbScenes();
         //refreshLbSceneCompTest();
     }
