@@ -25,6 +25,9 @@ public class SceneComponent : BaseComponent
     public List<SceneComponent> components;
     public Canvas canvas;
     //public Commands commands;
+    
+    public bool statusVPimageCharacter1; // save
+    public bool statusVPimageCharacter2;
 
     public SceneComponent()
     {
@@ -67,10 +70,15 @@ public class Character : SceneComponent
     public WrapPanel wrapPanel;
     public ListBox lbDialogs;
     
-    public int Height;
-    public int Width;
-    public int X;
-    public int Y;
+    public int Height; // видалити
+    public int Width; // видалити
+    public int X; // видалити
+    public int Y; // видалити
+
+    public int Position; // редагування зробити, дописати save
+    
+    public int currentImageIndex; // save
+    public int currentDialogIndex; // save
 
     //public int itterator;
 
@@ -84,7 +92,9 @@ public class Character : SceneComponent
         Width = 100;
         X = 0;
         Y = 0;
-
+        currentImageIndex = -1;
+        currentDialogIndex = -1;
+        Position = -1;
         //itterator = 0;
 
         wrapPanel = new WrapPanel()
@@ -108,8 +118,17 @@ public class Character : SceneComponent
             Margin = new Thickness(5)
             //ItemsSource = Dialogs//????
         };
+
+        lbDialogs.MouseDoubleClick += lbDialogs_OnMouseDoubleClick; ////////////////////////
     }
     
+    private void lbDialogs_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ListBox listBox && listBox.SelectedIndex >= 0)
+        {
+            currentDialogIndex = listBox.SelectedIndex;
+        }
+    }
     
     public void NewWrapBtn(string imagePath)
     {
@@ -135,9 +154,41 @@ public class Character : SceneComponent
                 ImagesPath.RemoveAt(wrapPanel.Children.IndexOf(btn));
                 wrapPanel.Children.Remove(btn);
             }
+            
+            currentImageIndex = -1;
         }
+        
+        void btn_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Button btn && wrapPanel != null)
+            {
+                int index = wrapPanel.Children.IndexOf(btn);
+                
+                windSelectCharacterImagePosition windSelectCharacterImagePosition =
+                    new windSelectCharacterImagePosition();
+
+                windSelectCharacterImagePosition.ShowDialog();
+
+                if (windSelectCharacterImagePosition.DialogResult == true)
+                {
+                    currentImageIndex = wrapPanel.Children.IndexOf(btn);
+                    Position = windSelectCharacterImagePosition.position;
+                }
+                windSelectCharacterImagePosition.Close();
+            }
+        }
+        
+        // void btn_OnClick(object sender, RoutedEventArgs e)
+        // {
+        //     if (sender is Button btn && wrapPanel != null)
+        //     {
+        //         currentImageIndex = wrapPanel.Children.IndexOf(btn);
+        //     }
+        // }
 
         btnWrapImage.PreviewMouseDoubleClick += btn_OnPreviewMouseDoubleClick;
+        //btnWrapImage.Click += btn_OnClick;
+        btnWrapImage.MouseRightButtonDown += btn_OnPreviewMouseRightButtonDown;
             
         btnWrapImage.Content = image;
         //itterator++;
@@ -192,6 +243,8 @@ public class Dialog
     public Color FontColor; //не зберігається
     public float dialogRenderSpeed; //не зберігається
     public int fontSize; //не зберігається
+    
+    public bool ViewPortVisible;
 
     public Dialog()
     {
@@ -273,28 +326,28 @@ public class Background : SceneComponent
     }
 }
 
-public class Music : SceneComponent
-{
-    public string audioFilePath;
-    public float volume;
-
-    public void play()
-    {
-        
-    }
-
-    public void pause()
-    {
-        
-    }
-
-    public void stop()
-    {
-        
-    }
-
-    public void setVolume(float volume)
-    {
-        this.volume = volume;
-    }
-}
+// public class Music : SceneComponent
+// {
+//     public string audioFilePath;
+//     public float volume;
+//
+//     public void play()
+//     {
+//         
+//     }
+//
+//     public void pause()
+//     {
+//         
+//     }
+//
+//     public void stop()
+//     {
+//         
+//     }
+//
+//     public void setVolume(float volume)
+//     {
+//         this.volume = volume;
+//     }
+// }

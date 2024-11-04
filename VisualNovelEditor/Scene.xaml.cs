@@ -37,7 +37,13 @@ public partial class Scene : Window
         PropertyDisplayer.brdrLeftProperLists = brdrLeftProperLists;
         PropertyDisplayer.brdrRightProperLists = brdrRightProperLists;
         Invoker.scenesContainer = scenesContainer;
-        
+
+        PropertyDisplayer.VPtbkDialogCaption = VPtbkDialogCaption;
+        PropertyDisplayer.VPtbkDialogText = VPtbkDialogText;
+        PropertyDisplayer.VPimageBackground = VPimageBackground;
+        PropertyDisplayer.VPimageCharacter1 = VPimageCharacter1;
+        PropertyDisplayer.VPimageCharacter2 = VPimageCharacter2;
+        PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
     }
 
 
@@ -64,6 +70,12 @@ public partial class Scene : Window
 
     private void lbScenes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        VPimageBackground.Source = null;
+        VPimageCharacter1.Source = null;
+        VPimageCharacter2.Source = null;
+        VPtbkDialogText.Text = "";
+        VPtbkDialogCaption.Text = "";
+        
         //gridProperLists.Children.Clear();
         brdrLeftProperLists.Child = null;
         brdrRightProperLists.Child = null;
@@ -74,12 +86,14 @@ public partial class Scene : Window
         {
             stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
         }
-
+        
+        propertyDisplayer.DisplaySceneComponentViewport((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]);
+        
         refreshLbSceneComp();
 
-        cvsScene.Children.Clear();
-        currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
-        cvsScene.Children.Add(currentCanvas);
+        // cvsScene.Children.Clear();
+        // currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
+        // cvsScene.Children.Add(currentCanvas);
 
 
         displaySceneComponentCommand.set(propertyDisplayer,
@@ -357,6 +371,8 @@ public partial class Scene : Window
 //Відкриття проекту з іншого вікна
 // - питати куди хоче користувач зберігати проект
 
+//Властивості і їх редагування в PropertyDisplayer, відредагувати save load
+//Доробити DisplaySceneComponentViewport() !!!
+//перевірки на вже встановлені картинки, текст, т.д.
 
-//TimeLine зробити макет, скидувати на перевірку
-//придумати алгоритм
+//продумати команди для черги TimeLine ...

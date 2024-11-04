@@ -31,12 +31,59 @@ public class PropertyDisplayer
     static public Border brdrLeftProperLists;
     static public Border brdrRightProperLists;
     
+    static public Image VPimageBackground;
+    static public Image VPimageCharacter1;
+    static public Image VPimageCharacter2;
+    static public Border VPbrdrDialogBox;
+    static public TextBlock VPtbkDialogCaption;
+    static public TextBlock VPtbkDialogText;
+    
     WrapPanel wrpnlProperLists;
 
     public PropertyDisplayer()
     {
     }
 
+    public void DisplaySceneComponentViewport(SceneComponent scene)
+    {
+        foreach (BaseComponent component in scene.components)
+        {
+            switch (component)
+            {
+                case Character character:
+                {
+                    switch (character.Position)
+                    {
+                        case 0:
+                        {
+                            VPimageCharacter1.Source = new BitmapImage(new Uri(character.ImagesPath[character.currentImageIndex], UriKind.RelativeOrAbsolute));
+                        }
+                            break;
+                        case 1:
+                        {
+                            VPimageCharacter2.Source = new BitmapImage(new Uri(character.ImagesPath[character.currentImageIndex], UriKind.RelativeOrAbsolute));
+                        }
+                            break;
+                    }
+
+                    //VPbrdrDialogBox.Background = character.DialogBox.BackgroundColor;
+                    
+                    if (character.currentDialogIndex != -1)
+                    {
+                        VPtbkDialogCaption.Text = character.Dialogs[character.currentDialogIndex].Caption;
+                        VPtbkDialogText.Text = character.Dialogs[character.currentDialogIndex].Text;
+                    }
+                }break;
+
+                case Background background:
+                {
+                    VPimageBackground.Source = new BitmapImage(new Uri(background.ImagePath, UriKind.RelativeOrAbsolute));
+                }
+                    break;
+            }
+        }
+    }
+    
     public void DisplaySceneComponentProperties(SceneComponent scene)
     {
         TextBox tbProperName = Invoker.FindTextBoxInPanel(stkpnlProperties, "Name");
@@ -386,19 +433,19 @@ public class PropertyDisplayer
          {
              new Image()
              {
-                 Source = new BitmapImage(new Uri("Resources/New.png", UriKind.Relative)),
+                 Source = new BitmapImage(new Uri("Resources/New.png", UriKind.RelativeOrAbsolute)),
                  Width = Double.NaN,
                  Height = Double.NaN
              },
              new Image()
              {
-                 Source = new BitmapImage(new Uri("Resources/Open.png", UriKind.Relative)),
+                 Source = new BitmapImage(new Uri("Resources/Open.png", UriKind.RelativeOrAbsolute)),
                  Width = Double.NaN,
                  Height = Double.NaN
              },
              new Image()
              {
-                 Source = new BitmapImage(new Uri("Resources/Delete.png", UriKind.Relative)),
+                 Source = new BitmapImage(new Uri("Resources/Delete.png", UriKind.RelativeOrAbsolute)),
                  Width = Double.NaN,
                  Height = Double.NaN
              },
