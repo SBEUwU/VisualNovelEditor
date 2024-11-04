@@ -16,6 +16,7 @@ public partial class Scene : Window
     DisplayBackgroundCommand displayBackgroundCommand;
     DisplayDialogBoxCommand displayDialogBoxCommand;
     DisplayCharacterCommand displayCharacterCommand;
+    RefreshViewPort refreshViewPort;
     Invoker invoker;
 
     public Scene()
@@ -44,6 +45,10 @@ public partial class Scene : Window
         PropertyDisplayer.VPimageCharacter1 = VPimageCharacter1;
         PropertyDisplayer.VPimageCharacter2 = VPimageCharacter2;
         PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
+
+        RefreshViewPort.lbScenes = lbScenes;
+        RefreshViewPort.lbSceneComp = lbSceneComp;
+        refreshViewPort = RefreshViewPort.getInstance();
     }
 
 
@@ -70,43 +75,48 @@ public partial class Scene : Window
 
     private void lbScenes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        VPimageBackground.Source = null;
-        VPimageCharacter1.Source = null;
-        VPimageCharacter2.Source = null;
-        VPtbkDialogText.Text = "";
-        VPtbkDialogCaption.Text = "";
-        
-        //gridProperLists.Children.Clear();
-        brdrLeftProperLists.Child = null;
-        brdrRightProperLists.Child = null;
-        
-        lbSceneComp.Items.Clear();
-
-        while (stkpnlProperties.Children.Count > 1)
+        if (lbScenes.SelectedIndex != -1)
         {
-            stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
+            VPimageBackground.Source = null;
+            VPimageCharacter1.Source = null;
+            VPimageCharacter2.Source = null;
+            VPtbkDialogText.Text = "";
+            VPtbkDialogCaption.Text = "";
+
+            //gridProperLists.Children.Clear();
+            brdrLeftProperLists.Child = null;
+            brdrRightProperLists.Child = null;
+
+            lbSceneComp.Items.Clear();
+
+            while (stkpnlProperties.Children.Count > 1)
+            {
+                stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
+            }
+
+
+            propertyDisplayer.DisplaySceneComponentViewport(
+                (SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]);
+
+            refreshLbSceneComp();
+
+            // cvsScene.Children.Clear();
+            // currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
+            // cvsScene.Children.Add(currentCanvas);
+
+
+            displaySceneComponentCommand.set(propertyDisplayer,
+                (SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]);
+
+            invoker.SetCommand(displaySceneComponentCommand);
+            invoker.ExecuteCommand(tbProper_KeyDown);
+
+            // if (currentCanvas != null)
+            //     MessageBox.Show("current Canvas childrens: " + currentCanvas.Children.Count.ToString()
+            //                                                  + "\ncurrent Scene components: " +
+            //                                                  ((SceneComponent)scenesContainer.getScene(
+            //                                                      lbScenes.SelectedIndex)).components.Count.ToString());
         }
-        
-        propertyDisplayer.DisplaySceneComponentViewport((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]);
-        
-        refreshLbSceneComp();
-
-        // cvsScene.Children.Clear();
-        // currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
-        // cvsScene.Children.Add(currentCanvas);
-
-
-        displaySceneComponentCommand.set(propertyDisplayer,
-            (SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]);
-
-        invoker.SetCommand(displaySceneComponentCommand);
-        invoker.ExecuteCommand(tbProper_KeyDown);
-
-        // if (currentCanvas != null)
-        //     MessageBox.Show("current Canvas childrens: " + currentCanvas.Children.Count.ToString()
-        //                                                  + "\ncurrent Scene components: " +
-        //                                                  ((SceneComponent)scenesContainer.getScene(
-        //                                                      lbScenes.SelectedIndex)).components.Count.ToString());
     }
 
     private void btnNewCharacter_OnClick(object sender, RoutedEventArgs e)
@@ -143,77 +153,81 @@ public partial class Scene : Window
 
     private void lbSceneComp_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //brdrProperLists.Child = null;
-        
-        // if (brdrProperLists.Child is Panel panel)
-        //     panel.Children.Clear();
-        // else
-        //     brdrProperLists.Child = null;
-        brdrLeftProperLists.Child = null;
-        brdrRightProperLists.Child = null;
-        
-        
-        while (stkpnlProperties.Children.Count > 1)
+        if (lbScenes.SelectedIndex != -1)
         {
-            stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
-        }
+            //brdrProperLists.Child = null;
 
-        if (lbSceneComp.SelectedIndex != -1)
-        {
-            if (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[lbSceneComp.SelectedIndex]
-                is Character)
+            // if (brdrProperLists.Child is Panel panel)
+            //     panel.Children.Clear();
+            // else
+            //     brdrProperLists.Child = null;
+            brdrLeftProperLists.Child = null;
+            brdrRightProperLists.Child = null;
+
+
+            while (stkpnlProperties.Children.Count > 1)
             {
-                propertyDisplayer.ShowWrapPanelProperty(
-                    (Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
-                        lbSceneComp.SelectedIndex]);
-                propertyDisplayer.ShowListBoxProperty(
-                    (Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
-                        lbSceneComp.SelectedIndex]);
+                stkpnlProperties.Children.RemoveAt(stkpnlProperties.Children.Count - 1);
             }
 
-            switch (((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
-                        lbSceneComp.SelectedIndex])
+            if (lbSceneComp.SelectedIndex != -1)
             {
-                case VisualNovelEditor.Background background:
+                if (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
+                        lbSceneComp.SelectedIndex]
+                    is Character)
                 {
-                    displayBackgroundCommand.set(propertyDisplayer,
-                        (Background)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                    propertyDisplayer.ShowWrapPanelProperty(
+                        (Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
                             lbSceneComp.SelectedIndex]);
-                    invoker.SetCommand(displayBackgroundCommand);
+                    propertyDisplayer.ShowListBoxProperty(
+                        (Character)((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components[
+                            lbSceneComp.SelectedIndex]);
                 }
-                    break;
-                case VisualNovelEditor.DialogBox dialogBox:
+
+                switch (((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                            lbSceneComp.SelectedIndex])
                 {
-                    displayDialogBoxCommand.set(propertyDisplayer,
-                        (DialogBox)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
-                            lbSceneComp.SelectedIndex]);
-                    invoker.SetCommand(displayDialogBoxCommand);
+                    case VisualNovelEditor.Background background:
+                    {
+                        displayBackgroundCommand.set(propertyDisplayer,
+                            (Background)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                                lbSceneComp.SelectedIndex]);
+                        invoker.SetCommand(displayBackgroundCommand);
+                    }
+                        break;
+                    case VisualNovelEditor.DialogBox dialogBox:
+                    {
+                        displayDialogBoxCommand.set(propertyDisplayer,
+                            (DialogBox)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                                lbSceneComp.SelectedIndex]);
+                        invoker.SetCommand(displayDialogBoxCommand);
+                    }
+                        break;
+                    case VisualNovelEditor.Character character:
+                    {
+                        displayCharacterCommand.set(propertyDisplayer,
+                            (Character)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
+                                lbSceneComp.SelectedIndex]);
+                        invoker.SetCommand(displayCharacterCommand);
+                    }
+                        break;
                 }
-                    break;
-                case VisualNovelEditor.Character character:
-                {
-                    displayCharacterCommand.set(propertyDisplayer,
-                        (Character)((SceneComponent)scenesContainer.scenes[lbScenes.SelectedIndex]).components[
-                            lbSceneComp.SelectedIndex]);
-                    invoker.SetCommand(displayCharacterCommand);
-                }
-                    break;
             }
+
+            invoker.ExecuteCommand(tbProper_KeyDown);
+
+            //InitializeTextBoxes();
+
+            // if (lbSceneComp.SelectedIndex == -1 && lbSceneComp.Items.Count > 0)
+            // {
+            //     lbSceneComp.SelectedIndex = 0;
+            // }
+            //
+            // cvsScene.Children.Clear();
+            // currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
+            // cvsScene.Children.Add(currentCanvas);
+            // MessageBox.Show(cvsScene.Children.Count.ToString());
         }
-
-        invoker.ExecuteCommand(tbProper_KeyDown);
-
-        //InitializeTextBoxes();
-
-        // if (lbSceneComp.SelectedIndex == -1 && lbSceneComp.Items.Count > 0)
-        // {
-        //     lbSceneComp.SelectedIndex = 0;
-        // }
-        //
-        // cvsScene.Children.Clear();
-        // currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
-        // cvsScene.Children.Add(currentCanvas);
-        // MessageBox.Show(cvsScene.Children.Count.ToString());
     }
 
     public void refreshLbScenes()
@@ -370,9 +384,9 @@ public partial class Scene : Window
 //Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName --
 //Відкриття проекту з іншого вікна
 // - питати куди хоче користувач зберігати проект
+// Виправити баг з видаленням персонажа, діалогу в який вже встановлений position, currentDialog
 
 //Властивості і їх редагування в PropertyDisplayer, відредагувати save load
-//Доробити DisplaySceneComponentViewport() !!!
 //перевірки на вже встановлені картинки, текст, т.д.
 
 //продумати команди для черги TimeLine ...

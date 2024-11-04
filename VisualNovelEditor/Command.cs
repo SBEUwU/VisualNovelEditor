@@ -57,13 +57,11 @@ public class PropertyDisplayer
                         case 0:
                         {
                             VPimageCharacter1.Source = new BitmapImage(new Uri(character.ImagesPath[character.currentImageIndex], UriKind.RelativeOrAbsolute));
-                        }
-                            break;
+                        }break;
                         case 1:
                         {
                             VPimageCharacter2.Source = new BitmapImage(new Uri(character.ImagesPath[character.currentImageIndex], UriKind.RelativeOrAbsolute));
-                        }
-                            break;
+                        }break;
                     }
 
                     //VPbrdrDialogBox.Background = character.DialogBox.BackgroundColor;
@@ -77,9 +75,9 @@ public class PropertyDisplayer
 
                 case Background background:
                 {
-                    VPimageBackground.Source = new BitmapImage(new Uri(background.ImagePath, UriKind.RelativeOrAbsolute));
-                }
-                    break;
+                    if(background.currentBackground)
+                        VPimageBackground.Source = new BitmapImage(new Uri(background.ImagePath, UriKind.RelativeOrAbsolute));
+                }break;
             }
         }
     }
@@ -96,7 +94,11 @@ public class PropertyDisplayer
         checkNameProperty(background.Name);
 
         // Property - ImagePath
-        CreateStringProperty("ImagePath", "Image Path", background.ImagePath);
+        //CreateStringProperty("ImagePath", "Image Path", background.ImagePath);
+        CreateImagePathProperty("ImagePath", "Image Path", background);
+        
+        // Property - currentBackground
+        CreateBackgroundProperty("ImagePath", "Image Path", background);
     }
 
     public void DisplayDialogBoxProperties(DialogBox dialogBox)
@@ -144,7 +146,7 @@ public class PropertyDisplayer
         CreateListImagePathProperty("ImagesPath", "Images Path", character);
         
         // Property - Dialogs
-        CreateDialogProperty("Dialogs", "Dialogs", character);
+        //CreateDialogProperty("Dialogs", "Dialogs", character);
         
         // Property - WrapPanel -> ImagesPath
         //ShowWrapPanelProperty(character);
@@ -195,6 +197,78 @@ public class PropertyDisplayer
         stkpnl.Children.Add(tbk);
         stkpnl.Children.Add(tb);
         stkpnlProperties.Children.Add(stkpnl);
+    }
+
+    private void CreateImagePathProperty(string PropertyName, string VisualPropertyName, Background background)
+    {
+        StackPanel stkpnlMain;
+        StackPanel stkpnl;
+        TextBox tb;
+        TextBlock tbk;
+        Button btn;
+        string ImagePath = "";
+        
+        stkpnlMain = new StackPanel()
+        {
+            Margin = new Thickness(0, 10, 0, 0),
+            Name = "stkpnlProper" + PropertyName
+        };
+        tbk = new TextBlock()
+        {
+            Text = VisualPropertyName,
+            FontSize = 14,
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#F3DFD8"),
+            Margin = new Thickness(0, 0, 0, 10),
+            FontWeight = FontWeights.Medium,
+            FontFamily = (FontFamily)Application.Current.Resources["RobotoMono"],
+            Name = "lblProper" + PropertyName,
+        };
+        stkpnl = new StackPanel()
+        {
+            Name = "stkpnlchildProper" + PropertyName,
+            Orientation = Orientation.Horizontal
+        };
+        
+        tb = new TextBox()
+        {
+            Text = background.ImagePath,
+            Width = 262,
+            Height = 29,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF"),
+            Name = "tbProper" + PropertyName
+        };
+        btn = new Button()
+        {
+            Name = "btnProper" + PropertyName,
+            Width = 50,
+            Height = 29,
+            Content = "Add",
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF")
+        };
+
+        void btn_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == true)
+            {
+                background.ImagePath = ofd.FileName;
+            }
+            
+            tb.Text = background.ImagePath;
+        }
+        btn.Click += btn_OnClick;
+        
+        stkpnl.Children.Add(tb);
+        stkpnl.Children.Add(btn);
+
+        stkpnlMain.Children.Add(tbk);
+        stkpnlMain.Children.Add(stkpnl);
+
+        stkpnlProperties.Children.Add(stkpnlMain);
     }
 
     private void CreateListImagePathProperty(string PropertyName, string VisualPropertyName, Character character)
@@ -267,38 +341,38 @@ public class PropertyDisplayer
             }
         }
 
-        void tbProperName_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // if (brdrProperLists.Child is Panel panel)
-            //     panel.Children.Clear();
-            // else
-            //     brdrProperLists.Child = null;
-            
-            // ScrollViewer scrllviewProperLists = new ScrollViewer()
-            // {
-            //     HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
-            // };
-            // // wrpnlProperLists = new WrapPanel()
-            // // {
-            // //     HorizontalAlignment = HorizontalAlignment.Left,
-            // //     VerticalAlignment = VerticalAlignment.Top,
-            // //     Orientation = Orientation.Horizontal,
-            // //     Name = "wrpnlProperLists"
-            // // };
-            //
-            // scrllviewProperLists.Content = character.wrapPanel;
-            // gridProperLists.Children.Add(scrllviewProperLists);
-            // Grid.SetColumn(gridProperLists, 0);
-            
-            // foreach (string imagePath in character.ImagesPath)
-            // {
-            //     //NewWrapBtn(imagePath);
-            //     character.NewWrapBtn(imagePath);
-            // }
-        }
+        // void tbProperName_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        // {
+        //     // if (brdrProperLists.Child is Panel panel)
+        //     //     panel.Children.Clear();
+        //     // else
+        //     //     brdrProperLists.Child = null;
+        //     
+        //     // ScrollViewer scrllviewProperLists = new ScrollViewer()
+        //     // {
+        //     //     HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden
+        //     // };
+        //     // // wrpnlProperLists = new WrapPanel()
+        //     // // {
+        //     // //     HorizontalAlignment = HorizontalAlignment.Left,
+        //     // //     VerticalAlignment = VerticalAlignment.Top,
+        //     // //     Orientation = Orientation.Horizontal,
+        //     // //     Name = "wrpnlProperLists"
+        //     // // };
+        //     //
+        //     // scrllviewProperLists.Content = character.wrapPanel;
+        //     // gridProperLists.Children.Add(scrllviewProperLists);
+        //     // Grid.SetColumn(gridProperLists, 0);
+        //     
+        //     // foreach (string imagePath in character.ImagesPath)
+        //     // {
+        //     //     //NewWrapBtn(imagePath);
+        //     //     character.NewWrapBtn(imagePath);
+        //     // }
+        // }
         
         btn.Click += btn_OnClick;
-        tb.PreviewMouseDown += tbProperName_OnPreviewMouseDown;
+        //tb.PreviewMouseDown += tbProperName_OnPreviewMouseDown;
         
         // void NewWrapBtn(string imagePath)
         // {
@@ -344,11 +418,12 @@ public class PropertyDisplayer
         stkpnlProperties.Children.Add(stkpnlMain);
     }
     
-    private void CreateDialogProperty(string PropertyName, string VisualPropertyName, Character character)
+    private void CreateBackgroundProperty(string PropertyName, string VisualPropertyName, Background background)
     {
         StackPanel stkpnl;
         TextBlock tbk;
-        Button btn;
+        Button btnSelect;
+        Button btnClear;
         
         stkpnl = new StackPanel()
         {
@@ -367,25 +442,46 @@ public class PropertyDisplayer
             Name = "lblProper" + PropertyName,
         };
         
-        btn = new Button()
+        btnSelect = new Button()
         {
             Name = "btnProper" + PropertyName,
             Width = 262,
             Height = 29,
-            Content = "Open",
+            Content = "SELECT",
             Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
             Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF")
         };
         
-        void btn_OnClick(object sender, RoutedEventArgs e)
+        btnClear = new Button()
         {
+            Name = "btnProper" + PropertyName,
+            Width = 262,
+            Height = 29,
+            Content = "CLEAR",
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#0F0F0F"),
+            Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF")
+        };
+        
+        void btnClearBackground_OnClick(object sender, RoutedEventArgs e)
+        {
+            background.currentBackground = false;
             
+            RefreshViewPort.getInstance().Refresh();
         }
         
-        btn.Click += btn_OnClick;
+        void btnSelectBackground_OnClick(object sender, RoutedEventArgs e)
+        {
+            background.currentBackground = true;
+            
+            RefreshViewPort.getInstance().Refresh();
+        }
+        
+        btnSelect.Click += btnSelectBackground_OnClick;
+        btnClear.Click += btnClearBackground_OnClick;
         
         stkpnl.Children.Add(tbk);
-        stkpnl.Children.Add(btn);
+        stkpnl.Children.Add(btnSelect);
+        stkpnl.Children.Add(btnClear);
         
         stkpnlProperties.Children.Add(stkpnl);
     }
@@ -429,7 +525,7 @@ public class PropertyDisplayer
         
          //---------------------------------------
         
-         Image[] images = new Image[3]
+         Image[] images = new Image[4]
          {
              new Image()
              {
@@ -449,10 +545,16 @@ public class PropertyDisplayer
                  Width = Double.NaN,
                  Height = Double.NaN
              },
+             new Image()
+             {
+                 Source = new BitmapImage(new Uri("Resources/Delete.png", UriKind.RelativeOrAbsolute)),
+                 Width = Double.NaN,
+                 Height = Double.NaN
+             },
          };
-         String[] btnNames = new String[3]
+         String[] btnNames = new String[4]
          {
-             "btnNewDialog", "btnOpenDialog", "btnDeleteDialog"
+             "btnNewDialog", "btnOpenDialog", "btnDeleteDialog", "btnClearSelectedDialog"
          };
         
          for (int i = 0; i < images.Length; i++)
@@ -461,7 +563,7 @@ public class PropertyDisplayer
              {
                  Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0F0F0F")),
                  Margin = new Thickness(15, 0, 0, 0),
-                 Width = 50,
+                 Width = 40,
                  Height = 30,
                  FontSize = 16,
                  Name = btnNames[i],
@@ -477,6 +579,7 @@ public class PropertyDisplayer
          ((Button)stkpnlDialogBtns.Children[0]).Click += btnNewDialog_Click;
          ((Button)stkpnlDialogBtns.Children[1]).Click += btnOpenDialog_Click;
          ((Button)stkpnlDialogBtns.Children[2]).Click += btnDeleteDialog_Click;
+         ((Button)stkpnlDialogBtns.Children[3]).Click += btnClearSelectedDialog_Click;
          
          if (character.lbDialogs.Parent is Panel parentPanel)
          {
@@ -525,6 +628,12 @@ public class PropertyDisplayer
         {
             if(character.lbDialogs.SelectedIndex != -1)
                 character.deleteSelectedDialog(character.lbDialogs.SelectedIndex);
+        }
+        
+        void btnClearSelectedDialog_Click(object sender, RoutedEventArgs e)
+        {
+            character.currentDialogIndex = -1;
+            character.statusVPtbkDialog = false;
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Configuration.Internal;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -28,6 +25,9 @@ public class SceneComponent : BaseComponent
     
     public bool statusVPimageCharacter1; // save
     public bool statusVPimageCharacter2;
+    public bool statusVPimageBackground;
+    public bool statusVPtbkDialog;
+    
 
     public SceneComponent()
     {
@@ -36,6 +36,10 @@ public class SceneComponent : BaseComponent
         canvas.Height = Double.NaN;
         canvas.Width = Double.NaN;
         canvas.Background = Brushes.Transparent;
+        statusVPimageCharacter1 = false; // save
+        statusVPimageCharacter2 = false;
+        statusVPimageBackground = false;
+        statusVPtbkDialog = false;
     }
         
     public void setCanvasSize(int width, int height)
@@ -124,9 +128,18 @@ public class Character : SceneComponent
     
     private void lbDialogs_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if (sender is ListBox listBox && listBox.SelectedIndex >= 0)
+        if (statusVPtbkDialog == false)
         {
-            currentDialogIndex = listBox.SelectedIndex;
+            if (sender is ListBox listBox && listBox.SelectedIndex >= 0)
+            {
+                statusVPtbkDialog = true;
+                currentDialogIndex = listBox.SelectedIndex;
+                RefreshViewPort.getInstance().Refresh();
+            }
+        }
+        else
+        {
+            MessageBox.Show("Dialog already selected");
         }
     }
     
@@ -173,6 +186,8 @@ public class Character : SceneComponent
                 {
                     currentImageIndex = wrapPanel.Children.IndexOf(btn);
                     Position = windSelectCharacterImagePosition.position;
+                    
+                    RefreshViewPort.getInstance().Refresh();
                 }
                 windSelectCharacterImagePosition.Close();
             }
@@ -315,9 +330,12 @@ public class Background : SceneComponent
 {
     public string ImagePath;
 
+    public bool currentBackground;
+
     public Background()
     {
         ImagePath = "";
+        currentBackground = false;
     }
     
     public void changeImage(string imagePath)

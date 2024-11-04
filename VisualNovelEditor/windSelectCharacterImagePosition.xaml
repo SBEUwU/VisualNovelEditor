@@ -37,6 +37,11 @@
                             Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
                     </Button>
                 </Border>
+                <Border Grid.Column="0" CornerRadius="4" Background="#0F0F0F" Margin="5,0,5,0" Width="122" Height="43">
+                    <Button Background="Transparent" Content="CLEAR" FontSize="18" Name="btnClear" Click="BtnClear_OnClick"
+                            Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
+                    </Button>
+                </Border>
             </StackPanel>
         </Grid>
     </Border>

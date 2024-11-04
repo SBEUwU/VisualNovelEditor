@@ -28,4 +28,10 @@ public partial class windSelectCharacterImagePosition : Window
         position = 0;
         DialogResult = true;
     }
+
+    private void BtnClear_OnClick(object sender, RoutedEventArgs e)
+    {
+        position = -1;
+        DialogResult = true;
+    }
 }
