@@ -8,7 +8,8 @@
         Title="windDialogEdit" Height="360" Width="600"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent">
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
         <Border CornerRadius="19" Background="#191919">
             <Grid>
                 <Grid.RowDefinitions>
