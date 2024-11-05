@@ -68,7 +68,8 @@ public class PropertyDisplayer
                     
                     if (character.currentDialogIndex != -1)
                     {
-                        VPtbkDialogCaption.Text = character.Dialogs[character.currentDialogIndex].Caption;
+                        //VPtbkDialogCaption.Text = character.Dialogs[character.currentDialogIndex].Caption;
+                        VPtbkDialogCaption.Text = character.Caption;
                         VPtbkDialogText.Text = character.Dialogs[character.currentDialogIndex].Text;
                     }
                 }break;
@@ -259,6 +260,7 @@ public class PropertyDisplayer
             }
             
             tb.Text = background.ImagePath;
+            SupportViewPort.getInstance().Refresh();
         }
         btn.Click += btn_OnClick;
         
@@ -620,6 +622,7 @@ public class PropertyDisplayer
                     character.Dialogs[character.lbDialogs.SelectedIndex].Text = windDialogEdit.tbProperText.Text;
                     character.refreshListBox();
                     windDialogEdit.Close();
+                    SupportViewPort.getInstance().Refresh();
                 }
             }
         }

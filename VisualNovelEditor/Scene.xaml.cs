@@ -306,6 +306,7 @@ public partial class Scene : Window
                     // Вызов метода Edit для обновления свойств
                     invoker.Edit(sceneIndex, componentIndex, propertyName, value);
                     refreshLbSceneComp();
+                    SupportViewPort.getInstance().Refresh();
                 }
             }
         }
@@ -367,7 +368,7 @@ public partial class Scene : Window
 
     private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
     {
-        scenesContainer = logger.Txt_Deserialize("C:\\Users\\SBEUwU\\Desktop");
+        scenesContainer = logger.Txt_Deserialize("C:\\Users\\SBEUwU\\Desktop"); // ПОМЕНЯТЬ ПУТЬ
         Invoker.scenesContainer = scenesContainer;
         SupportViewPort.getInstance().scenesContainer = scenesContainer;
         refreshLbScenes();
@@ -378,7 +379,7 @@ public partial class Scene : Window
     {
         if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
         {
-            logger.Txt_Serialize("C:\\Users\\SBEUwU\\Desktop", scenesContainer);
+            logger.Txt_Serialize("C:\\Users\\SBEUwU\\Desktop", scenesContainer); // ПОМЕНЯТЬ ПУТЬ
         }
     }
 
