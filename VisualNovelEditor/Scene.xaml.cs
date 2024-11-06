@@ -305,7 +305,9 @@ public partial class Scene : Window
 
                     // Вызов метода Edit для обновления свойств
                     invoker.Edit(sceneIndex, componentIndex, propertyName, value);
+                    int lbSceneCompSelectedIndex = lbSceneComp.SelectedIndex;
                     refreshLbSceneComp();
+                    lbSceneComp.SelectedIndex = lbSceneCompSelectedIndex;
                     SupportViewPort.getInstance().Refresh();
                 }
             }

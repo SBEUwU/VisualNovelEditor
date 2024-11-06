@@ -62,9 +62,16 @@ public partial class MainWindow : Window
 
     private void MainWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.ButtonState == MouseButtonState.Pressed)
+        try
         {
-            this.DragMove();
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+        catch (Exception ex)
+        {
+            
         }
     }
     
