@@ -47,6 +47,8 @@ public partial class Scene : Window
         PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
         
         _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp);
+        
+        TimeLine.scenesContainer = scenesContainer;
     }
 
 
@@ -370,9 +372,10 @@ public partial class Scene : Window
 
     private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
     {
-        scenesContainer = logger.Txt_Deserialize("C:\\Users\\SBEUwU\\Desktop"); // ПОМЕНЯТЬ ПУТЬ
+        scenesContainer = logger.Txt_Deserialize("C:\\"); // ПОМЕНЯТЬ ПУТЬ
         Invoker.scenesContainer = scenesContainer;
         SupportViewPort.getInstance().scenesContainer = scenesContainer;
+        TimeLine.scenesContainer = scenesContainer;
         refreshLbScenes();
         //refreshLbSceneCompTest();
     }
@@ -381,7 +384,7 @@ public partial class Scene : Window
     {
         if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
         {
-            logger.Txt_Serialize("C:\\Users\\SBEUwU\\Desktop", scenesContainer); // ПОМЕНЯТЬ ПУТЬ
+            logger.Txt_Serialize("C:\\", scenesContainer); // ПОМЕНЯТЬ ПУТЬ
         }
     }
 
@@ -405,6 +408,28 @@ public partial class Scene : Window
             SupportViewPort.getInstance().Refresh();
         }
     }
+
+    private void btnEditCommandsTimeLine_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (lbScenes.SelectedIndex != -1)
+        {
+            windEditCommandsTimeLine windEditCommandsTimeLine = new windEditCommandsTimeLine();
+
+            windEditCommandsTimeLine.SceneIndex = lbScenes.SelectedIndex;
+            windEditCommandsTimeLine.RefreshLbReadyCommands();
+            windEditCommandsTimeLine.ShowDialog();
+        }
+    }
+
+    private void BtnPlay_OnClick(object sender, RoutedEventArgs e)
+    {
+        
+    }
+    
+    private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        
+    }
 }
 
 //----------------------------------------НИЗЬКИЙ ПРИОРІТЕТ--------------------------------------
@@ -412,10 +437,15 @@ public partial class Scene : Window
 //Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName --
 //Відкриття проекту з іншого вікна
 // - питати куди хоче користувач зберігати проект
+//якщо сцени нема, не можна добавляти компоненти
+//Exit
+// запретить загружать в картинки все кроме png, jpg
+// чекать на наличие файла перед загрузкой
+// сделать максимальный размер импортируемой картинки
 
 //----------------------------------------ВИСОКИЙ ПРИОРІТЕТ--------------------------------------
 
-//продумати команди для черги TimeLine
+// зробити кнопку EditTimeLine
 
 //--------------------------------------ВИКОНАНІ-------------------------------------------------
 

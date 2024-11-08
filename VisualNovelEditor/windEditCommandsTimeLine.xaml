@@ -1,0 +1,53 @@
+﻿<Window x:Class="VisualNovelEditor.windEditCommandsTimeLine"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:VisualNovelEditor"
+        mc:Ignorable="d"
+        Title="windEditCommandsTimeLine"  Height="500" Width="1200"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
+        <Border CornerRadius="19" Background="#191919" BorderBrush="#CE7D63" BorderThickness="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "2*"/>
+                    <ColumnDefinition Width = "2*"/>
+                    <ColumnDefinition Width = "6*"/>
+                    <ColumnDefinition Width = "2*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "0.5*"/>
+                    <RowDefinition Height = "4*"/>
+                    <RowDefinition Height = "0.5*"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Border Grid.Column="0" CornerRadius="4" Background="#CE7D63" Margin="0,0,15,0" Width="40" Height="35">
+                        <Button Background="Transparent" Content="X" FontSize="18" Name="btnClose" Click="BtnClose_OnClick"
+                                Foreground="#2B2B2B" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
+                        </Button>
+                    </Border>
+                </StackPanel>
+                
+                <ListBox Grid.Column="0" Grid.Row="1" Background="#2B2B2B" BorderThickness="1" Name="lbCommands" Margin="10,0,0,00" BorderBrush="#CE7D63" Foreground="White" SelectionChanged="LbCommands_OnSelectionChanged">
+                    <ListBoxItem Content="EDIT BACKGROUND"/>
+                    <ListBoxItem Content="EDIT CHARACTER IMAGE"/>
+                    <ListBoxItem Content="EDIT CHARACTER POSITION"/>
+                    <ListBoxItem Content="EDIT DIALOG"/>
+                    <ListBoxItem Content="WAIT CLICK"/>
+                </ListBox>
+                
+                <ListBox Grid.Column="1" Grid.Row="1" Background="#2B2B2B" BorderThickness="1" Name="lbComponents" Margin="10,0,0,0" BorderBrush="#CE7D63" Foreground="White" SelectionChanged="LbComponents_OnSelectionChanged">
+                </ListBox>
+                
+                <Border Grid.Column="2" Grid.Row="1" Background="#2B2B2B" BorderThickness="1" Name="brdrSelect" Margin="10,0,0,0" BorderBrush="#CE7D63"></Border>
+                
+                <ListBox Grid.Column="3" Grid.Row="1" Background="#2B2B2B" BorderThickness="1" Name="lbReadyCommands" Margin="10,0,10,0" BorderBrush="#CE7D63" Foreground="White" PreviewMouseRightButtonDown="LbReadyCommands_OnPreviewMouseRightButtonDown">
+                </ListBox>
+            </Grid>
+        </Border>
+</Window>

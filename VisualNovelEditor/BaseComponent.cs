@@ -19,6 +19,7 @@ public class BaseComponent
 
 public class SceneComponent : BaseComponent
 {
+    public List<TimeLineCommand> cmds;
     public List<SceneComponent> components;
     public Canvas canvas;
     //public Commands commands;
@@ -27,6 +28,7 @@ public class SceneComponent : BaseComponent
     public SceneComponent()
     {
         components = new List<SceneComponent>();
+        cmds = new List<TimeLineCommand>();
         canvas = new Canvas();
         canvas.Height = Double.NaN;
         canvas.Width = Double.NaN;
@@ -157,40 +159,48 @@ public class Character : SceneComponent
             
             SupportViewPort.getInstance().Refresh();
         }
+        
+        
 
         void btn_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is Button btn && wrapPanel != null)
             {
-                int index = wrapPanel.Children.IndexOf(btn);
-
-                windSelectCharacterImagePosition windSelectCharacterImagePosition =
-                    new windSelectCharacterImagePosition();
-
-                windSelectCharacterImagePosition.ShowDialog();
-
-                if (windSelectCharacterImagePosition.DialogResult == true)
+                if (currentImageIndex != -1)
                 {
-                    SupportViewPort.getInstance().ClearCurrentImage(SupportViewPort.getInstance().lbScenes.SelectedIndex, windSelectCharacterImagePosition.position);
-                    currentImageIndex = wrapPanel.Children.IndexOf(btn);
-                    Position = windSelectCharacterImagePosition.position;
-                    SupportViewPort.getInstance().Refresh();
-                }
+                    int index = wrapPanel.Children.IndexOf(btn);
 
-                windSelectCharacterImagePosition.Close();
+                    windSelectCharacterImagePosition windSelectCharacterImagePosition =
+                        new windSelectCharacterImagePosition();
+
+                    windSelectCharacterImagePosition.ShowDialog();
+
+                    if (windSelectCharacterImagePosition.DialogResult == true)
+                    {
+                        SupportViewPort.getInstance().ClearCurrentImage(
+                            SupportViewPort.getInstance().lbScenes.SelectedIndex,
+                            windSelectCharacterImagePosition.position);
+                        //currentImageIndex = wrapPanel.Children.IndexOf(btn);
+                        Position = windSelectCharacterImagePosition.position;
+                        SupportViewPort.getInstance().Refresh();
+                    }
+
+                    windSelectCharacterImagePosition.Close();
+                }
             }
         }
 
-        // void btn_OnClick(object sender, RoutedEventArgs e)
-        // {
-        //     if (sender is Button btn && wrapPanel != null)
-        //     {
-        //         currentImageIndex = wrapPanel.Children.IndexOf(btn);
-        //     }
-        // }
+        void btn_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && wrapPanel != null)
+            {
+                currentImageIndex = wrapPanel.Children.IndexOf(btn);
+                SupportViewPort.getInstance().Refresh();
+            }
+        }
 
         btnWrapImage.PreviewMouseDoubleClick += btn_OnPreviewMouseDoubleClick;
-        //btnWrapImage.Click += btn_OnClick;
+        btnWrapImage.Click += btn_OnClick;
         btnWrapImage.MouseRightButtonDown += btn_OnPreviewMouseRightButtonDown;
 
         btnWrapImage.Content = image;

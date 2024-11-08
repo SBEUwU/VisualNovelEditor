@@ -39,14 +39,14 @@
         
         <Grid Width="NaN" Height="NaN" Background="#0F0F0F">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="332"/>
-                <ColumnDefinition Width="1280"/>
+                <ColumnDefinition Width="300*"/>
+                <ColumnDefinition Width="332*"/>
+                <ColumnDefinition Width="1280*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="360"/>
-                <RowDefinition Height="360"/>
-                <RowDefinition Height="270"/>
+                <RowDefinition Height="360*"/>
+                <RowDefinition Height="360*"/>
+                <RowDefinition Height="270*"/>
             </Grid.RowDefinitions>
             
             <!-- _________________________________ -->
@@ -87,12 +87,20 @@
                                 </Button.ContextMenu>
                             </Button>
                         </Border>
-                        <Border Grid.Column="2" CornerRadius="2" Visibility="Hidden"
+                        <Border Grid.Column="2" CornerRadius="2"
                                 Background="#CE7D63"
                                 Margin="10,0,0,0" Width="26" Height="26" VerticalAlignment="Center" HorizontalAlignment="Left">
-                            <Button Background="Transparent" FontSize="8"
-                                    Foreground="#81807E" FontWeight="Bold" BorderThickness="0">
+                            <Button Background="Transparent" FontSize="8" Name="btnEditCommandsTimeLine"
+                                    Foreground="#81807E" FontWeight="Bold" BorderThickness="0" Click="btnEditCommandsTimeLine_OnClick">
                                 <Image Source="icons/windScene/arrow_back.png" Margin="4"/>
+                            </Button>
+                        </Border>
+                        <Border Grid.Column="2" CornerRadius="2"
+                                Background="#CE7D63"
+                                Margin="10,0,0,0" Width="26" Height="26" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Button Background="Transparent" FontSize="8" Name="btnPlay"
+                                    Foreground="#81807E" FontWeight="Bold" BorderThickness="0" Click="BtnPlay_OnClick">
+                                <Image Source="icons/windScene/play.png" Margin="4"/>
                             </Button>
                         </Border>
                     </StackPanel>
@@ -325,7 +333,7 @@
                     <Image Grid.Row="1" Grid.Column="2" Width="NaN" Height="NaN" Name="VPimageCharacter2" VerticalAlignment="Bottom" Stretch="Uniform">
                         
                     </Image>
-                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Width="NaN" Height="NaN" Background="Black" Name="VPbrdrDialogBox">
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Width="NaN" Height="NaN" Background="Black" Name="VPbrdrDialogBox" Opacity="0.8">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
