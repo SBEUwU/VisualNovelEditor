@@ -1,13 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace VisualNovelEditor;
 
 public partial class Scene : Window
 {
+    
     private Logger logger;
     ScenesContainer scenesContainer;
     Canvas currentCanvas;
@@ -18,10 +17,13 @@ public partial class Scene : Window
     DisplayCharacterCommand displayCharacterCommand;
     SupportViewPort _supportViewPort;
     Invoker invoker;
+    Play play;
+    public static bool PlaySwitch;
 
     public Scene()
     {
         InitializeComponent();
+        PlaySwitch = false;
         scenesContainer = new ScenesContainer();
         propertyDisplayer = new PropertyDisplayer();
         displaySceneComponentCommand = new DisplaySceneComponentCommand();
@@ -46,11 +48,11 @@ public partial class Scene : Window
         PropertyDisplayer.VPimageCharacter2 = VPimageCharacter2;
         PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
         
-        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp);
+        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp, gridViewPort);
         
         TimeLine.scenesContainer = scenesContainer;
+        play = new Play();
     }
-
 
     private void BtnNewScene_OnClick(object sender, RoutedEventArgs e)
     {
@@ -372,19 +374,18 @@ public partial class Scene : Window
 
     private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
     {
-        scenesContainer = logger.Txt_Deserialize("C:\\"); // ПОМЕНЯТЬ ПУТЬ
+        scenesContainer = logger.Txt_Deserialize("C:\\");
         Invoker.scenesContainer = scenesContainer;
         SupportViewPort.getInstance().scenesContainer = scenesContainer;
-        TimeLine.scenesContainer = scenesContainer;
+        CommandBuilder.scenesContainer = scenesContainer;
         refreshLbScenes();
-        //refreshLbSceneCompTest();
     }
 
     private void mmFileSave_OnClick(object sender, RoutedEventArgs e)
     {
         if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
         {
-            logger.Txt_Serialize("C:\\", scenesContainer); // ПОМЕНЯТЬ ПУТЬ
+            logger.Txt_Serialize("C:\\", scenesContainer);
         }
     }
 
@@ -423,29 +424,30 @@ public partial class Scene : Window
 
     private void BtnPlay_OnClick(object sender, RoutedEventArgs e)
     {
-        
-    }
-    
-    private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        
+        mmFileSave_OnClick(sender, e);
+        PlaySwitch = true;
+        play.play();
+        PlaySwitch = false;
+        mmFileOpen_OnClick(sender, e);
     }
 }
 
 //----------------------------------------НИЗЬКИЙ ПРИОРІТЕТ--------------------------------------
 
 //Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName --
-//Відкриття проекту з іншого вікна
-// - питати куди хоче користувач зберігати проект
 //якщо сцени нема, не можна добавляти компоненти
 //Exit
 // запретить загружать в картинки все кроме png, jpg
 // чекать на наличие файла перед загрузкой
 // сделать максимальный размер импортируемой картинки
 
+// сделать swap commandbuilder
+
 //----------------------------------------ВИСОКИЙ ПРИОРІТЕТ--------------------------------------
 
-// зробити кнопку EditTimeLine
+// доробити save
+//Відкриття проекту з іншого вікна
+// - питати куди хоче користувач зберігати проект
 
 //--------------------------------------ВИКОНАНІ-------------------------------------------------
 

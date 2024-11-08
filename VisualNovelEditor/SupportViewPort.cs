@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace VisualNovelEditor;
 
@@ -8,18 +9,26 @@ public class SupportViewPort
     public ListBox lbScenes;
     public ListBox lbSceneComp;
     public ScenesContainer scenesContainer;
+    public Grid grid;
+    public delegate void OnMouseDownHandler(object sender, MouseButtonEventArgs e);
 
-    private SupportViewPort(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp)
+    public void SetHandler(OnMouseDownHandler handler)
+    {
+        grid.MouseDown += new MouseButtonEventHandler(handler);
+        
+    }
+    private SupportViewPort(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Grid grid)
     {
         this.scenesContainer = scenesContainer;
         this.lbScenes = lbScenes;
         this.lbSceneComp = lbSceneComp;
+        this.grid = grid;
     }
 
-    public static SupportViewPort getInstance(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp)
+    public static SupportViewPort getInstance(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Grid grid)
     {
         if (_supportViewPort == null)
-            _supportViewPort = new SupportViewPort(scenesContainer, lbScenes, lbSceneComp);
+            _supportViewPort = new SupportViewPort(scenesContainer, lbScenes, lbSceneComp, grid);
         return _supportViewPort;
     }
 

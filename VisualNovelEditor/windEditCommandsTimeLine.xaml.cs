@@ -9,7 +9,7 @@ namespace VisualNovelEditor;
 
 public partial class windEditCommandsTimeLine : Window
 {
-    TimeLine timeLine;
+    CommandBuilder _commandBuilder;
     public int SceneIndex;
     public int CompIndex;
     public int SelectIndex;
@@ -21,7 +21,7 @@ public partial class windEditCommandsTimeLine : Window
         CompIndex = -1;
         SelectIndex = -1;
         //RefreshLbReadyCommands();
-        timeLine = TimeLine.getInstance();
+        _commandBuilder = CommandBuilder.getInstance();
     }
 
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
@@ -33,7 +33,7 @@ public partial class windEditCommandsTimeLine : Window
     {
         lbReadyCommands.Items.Clear();
         
-        foreach (TimeLineCommand cmd in ((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex)).cmds)
+        foreach (TimeLineCommand cmd in ((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex)).cmds)
         {
             lbReadyCommands.Items.Add(cmd.NameCommand);
         }
@@ -47,14 +47,14 @@ public partial class windEditCommandsTimeLine : Window
         
         if (index == 0)
         {
-            filteredComponents = ((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex)).components
+            filteredComponents = ((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex)).components
                 .OfType<Character>()
                 .Cast<BaseComponent>()
                 .ToList();
         }
         else if (index == 1)
         {
-            filteredComponents = ((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex)).components
+            filteredComponents = ((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex)).components
                 .OfType<Background>()
                 .Cast<BaseComponent>()
                 .ToList();
@@ -105,19 +105,19 @@ public partial class windEditCommandsTimeLine : Window
             switch (lbCommands.SelectedIndex)
             {
                 case 0:
-                    SelectBackground((Background)((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex))
+                    SelectBackground((Background)((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex))
                         .components[CompIndex]);
                     break;
                 case 1:
-                    SelectImageBorder((Character)((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex))
+                    SelectImageBorder((Character)((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex))
                         .components[CompIndex]);
                     break;
                 case 2:
-                    SelectPositionBorder((Character)((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex))
+                    SelectPositionBorder((Character)((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex))
                         .components[CompIndex]);
                     break;
                 case 3:
-                    SelectDialog((Character)((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex))
+                    SelectDialog((Character)((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex))
                         .components[CompIndex]);
                     break;
 
@@ -130,7 +130,7 @@ public partial class windEditCommandsTimeLine : Window
         int compIndex = -1;
         if (lbComponents.SelectedItem is SceneComponent selectedComponent)
         {
-            compIndex = ((SceneComponent)TimeLine.scenesContainer.getScene(SceneIndex)).components.IndexOf(selectedComponent);
+            compIndex = ((SceneComponent)CommandBuilder.scenesContainer.getScene(SceneIndex)).components.IndexOf(selectedComponent);
         }
         return compIndex;
     }
@@ -181,7 +181,7 @@ public partial class windEditCommandsTimeLine : Window
             {
                 SelectIndex = wrapPanelSelectImage.Children.IndexOf(btn);
             }
-            timeLine.EditCharacterCurrentImage(SceneIndex, CompIndex, SelectIndex);
+            _commandBuilder.EditCharacterCurrentImage(SceneIndex, CompIndex, SelectIndex);
             RefreshLbReadyCommands();
         }
         
@@ -267,7 +267,7 @@ public partial class windEditCommandsTimeLine : Window
             {
                 SelectIndex = Convert.ToInt32(btn.Tag);
             }
-            timeLine.EditCharacterPosition(SceneIndex, CompIndex, SelectIndex);
+            _commandBuilder.EditCharacterPosition(SceneIndex, CompIndex, SelectIndex);
             RefreshLbReadyCommands();
         }
         
@@ -329,7 +329,7 @@ public partial class windEditCommandsTimeLine : Window
         {
             if (sender is Button btn) //&& wrapPanelTimeLine != null
             {
-                timeLine.EditCurrentBackground(SceneIndex, CompIndex);
+                _commandBuilder.EditCurrentBackground(SceneIndex, CompIndex);
                 RefreshLbReadyCommands();
             }
         }
@@ -411,7 +411,7 @@ public partial class windEditCommandsTimeLine : Window
             {
                 SelectIndex = stkpnlSelectDialog.Children.IndexOf(btn);
             }
-            timeLine.EditCurrentDialog(SceneIndex, CompIndex, SelectIndex);
+            _commandBuilder.EditCurrentDialog(SceneIndex, CompIndex, SelectIndex);
             RefreshLbReadyCommands();
         }
         
@@ -450,7 +450,7 @@ public partial class windEditCommandsTimeLine : Window
         {
             if (sender is Button btn) //&& wrapPanelTimeLine != null
             {
-                TimeLine.getInstance().WaitClick();
+                CommandBuilder.getInstance().WaitClick();
                 RefreshLbReadyCommands();
             }
         }
@@ -462,7 +462,7 @@ public partial class windEditCommandsTimeLine : Window
     private void LbReadyCommands_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
         if(lbReadyCommands.SelectedIndex != -1)
-            timeLine.DeleteCommand(lbReadyCommands.SelectedIndex);
+            _commandBuilder.Delete(lbReadyCommands.SelectedIndex);
         RefreshLbReadyCommands();
     }
 }
