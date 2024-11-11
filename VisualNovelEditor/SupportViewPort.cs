@@ -9,26 +9,26 @@ public class SupportViewPort
     public ListBox lbScenes;
     public ListBox lbSceneComp;
     public ScenesContainer scenesContainer;
-    public Grid grid;
+    public Image image;
     public delegate void OnMouseDownHandler(object sender, MouseButtonEventArgs e);
 
     public void SetHandler(OnMouseDownHandler handler)
     {
-        grid.MouseDown += new MouseButtonEventHandler(handler);
+        image.MouseDown += new MouseButtonEventHandler(handler);
         
     }
-    private SupportViewPort(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Grid grid)
+    private SupportViewPort(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Image image)
     {
         this.scenesContainer = scenesContainer;
         this.lbScenes = lbScenes;
         this.lbSceneComp = lbSceneComp;
-        this.grid = grid;
+        this.image = image;
     }
 
-    public static SupportViewPort getInstance(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Grid grid)
+    public static SupportViewPort getInstance(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Image image)
     {
         if (_supportViewPort == null)
-            _supportViewPort = new SupportViewPort(scenesContainer, lbScenes, lbSceneComp, grid);
+            _supportViewPort = new SupportViewPort(scenesContainer, lbScenes, lbSceneComp, image);
         return _supportViewPort;
     }
 

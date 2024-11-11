@@ -48,7 +48,7 @@ public partial class Scene : Window
         PropertyDisplayer.VPimageCharacter2 = VPimageCharacter2;
         PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
         
-        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp, gridViewPort);
+        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp, VPimageBackground);
         
         TimeLine.scenesContainer = scenesContainer;
         play = new Play();
@@ -417,6 +417,7 @@ public partial class Scene : Window
             windEditCommandsTimeLine windEditCommandsTimeLine = new windEditCommandsTimeLine();
 
             windEditCommandsTimeLine.SceneIndex = lbScenes.SelectedIndex;
+            CommandBuilder.getInstance().SceneIndex = lbScenes.SelectedIndex;
             windEditCommandsTimeLine.RefreshLbReadyCommands();
             windEditCommandsTimeLine.ShowDialog();
         }

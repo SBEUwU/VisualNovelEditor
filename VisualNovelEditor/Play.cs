@@ -13,7 +13,7 @@ public class Play : TimeLine
         SupportViewPort.getInstance().SetHandler(WaitClick_OnMouseDown);
         WaitActive = false;
     }
-    public void Parser(int sceneIndex)
+    public async void Parser(int sceneIndex)
     {
         foreach (TimeLineCommand cmd in ((SceneComponent)scenesContainer.getScene(sceneIndex)).cmds)
         {
@@ -49,6 +49,8 @@ public class Play : TimeLine
 
                             ((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
                                 .components[CharacterIndex]).Position = PositionIndex;
+                            
+                            SupportViewPort.getInstance().Refresh();
 
                             // int currentImageIndex =
                             //     ((Character)((SceneComponent)scenesContainer.getScene(
@@ -82,6 +84,8 @@ public class Play : TimeLine
                             ((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
                                 .components[CharacterIndex]).currentImageIndex = CurrentImageIndex;
 
+                            SupportViewPort.getInstance().Refresh();
+                            
                             // switch (((Character)((SceneComponent)scenesContainer.getScene(
                             //                 int.Parse(cmd.NameCommand.Split(' ')[1])))
                             //             .components[int.Parse(cmd.NameCommand.Split(' ')[2])])
@@ -113,6 +117,8 @@ public class Play : TimeLine
                                 ((Background)((SceneComponent)scenesContainer.getScene(
                                         SceneIndex))
                                     .components[BackgroundIndex]).ImagePath, UriKind.RelativeOrAbsolute));
+
+                            SupportViewPort.getInstance().Refresh();
                         } break;
                     } break;
                 }
@@ -122,8 +128,8 @@ public class Play : TimeLine
                  {
                      case "CLICK":
                      { 
-                         // WaitActive = true;
-                         // await pause();
+                         WaitActive = true;
+                         await pause();
                      } break;
                  }
              } break;
@@ -147,8 +153,11 @@ public class Play : TimeLine
         }
     }
 
-    // public async Task pause()
-    // {
-    //     while(WaitActive){}
-    // }
+    public async Task pause()
+    {
+        while (WaitActive)
+        {
+            await Task.Delay(100);
+        }
+    }
 }

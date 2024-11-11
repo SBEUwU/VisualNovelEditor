@@ -310,7 +310,7 @@
             <!-- VIEWPORT WINDOW  -->
             <!-- _________________ -->
             
-            <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Name="gridViewPort">
+            <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
                 <Grid Width="NaN" Height="NaN">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
