@@ -4,16 +4,16 @@ namespace VisualNovelEditor;
 
 public class PlaybackList : TimeLine
 {
-    public List<List<CommandBuilder>> playbackList = new();
+    public List<List<TimeLineCommand>> playbackList = new();
 
-    public void AddCommands(List<CommandBuilder> list)
+    public void AddCommands(List<TimeLineCommand> list)
     {
         playbackList.Add(list);
     }
     
     public override void Swap(int index1, int index2)
     {
-        List<CommandBuilder> temp = playbackList[index1];
+        List<TimeLineCommand> temp = playbackList[index1];
         playbackList[index1] = playbackList[index2];
         playbackList[index2] = temp;
     }

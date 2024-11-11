@@ -6,17 +6,23 @@ namespace VisualNovelEditor;
 
 public class Play : TimeLine
 {
+    public PlaybackList playlist;
     private bool WaitActive;
     
     public Play()
     {
         SupportViewPort.getInstance().SetHandler(WaitClick_OnMouseDown);
         WaitActive = false;
+        playlist = new PlaybackList();
     }
-    public async void Parser(int sceneIndex)
+    public void Parser()
     {
-        foreach (TimeLineCommand cmd in ((SceneComponent)scenesContainer.getScene(sceneIndex)).cmds)
+        //foreach (TimeLineCommand cmd in ((SceneComponent)scenesContainer.getScene(sceneIndex)).cmds)
+        while (SupportViewPort.sceneIndex < playlist.playbackList.Count &&
+               WaitActive == false)
         {
+            TimeLineCommand cmd = ((SceneComponent)scenesContainer.getScene(SupportViewPort.sceneIndex)).cmds[SupportViewPort.cmdIndex];
+            
             switch (cmd.NameCommand.Split(' ')[0])
             {
                 case "EDIT":
@@ -38,6 +44,7 @@ public class Play : TimeLine
                                     .components[CharacterIndex])
                                 .Dialogs[DialogIndex].Text;
                             
+                            SupportViewPort.getInstance().Refresh();
                         } break;
                         case "POSITION":
                         {
@@ -51,6 +58,8 @@ public class Play : TimeLine
                                 .components[CharacterIndex]).Position = PositionIndex;
                             
                             SupportViewPort.getInstance().Refresh();
+                            
+                            //refresh(SceneIndex, PositionIndex);
 
                             // int currentImageIndex =
                             //     ((Character)((SceneComponent)scenesContainer.getScene(
@@ -83,12 +92,9 @@ public class Play : TimeLine
 
                             ((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
                                 .components[CharacterIndex]).currentImageIndex = CurrentImageIndex;
-
-                            SupportViewPort.getInstance().Refresh();
                             
-                            // switch (((Character)((SceneComponent)scenesContainer.getScene(
-                            //                 int.Parse(cmd.NameCommand.Split(' ')[1])))
-                            //             .components[int.Parse(cmd.NameCommand.Split(' ')[2])])
+                            // switch (((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
+                            //             .components[CharacterIndex])
                             //         .Position)
                             // {
                             //     case 0:
@@ -117,7 +123,7 @@ public class Play : TimeLine
                                 ((Background)((SceneComponent)scenesContainer.getScene(
                                         SceneIndex))
                                     .components[BackgroundIndex]).ImagePath, UriKind.RelativeOrAbsolute));
-
+                            
                             SupportViewPort.getInstance().Refresh();
                         } break;
                     } break;
@@ -128,11 +134,20 @@ public class Play : TimeLine
                  {
                      case "CLICK":
                      { 
+                         //SupportViewPort.cmdIndex++;
                          WaitActive = true;
-                         await pause();
+                         pause();
                      } break;
                  }
              } break;
+            }
+
+            SupportViewPort.cmdIndex++;
+            if (SupportViewPort.cmdIndex >=
+                ((SceneComponent)scenesContainer.getScene(SupportViewPort.sceneIndex)).cmds.Count)
+            {
+                SupportViewPort.cmdIndex = 0;
+                SupportViewPort.sceneIndex++;
             }
         }
     }
@@ -140,24 +155,46 @@ public class Play : TimeLine
     private void WaitClick_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         WaitActive = false;
+        Parser();
     }
 
     public void play()
     {
         if (Scene.PlaySwitch)
         {
-            for (int i = 0; i < scenesContainer.scenes.Count; i++)
-            {
-                Parser(i);
-            }
+            Parser();
         }
     }
 
-    public async Task pause()
+    public void pause()
     {
-        while (WaitActive)
+        
+    }
+
+    public void refresh(int sceneIndex, int PositionIndex)
+    {
+        foreach (BaseComponent character in ((SceneComponent)scenesContainer.scenes[sceneIndex]).components)
         {
-            await Task.Delay(100);
+            if (character is Character characterComponent)
+            {
+                switch (PositionIndex)
+                {
+                    case 0:
+                        if (characterComponent.Position == PositionIndex)
+                        {
+                            characterComponent.Position = -1;
+                        }
+
+                        break;
+                    case 1:
+                        if (characterComponent.Position == PositionIndex)
+                        {
+                            characterComponent.Position = -1;
+                        }
+
+                        break;
+                }
+            }
         }
     }
 }

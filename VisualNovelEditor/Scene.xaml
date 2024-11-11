@@ -419,7 +419,34 @@
             <!-- ____________________ -->
             
             <Border Grid.Row="2" Grid.Column="2" Background="#191919" BorderBrush="#CE7D63" BorderThickness="1,2,2,2">
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="200*" />
+                        <ColumnDefinition Width="980*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <Border Grid.Column="0" CornerRadius="4"
+                                Background="#0F0F0F"
+                                Margin="5,10,5,0" Width="80" Height="30">
+                            <Button Background="Transparent" Content="ADD" FontSize="18" Name="btnAddPlaybackScene" Click="BtnAddPlaybackScene_OnClick"
+                                    Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
+                            </Button>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <ListBox Width="200" Height="265" Grid.Row="2" Background="#2B2B2B" BorderThickness="0" Name="lbPlaybackScenes" SelectionChanged="lbScenes_OnSelectionChanged" Margin="5,10,5,10" Foreground="White">
+                            <ListBox.Resources>
+                                <Style TargetType="ScrollViewer">
+                                    <Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+                                </Style>
+                            </ListBox.Resources>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </DockPanel>

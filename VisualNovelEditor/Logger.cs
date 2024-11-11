@@ -87,6 +87,14 @@ public class Logger
             {
                 writer.WriteLine("SceneComponent");
                 writer.WriteLine(sceneComponent.Name);
+                
+                writer.WriteLine(sceneComponent.cmds.Count);
+
+                foreach (var cmd in sceneComponent.cmds)
+                {
+                    writer.WriteLine(cmd.NameCommand);
+                }
+                
                 writer.WriteLine(sceneComponent.components.Count);
 
                 // Сохранение данных для каждого компонента внутри сцены
@@ -180,8 +188,19 @@ public class Logger
             {
                 SceneComponent sceneComponent = new SceneComponent
                 {
-                    Name = reader.ReadLine()
+                    Name = reader.ReadLine(),
                 };
+                
+                int cmdsCount = Convert.ToInt32(reader.ReadLine());
+                
+                for (int ii = 0; ii < cmdsCount; ii++)
+                {
+                    TimeLineCommand timeLineCommand = new TimeLineCommand()
+                    {
+                        NameCommand = reader.ReadLine()
+                    };
+                    sceneComponent.cmds.Add(timeLineCommand);
+                }
 
                 int componentCount = Convert.ToInt32(reader.ReadLine());
                 for (int j = 0; j < componentCount; j++)

@@ -10,6 +10,8 @@ public class SupportViewPort
     public ListBox lbSceneComp;
     public ScenesContainer scenesContainer;
     public Image image;
+    public static int cmdIndex = 0;
+    public static int sceneIndex = 0;
     public delegate void OnMouseDownHandler(object sender, MouseButtonEventArgs e);
 
     public void SetHandler(OnMouseDownHandler handler)

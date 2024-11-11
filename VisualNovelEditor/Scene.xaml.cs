@@ -430,6 +430,20 @@ public partial class Scene : Window
         play.play();
         PlaySwitch = false;
         mmFileOpen_OnClick(sender, e);
+        SupportViewPort.sceneIndex = 0;
+        SupportViewPort.cmdIndex = 0;
+    }
+
+    private void BtnAddPlaybackScene_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (lbScenes.SelectedIndex > -1)
+        {
+            if (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).cmds.Count > 0)
+            {
+                play.playlist.AddCommands(((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).cmds);
+                lbPlaybackScenes.Items.Add(((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).Name);
+            }
+        }
     }
 }
 
