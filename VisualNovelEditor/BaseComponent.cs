@@ -40,21 +40,21 @@ public class SceneComponent : BaseComponent
         this.canvas.Width = width;
         this.canvas.Height = height;
     }
-
+    
     public virtual void addComponent(SceneComponent component)
     {
         component.canvas = this.canvas;
         components.Add(component);
     }
-
+    
     public virtual void removeComponent(int index)
     {
         components.RemoveAt(index);
     }
-
-    public void createCanvas()
-    {
-    }
+    
+    // public void createCanvas()
+    // {
+    // }
 }
 
 public class Character : SceneComponent

@@ -93,27 +93,27 @@ public class Play : TimeLine
                             ((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
                                 .components[CharacterIndex]).currentImageIndex = CurrentImageIndex;
                             
-                            // switch (((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
-                            //             .components[CharacterIndex])
-                            //         .Position)
-                            // {
-                            //     case 0:
-                            //     {
-                            //         PropertyDisplayer.VPimageCharacter1.Source = new BitmapImage(new Uri(((Character)((SceneComponent)scenesContainer.getScene(
-                            //                     SceneIndex))
-                            //                 .components[CharacterIndex])
-                            //             .ImagesPath[CurrentImageIndex], UriKind.RelativeOrAbsolute));
-                            //     }
-                            //         break;
-                            //     case 1:
-                            //     {
-                            //         PropertyDisplayer.VPimageCharacter2.Source = new BitmapImage(new Uri(((Character)((SceneComponent)scenesContainer.getScene(
-                            //                     SceneIndex))
-                            //                 .components[CharacterIndex])
-                            //             .ImagesPath[CurrentImageIndex], UriKind.RelativeOrAbsolute));
-                            //     }
-                            //         break;
-                            // }
+                            switch (((Character)((SceneComponent)scenesContainer.getScene(SceneIndex))
+                                        .components[CharacterIndex])
+                                    .Position)
+                            {
+                                case 0:
+                                {
+                                    PropertyDisplayer.VPimageCharacter1.Source = new BitmapImage(new Uri(((Character)((SceneComponent)scenesContainer.getScene(
+                                                SceneIndex))
+                                            .components[CharacterIndex])
+                                        .ImagesPath[CurrentImageIndex], UriKind.RelativeOrAbsolute));
+                                }
+                                    break;
+                                case 1:
+                                {
+                                    PropertyDisplayer.VPimageCharacter2.Source = new BitmapImage(new Uri(((Character)((SceneComponent)scenesContainer.getScene(
+                                                SceneIndex))
+                                            .components[CharacterIndex])
+                                        .ImagesPath[CurrentImageIndex], UriKind.RelativeOrAbsolute));
+                                }
+                                    break;
+                            }
                         } break;
                         case "BACKGROUND":
                         {
@@ -180,14 +180,14 @@ public class Play : TimeLine
                 switch (PositionIndex)
                 {
                     case 0:
-                        if (characterComponent.Position == PositionIndex)
+                        if (characterComponent.Position == 1)
                         {
                             characterComponent.Position = -1;
                         }
 
                         break;
                     case 1:
-                        if (characterComponent.Position == PositionIndex)
+                        if (characterComponent.Position == 0)
                         {
                             characterComponent.Position = -1;
                         }
@@ -198,3 +198,5 @@ public class Play : TimeLine
         }
     }
 }
+
+// винести в окремий метод refresh

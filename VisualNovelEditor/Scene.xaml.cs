@@ -9,7 +9,7 @@ public partial class Scene : Window
     
     private Logger logger;
     ScenesContainer scenesContainer;
-    Canvas currentCanvas;
+    //Canvas currentCanvas;
     PropertyDisplayer propertyDisplayer;
     DisplaySceneComponentCommand displaySceneComponentCommand;
     DisplayBackgroundCommand displayBackgroundCommand;
@@ -72,7 +72,7 @@ public partial class Scene : Window
         // }
         lbScenes.SelectedIndex = lbScenes.Items.Count - 1;
 
-        currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
+        //currentCanvas = ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).canvas;
     }
 
     private void lbScenes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
