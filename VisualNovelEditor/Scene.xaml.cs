@@ -387,14 +387,14 @@ public partial class Scene : Window
         }
     }
     
-    private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
-    {
-        scenesContainer = logger.Txt_Deserialize(Logger.filePathConst);
-        Invoker.scenesContainer = scenesContainer;
-        SupportViewPort.getInstance().scenesContainer = scenesContainer;
-        CommandBuilder.scenesContainer = scenesContainer;
-        _supportViewPort.refreshLbScenes();
-    }
+    // private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
+    // {
+    //     scenesContainer = logger.Txt_Deserialize(Logger.filePathConst);
+    //     Invoker.scenesContainer = scenesContainer;
+    //     SupportViewPort.getInstance().scenesContainer = scenesContainer;
+    //     CommandBuilder.scenesContainer = scenesContainer;
+    //     _supportViewPort.refreshLbScenes();
+    // }
     
     private void OpenAs(string filePath)
     {
@@ -489,6 +489,29 @@ public partial class Scene : Window
         if (ofd.ShowDialog() == true)
         {
             OpenAs(ofd.FileName);
+        }
+    }
+
+    private void mmFileNew_OnClick(object sender, RoutedEventArgs e)
+    {
+        scenesContainer.scenes.Clear();
+        lbPlaybackScenes.Items.Clear();
+        lbScenes.Items.Clear();
+        lbSceneComp.Items.Clear();
+        VPimageBackground.Source = null;
+        VPimageCharacter1.Source = null;
+        VPimageCharacter2.Source = null;
+        VPtbkDialogText.Text = "";
+        VPtbkDialogCaption.Text = "";
+        play.playlist.playbackList.Clear();
+        tbProperName.Text = "";
+        scenesContainer.maxSize = 0;
+        brdrLeftProperLists.Child = null;
+        brdrRightProperLists.Child = null;
+        int i = stkpnlProperties.Children.Count - 1;
+        for (; stkpnlProperties.Children.Count != 1; i--)
+        {
+            stkpnlProperties.Children.RemoveAt(i);
         }
     }
 }
