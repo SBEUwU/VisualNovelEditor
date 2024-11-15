@@ -172,7 +172,7 @@ public class Play : TimeLine
         if (playlist.playbackList.Count <= SupportViewPort.sceneIndex)
         {
             SupportViewPort.getInstance().btnPlay.IsEnabled = true;
-            //CloneOpenSave();
+            CloneOpenSave();
         }
     }
 
@@ -184,22 +184,22 @@ public class Play : TimeLine
         }
     }
     
-    // public void CloneOpenSave()
-    // {
-    //     ScenesContainer temp = new ScenesContainer();
-    //     
-    //     temp = Logger.getInstance().Txt_Deserialize("C:\\test\\");
-    //     
-    //     scenesContainer.scenes.Clear();
-    //     
-    //     foreach (SceneComponent scene in temp.scenes)
-    //     {
-    //         scenesContainer.addComponent(scene);
-    //     }
-    //     
-    //     Invoker.scenesContainer = scenesContainer;
-    //     SupportViewPort.getInstance().scenesContainer = scenesContainer;
-    // }
+    public void CloneOpenSave()
+    {
+        ScenesContainer temp = new ScenesContainer();
+        
+        temp = Logger.getInstance().Txt_Deserialize("C:\\test\\");
+        
+        scenesContainer.scenes.Clear();
+        
+        foreach (SceneComponent scene in temp.scenes)
+        {
+            scenesContainer.addComponent(scene);
+        }
+        
+        Invoker.scenesContainer = scenesContainer;
+        SupportViewPort.getInstance().scenesContainer = scenesContainer;
+    }
     
     public void refresh(int sceneIndex, int PositionIndex)
     {

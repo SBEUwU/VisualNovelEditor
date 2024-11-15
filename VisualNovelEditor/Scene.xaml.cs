@@ -377,13 +377,13 @@ public partial class Scene : Window
     //     _supportViewPort.refreshLbScenes();
     // }
 
-    // private void FileSavePlay_OnClick()
-    // {
-    //     if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
-    //     {
-    //         logger.Txt_Serialize("C:\\test\\", scenesContainer);
-    //     }
-    // }
+    private void FileSavePlay_OnClick()
+    {
+        if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
+        {
+            logger.Txt_Serialize("C:\\test\\", scenesContainer);
+        }
+    }
     
     private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
     {
@@ -441,12 +441,12 @@ public partial class Scene : Window
         ((Button)sender).IsEnabled = false;
         SupportViewPort.sceneIndex = 0;
         SupportViewPort.cmdIndex = 0;
-        mmFileSave_OnClick(sender, e);
-        //FileSavePlay_OnClick();
+        // mmFileSave_OnClick(sender, e);
+        FileSavePlay_OnClick();
         PlaySwitch = true;
         play.play();
         PlaySwitch = false;
-        mmFileOpen_OnClick(sender, e);
+        // mmFileOpen_OnClick(sender, e);
     }
 
     private void BtnAddPlaybackScene_OnClick(object sender, RoutedEventArgs e)
