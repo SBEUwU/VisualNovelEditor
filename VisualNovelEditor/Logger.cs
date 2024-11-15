@@ -6,16 +6,17 @@ using System.Windows.Media;
 using Color = System.Drawing.Color;
 
 namespace VisualNovelEditor;
-public enum Commands
-{
-    ButtonExit = 1,
-    ButtonOpen = 2,
-    ButtonSave = 3,
-}
+// public enum Commands
+// {
+//     ButtonExit = 1,
+//     ButtonOpen = 2,
+//     ButtonSave = 3,
+// }
 public class Logger
 {
     private static Logger logger;
     List<string> logList = new();
+    public const string filePathConst = "C:\\savelog.txt";
 
     private Logger()
     {
@@ -72,7 +73,7 @@ public class Logger
     
     public void Txt_Serialize(string filePath, ScenesContainer scenesContainer)
 {
-    using (var writer = new StreamWriter(File.Open(filePath + "\\savelog.txt", FileMode.Create)))
+    using (var writer = new StreamWriter(File.Open(filePath, FileMode.Create)))
     {
         writer.WriteLine(scenesContainer.maxSize);
         
@@ -169,7 +170,7 @@ public class Logger
 {
     ScenesContainer scenesContainer = new ScenesContainer();
 
-    using (var reader = new StreamReader(File.Open(filePath + "\\savelog.txt", FileMode.Open)))
+    using (var reader = new StreamReader(File.Open(filePath, FileMode.Open)))
     {
         scenesContainer.maxSize = Convert.ToInt32(reader.ReadLine());
         

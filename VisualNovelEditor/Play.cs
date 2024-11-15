@@ -188,7 +188,7 @@ public class Play : TimeLine
     {
         ScenesContainer temp = new ScenesContainer();
         
-        temp = Logger.getInstance().Txt_Deserialize("C:\\test\\");
+        temp = Logger.getInstance().Txt_Deserialize("C:\\test\\savelog.txt");
         
         scenesContainer.scenes.Clear();
         

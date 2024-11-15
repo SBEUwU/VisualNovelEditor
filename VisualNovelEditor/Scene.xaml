@@ -14,6 +14,9 @@
                 <MenuItem Header="Open" Foreground="#1A1A1A" Click="mmFileOpen_OnClick"/>
                 <MenuItem Header="Save" Foreground="#1A1A1A" Click="mmFileSave_OnClick"/>
                 <Separator Foreground="#1A1A1A"/>
+                <MenuItem Header="Save as" Foreground="#1A1A1A" Click="mmFileSaveAs_OnClick"/>
+                <MenuItem Header="Open as" Foreground="#1A1A1A" Click="mmFileOpenAs_OnClick"/>
+                <Separator Foreground="#1A1A1A"/>
                 <MenuItem Header="Exit" Foreground="#1A1A1A"/>
             </MenuItem>
             <MenuItem Header="Edit" Foreground="#FFFFFF">

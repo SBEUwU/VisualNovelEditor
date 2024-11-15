@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace VisualNovelEditor;
 
@@ -381,13 +383,22 @@ public partial class Scene : Window
     {
         if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
         {
-            logger.Txt_Serialize("C:\\test\\", scenesContainer);
+            logger.Txt_Serialize("C:\\test\\savelog.txt", scenesContainer);
         }
     }
     
     private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
     {
-        scenesContainer = logger.Txt_Deserialize("C:\\");
+        scenesContainer = logger.Txt_Deserialize(Logger.filePathConst);
+        Invoker.scenesContainer = scenesContainer;
+        SupportViewPort.getInstance().scenesContainer = scenesContainer;
+        CommandBuilder.scenesContainer = scenesContainer;
+        _supportViewPort.refreshLbScenes();
+    }
+    
+    private void OpenAs(string filePath)
+    {
+        scenesContainer = logger.Txt_Deserialize(filePath);
         Invoker.scenesContainer = scenesContainer;
         SupportViewPort.getInstance().scenesContainer = scenesContainer;
         CommandBuilder.scenesContainer = scenesContainer;
@@ -398,7 +409,7 @@ public partial class Scene : Window
     {
         if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
         {
-            logger.Txt_Serialize("C:\\", scenesContainer);
+            logger.Txt_Serialize(Logger.filePathConst, scenesContainer);
         }
     }
 
@@ -458,6 +469,26 @@ public partial class Scene : Window
                 play.playlist.AddCommands(((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).cmds);
                 lbPlaybackScenes.Items.Add(((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).Name);
             }
+        }
+    }
+
+    private void mmFileSaveAs_OnClick(object sender, RoutedEventArgs e)
+    {
+        SaveFileDialog sfd = new SaveFileDialog();
+        sfd.Filter = "Text Files (*.txt)|*.txt";
+        if (sfd.ShowDialog() == true)
+        {
+            logger.Txt_Serialize(sfd.FileName, scenesContainer);
+        }
+    }
+    
+    private void mmFileOpenAs_OnClick(object sender, RoutedEventArgs e)
+    {
+        OpenFileDialog ofd = new OpenFileDialog();
+        ofd.Filter = "Text Files (*.txt)|*.txt";
+        if (ofd.ShowDialog() == true)
+        {
+            OpenAs(ofd.FileName);
         }
     }
 }

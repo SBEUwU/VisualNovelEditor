@@ -25,21 +25,21 @@ public partial class MainWindow : Window
         createPanel = new CreatePanel();
     }
 
-    private void Button1_OnClick(object sender, RoutedEventArgs e)
-    {
-        switch(((Button)sender).Name)
-        {
-            case "button1":
-                logger.addLog(Commands.ButtonOpen.ToString());
-                break;
-            case "button2":
-                logger.addLog(Commands.ButtonSave.ToString());
-                break;
-            case "button3":
-                logger.addLog(Commands.ButtonExit.ToString());
-                break;
-        }
-    }
+    // private void Button1_OnClick(object sender, RoutedEventArgs e)
+    // {
+    //     switch(((Button)sender).Name)
+    //     {
+    //         case "button1":
+    //             logger.addLog(Commands.ButtonOpen.ToString());
+    //             break;
+    //         case "button2":
+    //             logger.addLog(Commands.ButtonSave.ToString());
+    //             break;
+    //         case "button3":
+    //             logger.addLog(Commands.ButtonExit.ToString());
+    //             break;
+    //     }
+    // }
     private void BtnSave_OnClick(object sender, RoutedEventArgs e)
     {
         logger.saveLog();
@@ -58,6 +58,7 @@ public partial class MainWindow : Window
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
         CenterWindowOnScreen();
+        
     }
 
     private void MainWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
