@@ -48,7 +48,7 @@ public partial class Scene : Window
         PropertyDisplayer.VPimageCharacter2 = VPimageCharacter2;
         PropertyDisplayer.VPbrdrDialogBox = VPbrdrDialogBox;
         
-        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp, VPimageBackground);
+        _supportViewPort = SupportViewPort.getInstance(scenesContainer, lbScenes, lbSceneComp, VPimageBackground, btnPlay);
         
         TimeLine.scenesContainer = scenesContainer;
         play = new Play();
@@ -228,15 +228,15 @@ public partial class Scene : Window
         }
     }
 
-    public void refreshLbScenes()
-    {
-        lbScenes.Items.Clear();
-        
-            foreach (SceneComponent scene in scenesContainer.scenes)
-            {
-                lbScenes.Items.Add(scene.Name);
-            }
-    }
+    // public void refreshLbScenes()
+    // {
+    //     lbScenes.Items.Clear();
+    //     
+    //         foreach (SceneComponent scene in scenesContainer.scenes)
+    //         {
+    //             lbScenes.Items.Add(scene.Name);
+    //         }
+    // }
     public void refreshLbSceneComp()
     {
         lbSceneComp.Items.Clear();
@@ -292,22 +292,18 @@ public partial class Scene : Window
     {
         if (e.Key == Key.Enter)
         {
-            // Получаем ссылку на TextBox, который вызвал событие
             TextBox textBox = sender as TextBox;
-
-            // Здесь можно выполнять логику обновления свойств
+            
             if (textBox != null)
             {
-                // Предположим, что мы хотим обновить какое-то свойство компонента
                 int sceneIndex = lbScenes.SelectedIndex;
                 int componentIndex = lbSceneComp.SelectedIndex;
 
                 if (sceneIndex >= 0 && componentIndex >= 0)
                 {
-                    string propertyName = textBox.Name.Replace("tbProper", ""); // Имя свойства из имени TextBox
-                    string value = textBox.Text; // Получаем значение из TextBox
-
-                    // Вызов метода Edit для обновления свойств
+                    string propertyName = textBox.Name.Replace("tbProper", "");
+                    string value = textBox.Text;
+                    
                     invoker.Edit(sceneIndex, componentIndex, propertyName, value);
                     int lbSceneCompSelectedIndex = lbSceneComp.SelectedIndex;
                     refreshLbSceneComp();
@@ -371,14 +367,31 @@ public partial class Scene : Window
     {
         btnNewCompMenu.ContextMenu.IsOpen = true;
     }
+    
+    // private void FileOpenPlay_OnClick()
+    // {
+    //     scenesContainer = logger.Txt_Deserialize("C:\\test\\");
+    //     Invoker.scenesContainer = scenesContainer;
+    //     SupportViewPort.getInstance().scenesContainer = scenesContainer;
+    //     CommandBuilder.scenesContainer = scenesContainer;
+    //     _supportViewPort.refreshLbScenes();
+    // }
 
+    // private void FileSavePlay_OnClick()
+    // {
+    //     if (scenesContainer.scenes != null && scenesContainer.scenes.Count > 0)
+    //     {
+    //         logger.Txt_Serialize("C:\\test\\", scenesContainer);
+    //     }
+    // }
+    
     private void mmFileOpen_OnClick(object sender, RoutedEventArgs e)
     {
         scenesContainer = logger.Txt_Deserialize("C:\\");
         Invoker.scenesContainer = scenesContainer;
         SupportViewPort.getInstance().scenesContainer = scenesContainer;
         CommandBuilder.scenesContainer = scenesContainer;
-        refreshLbScenes();
+        _supportViewPort.refreshLbScenes();
     }
 
     private void mmFileSave_OnClick(object sender, RoutedEventArgs e)
@@ -394,7 +407,7 @@ public partial class Scene : Window
         if (lbScenes.SelectedIndex != -1)
         {
             scenesContainer.scenes.RemoveAt(lbScenes.SelectedIndex);
-            refreshLbScenes();
+            _supportViewPort.refreshLbScenes();
             refreshLbSceneComp();
             ClearViewport();
         }
@@ -425,13 +438,15 @@ public partial class Scene : Window
 
     private void BtnPlay_OnClick(object sender, RoutedEventArgs e)
     {
+        ((Button)sender).IsEnabled = false;
+        SupportViewPort.sceneIndex = 0;
+        SupportViewPort.cmdIndex = 0;
         mmFileSave_OnClick(sender, e);
+        //FileSavePlay_OnClick();
         PlaySwitch = true;
         play.play();
         PlaySwitch = false;
         mmFileOpen_OnClick(sender, e);
-        SupportViewPort.sceneIndex = 0;
-        SupportViewPort.cmdIndex = 0;
     }
 
     private void BtnAddPlaybackScene_OnClick(object sender, RoutedEventArgs e)
@@ -452,11 +467,11 @@ public partial class Scene : Window
 //Баг після вибору компоненте та потім вибору сцени, немає обробника подій tbName --
 //якщо сцени нема, не можна добавляти компоненти
 //Exit
-// запретить загружать в картинки все кроме png, jpg
-// чекать на наличие файла перед загрузкой
-// сделать максимальный размер импортируемой картинки
+// зоборона завантаження всіх файлів в катинки окрім png, jpg
+// перевіряти на наявність файлу перед завантаженням сейву
+// зробити максимальний розмір завантаженої картинки
 
-// сделать swap commandbuilder
+// зробити swap commandbuilder
 
 //----------------------------------------ВИСОКИЙ ПРИОРІТЕТ--------------------------------------
 

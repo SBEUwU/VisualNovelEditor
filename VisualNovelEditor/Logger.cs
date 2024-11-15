@@ -74,15 +74,12 @@ public class Logger
 {
     using (var writer = new StreamWriter(File.Open(filePath + "\\savelog.txt", FileMode.Create)))
     {
-        // Записываем maxSize
         writer.WriteLine(scenesContainer.maxSize);
-
-        // Записываем количество сцен
+        
         writer.WriteLine(scenesContainer.scenes.Count);
 
         foreach (var scene in scenesContainer.scenes)
         {
-            // Проверка типа сцены и сохранение соответствующих данных
             if (scene is SceneComponent sceneComponent)
             {
                 writer.WriteLine("SceneComponent");
@@ -96,8 +93,7 @@ public class Logger
                 }
                 
                 writer.WriteLine(sceneComponent.components.Count);
-
-                // Сохранение данных для каждого компонента внутри сцены
+                
                 foreach (var component in sceneComponent.components)
                 {
                     switch (component)
@@ -175,10 +171,8 @@ public class Logger
 
     using (var reader = new StreamReader(File.Open(filePath + "\\savelog.txt", FileMode.Open)))
     {
-        // Чтение maxSize
         scenesContainer.maxSize = Convert.ToInt32(reader.ReadLine());
-
-        // Чтение количества сцен
+        
         int sceneCount = Convert.ToInt32(reader.ReadLine());
         for (int i = 0; i < sceneCount; i++)
         {
@@ -299,7 +293,6 @@ public class Logger
                 }
                 scenesContainer.scenes.Add(sceneComponent);
             }
-            // Добавьте другие типы компонентов по необходимости
         }
     }
 

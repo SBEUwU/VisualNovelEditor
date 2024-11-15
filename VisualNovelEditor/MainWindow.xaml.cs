@@ -77,11 +77,9 @@ public partial class MainWindow : Window
     
     private void CenterWindowOnScreen()
     {
-        // Получаем размеры экрана
         var screenWidth = SystemParameters.PrimaryScreenWidth;
         var screenHeight = SystemParameters.PrimaryScreenHeight;
-
-        // Вычисляем координаты для центрирования
+        
         this.Left = (screenWidth - this.Width) / 2;
         this.Top = (screenHeight - this.Height) / 2;
     }

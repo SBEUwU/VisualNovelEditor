@@ -10,6 +10,7 @@ public class SupportViewPort
     public ListBox lbSceneComp;
     public ScenesContainer scenesContainer;
     public Image image;
+    public Button btnPlay;
     public static int cmdIndex = 0;
     public static int sceneIndex = 0;
     public delegate void OnMouseDownHandler(object sender, MouseButtonEventArgs e);
@@ -19,18 +20,30 @@ public class SupportViewPort
         image.MouseDown += new MouseButtonEventHandler(handler);
         
     }
-    private SupportViewPort(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Image image)
+    
+    public void refreshLbScenes()
+    {
+        lbScenes.Items.Clear();
+        
+        foreach (SceneComponent scene in scenesContainer.scenes)
+        {
+            lbScenes.Items.Add(scene.Name);
+        }
+    }
+    
+    private SupportViewPort(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Image image, Button btnPlay)
     {
         this.scenesContainer = scenesContainer;
         this.lbScenes = lbScenes;
         this.lbSceneComp = lbSceneComp;
         this.image = image;
+        this.btnPlay = btnPlay;
     }
 
-    public static SupportViewPort getInstance(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Image image)
+    public static SupportViewPort getInstance(ScenesContainer scenesContainer, ListBox lbScenes, ListBox lbSceneComp, Image image, Button btnPlay)
     {
         if (_supportViewPort == null)
-            _supportViewPort = new SupportViewPort(scenesContainer, lbScenes, lbSceneComp, image);
+            _supportViewPort = new SupportViewPort(scenesContainer, lbScenes, lbSceneComp, image, btnPlay);
         return _supportViewPort;
     }
 

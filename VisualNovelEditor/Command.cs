@@ -863,16 +863,12 @@ public class Invoker
 
     public static TextBox FindTextBoxInPanel(StackPanel mainStackPanel, string textBoxName)
     {
-        // Проходим по дочерним элементам главного StackPanel
         foreach (var child in mainStackPanel.Children)
         {
-            // Если дочерний элемент - StackPanel, проверяем его содержимое
             if (child is StackPanel childStackPanel)
             {
-                // Проходим по элементам внутреннего StackPanel
                 foreach (var innerChild in childStackPanel.Children)
                 {
-                    // Если находим TextBox с нужным именем - возвращаем его
                     if (innerChild is TextBox textBox && textBox.Name == $"tbProper{textBoxName}")
                     {
                         return textBox;
@@ -880,8 +876,6 @@ public class Invoker
                 }
             }
         }
-
-        // Если ничего не нашли - возвращаем null
         return null;
     }
 
