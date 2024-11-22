@@ -121,34 +121,40 @@ public partial class Scene : Window
 
     private void btnNewCharacter_OnClick(object sender, RoutedEventArgs e)
     {
-        Character newCharacter = new Character()
+        if (lbScenes.SelectedIndex != -1)
         {
-            Name = "Character" +
-                   (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
-        };
+            Character newCharacter = new Character()
+            {
+                Name = "Character" +
+                       (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
+            };
 
-        ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(newCharacter);
+            ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(newCharacter);
 
 
-        // Добавление кнопки на Canvas
-        //currentCanvas.Children.Add(newCharacter);
+            // Добавление кнопки на Canvas
+            //currentCanvas.Children.Add(newCharacter);
 
-        refreshLbSceneComp();
+            refreshLbSceneComp();
+        }
     }
 
     private void btnNewBackground_OnClick(object sender, RoutedEventArgs e)
     {
-        Background background = new Background()
+        if (lbScenes.SelectedIndex != -1)
         {
-            Name = "Background" +
-                   (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
-        };
+            Background background = new Background()
+            {
+                Name = "Background" +
+                       (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
+            };
 
-        ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(background);
+            ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(background);
 
-        //currentCanvas.Children.Add(newCharacter);
+            //currentCanvas.Children.Add(newCharacter);
 
-        refreshLbSceneComp();
+            refreshLbSceneComp();
+        }
     }
 
     private void lbSceneComp_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -277,17 +283,20 @@ public partial class Scene : Window
 
     private void BtnNewDialogBox_OnClick(object sender, RoutedEventArgs e)
     {
-        DialogBox dialogBox = new DialogBox()
+        if (lbScenes.SelectedIndex != -1)
         {
-            Name = "DialogBox" +
-                   (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
-        };
+            DialogBox dialogBox = new DialogBox()
+            {
+                Name = "DialogBox" +
+                       (((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Count + 1)
+            };
 
-        ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(dialogBox);
+            ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(dialogBox);
 
-        //currentCanvas.Children.Add(newCharacter);
+            //currentCanvas.Children.Add(newCharacter);
 
-        refreshLbSceneComp();
+            refreshLbSceneComp();
+        }
     }
 
     public void tbProper_KeyDown(object sender, KeyEventArgs e)

@@ -134,7 +134,8 @@ public class Character : SceneComponent
         Button btnWrapImage = new Button()
         {
             Width = 200,
-            Height = 250
+            Height = 250,
+            Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#2B2B2B")
         };
         //btnWrapImage.Tag = itterator;
         Image image = new Image()
