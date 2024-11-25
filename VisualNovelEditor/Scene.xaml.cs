@@ -131,8 +131,7 @@ public partial class Scene : Window
 
             ((SceneComponent)scenesContainer.getScene(lbScenes.SelectedIndex)).components.Add(newCharacter);
 
-
-            // Добавление кнопки на Canvas
+            
             //currentCanvas.Children.Add(newCharacter);
 
             refreshLbSceneComp();
@@ -348,7 +347,6 @@ public partial class Scene : Window
     //
     // private bool IsHandlerSet(TextBox textBox, string eventName)
     // {
-    //     // Используем рефлексию, чтобы получить информацию о событиях
     //     var eventField = typeof(TextBox).GetEvent(eventName);
     //     if (eventField != null)
     //     {
