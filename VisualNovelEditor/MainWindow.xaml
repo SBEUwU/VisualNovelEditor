@@ -45,7 +45,7 @@
                                        Margin="10,0,0,0"
                                        FontWeight="Medium"
                                        FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/>
-                            <TextBlock Text="12.02.24 16:00" 
+                            <TextBlock Text="26.04.25 21:43" 
                                        FontSize="10"
                                        Foreground="#FFFFFF"
                                        Margin="10,0,0,0"
@@ -76,7 +76,7 @@
                     <Border Grid.Column="0" CornerRadius="4"
                             Background="#0F0F0F"
                             Margin="8,12,8,12" Width="68" Height="51">
-                        <Button Background="Transparent" Content="OPEN" FontSize="18" 
+                        <Button Background="Transparent" Content="OPEN" FontSize="18" Name="btnOpen" Click="BtnOpen_OnClick"
                                 Foreground="#81807E" BorderThickness="0" FontWeight="Medium" FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono">
                         </Button>
                     </Border>

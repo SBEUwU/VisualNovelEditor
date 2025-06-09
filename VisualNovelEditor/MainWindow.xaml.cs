@@ -40,10 +40,10 @@ public partial class MainWindow : Window
     //             break;
     //     }
     // }
-    private void BtnSave_OnClick(object sender, RoutedEventArgs e)
-    {
-        logger.saveLog();
-    }
+    // private void BtnSave_OnClick(object sender, RoutedEventArgs e)
+    // {
+    //     logger.saveLog();
+    // }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
@@ -63,7 +63,7 @@ public partial class MainWindow : Window
 
     private void MainWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        try
+        try //перетягування вікна
         {
             if (e.ButtonState == MouseButtonState.Pressed)
             {
@@ -88,5 +88,75 @@ public partial class MainWindow : Window
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
     {
         this.Close();
+    }
+
+    private void BtnOpen_OnClick(object sender, RoutedEventArgs e)
+    {
+        Border border = new Border
+        {
+            Margin = new Thickness(12, 12, 12, 0),
+            CornerRadius = new CornerRadius(6),
+            Height = 80,
+            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A1A1A"))
+        };
+
+// Кнопка
+        Button button = new Button
+        {
+            Background = Brushes.Transparent,
+            BorderThickness = new Thickness(0),
+            Width = Double.NaN, // Auto
+            Height = Double.NaN  // Auto
+        };
+
+// StackPanel внутри кнопки
+        StackPanel stack = new StackPanel
+        {
+            Width = 564,
+            Orientation = Orientation.Vertical
+        };
+
+// Первый TextBlock – Название проекта
+        TextBlock title = new TextBlock
+        {
+            Text = "PROJECT 1",
+            FontSize = 20,
+            Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CE7D63")),
+            Margin = new Thickness(10, 0, 0, 5),
+            FontWeight = FontWeights.Medium,
+            FontFamily = new FontFamily("pack://application:,,,/fonts/windNewProject/#Roboto Mono")
+        };
+
+// Второй TextBlock – подпись
+        TextBlock subtitle = new TextBlock
+        {
+            Text = "Last opened",
+            FontSize = 10,
+            Foreground = Brushes.White,
+            Margin = new Thickness(10, 0, 0, 0),
+            FontWeight = FontWeights.Medium,
+            FontFamily = new FontFamily("pack://application:,,,/fonts/windNewProject/#Roboto Mono")
+        };
+
+// Третий TextBlock – дата
+        TextBlock date = new TextBlock
+        {
+            Text = DateTime.Now.ToLongDateString(),
+            FontSize = 10,
+            Foreground = Brushes.White,
+            Margin = new Thickness(10, 0, 0, 0),
+            FontWeight = FontWeights.Medium,
+            FontFamily = new FontFamily("pack://application:,,,/fonts/windNewProject/#Roboto Mono")
+        };
+
+// Сборка
+        stack.Children.Add(title);
+        stack.Children.Add(subtitle);
+        stack.Children.Add(date);
+        button.Content = stack;
+        border.Child = button;
+
+// Пример добавления в StackPanel (где ты хочешь показать список проектов)
+        StckPnl_ProjectsList.Children.Add(border);
     }
 }
