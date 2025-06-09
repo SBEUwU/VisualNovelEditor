@@ -4,20 +4,48 @@ namespace VisualNovelEditor;
 
 public class ProjectLogger
 {
-    private const string filePaths = "//";
-    public static List<String> ProjectFilepaths = new List<String>();
+    private string ProjectsListFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "saves\\ProjectsList.txt");
+    public List<String> ProjectFilepaths;
+
+    public ProjectLogger()
+    {
+        ProjectFilepaths = new List<String>();
+    }
     
     public void AddProjectPath(string projectPath)
     {
-        if (!Directory.Exists("saves"))
-            Directory.CreateDirectory("saves");
+        string savesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "saves");
+        
+        if (!Directory.Exists(savesDir))
+            Directory.CreateDirectory(savesDir);
 
-        if (!File.Exists(filePaths))
-            File.Create(filePaths).Close();
+        if (!File.Exists(ProjectsListFilePath))
+            File.Create(ProjectsListFilePath).Close();
 
-        ProjectFilepaths = File.ReadAllLines(filePaths).ToList();
+        GetProjectFilepaths();
 
         if (!ProjectFilepaths.Contains(projectPath))
-            File.AppendAllText(filePaths, projectPath + Environment.NewLine);
+            File.AppendAllText(ProjectsListFilePath, projectPath + Environment.NewLine);
+    }
+    
+    public void RemovePath(string pathToRemove)
+    {
+        if (!File.Exists(ProjectsListFilePath))
+            return;
+
+        var allPaths = File.ReadAllLines(ProjectsListFilePath).ToList();
+
+        if (allPaths.Remove(pathToRemove))
+        {
+            File.WriteAllLines(ProjectsListFilePath, allPaths);
+        }
+
+        
+        ProjectFilepaths = allPaths;
+    }
+
+    public void GetProjectFilepaths()
+    {
+        ProjectFilepaths = File.ReadAllLines(ProjectsListFilePath).ToList();
     }
 }

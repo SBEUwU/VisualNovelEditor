@@ -30,30 +30,30 @@
         <Border Grid.Row="1" Margin="15,0,15,15" CornerRadius="6" BorderBrush="#1F1F1F" BorderThickness="2">
             <ScrollViewer VerticalScrollBarVisibility="Hidden">
                 <StackPanel Name="StckPnl_ProjectsList">
-                    <Border Margin="12,12,12,0" CornerRadius="6" Width="Auto" Height="80" Background="#1A1A1A">
-                    <Button Width="Auto" Height="Auto" Background="Transparent" BorderThickness="0">
-                        <StackPanel Width="564" Height="Auto" Orientation="Vertical">
-                            <TextBlock Text="PROJECT 1" 
-                                       FontSize="20" 
-                                       Foreground="#CE7D63"
-                                       Margin="10,0,0,5"
-                                       FontWeight="Medium"
-                                       FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/>
-                            <TextBlock Text="Last opened" 
-                                       FontSize="10" 
-                                       Foreground="#FFFFFF"
-                                       Margin="10,0,0,0"
-                                       FontWeight="Medium"
-                                       FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/>
-                            <TextBlock Text="26.04.25 21:43" 
-                                       FontSize="10"
-                                       Foreground="#FFFFFF"
-                                       Margin="10,0,0,0"
-                                       FontWeight="Medium"
-                                       FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/>
-                        </StackPanel>
-                    </Button>
-                    </Border>
+                    <!-- <Border Margin="12,12,12,0" CornerRadius="6" Width="Auto" Height="80" Background="#1A1A1A"> -->
+                    <!-- <Button Width="Auto" Height="Auto" Background="Transparent" BorderThickness="0" Click="ButtonProject_OnClick"> -->
+                    <!--     <StackPanel Width="564" Height="Auto" Orientation="Vertical"> -->
+                    <!--         <TextBlock Text="PROJECT 1" -->
+                    <!--                    FontSize="20" -->
+                    <!--                    Foreground="#CE7D63" -->
+                    <!--                    Margin="10,0,0,5" -->
+                    <!--                    FontWeight="Medium" -->
+                    <!--                    FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/> -->
+                    <!--         <TextBlock Text="Last opened" -->
+                    <!--                    FontSize="10" -->
+                    <!--                    Foreground="#FFFFFF" -->
+                    <!--                    Margin="10,0,0,0" -->
+                    <!--                    FontWeight="Medium" -->
+                    <!--                    FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/> -->
+                    <!--         <TextBlock Text="26.04.25 21:43" -->
+                    <!--                    FontSize="10" -->
+                    <!--                    Foreground="#FFFFFF" -->
+                    <!--                    Margin="10,0,0,0" -->
+                    <!--                    FontWeight="Medium" -->
+                    <!--                    FontFamily="pack://application:,,,/fonts/windNewProject/#Roboto Mono"/> -->
+                    <!--     </StackPanel> -->
+                    <!-- </Button> -->
+                    <!-- </Border> -->
                 </StackPanel>
             </ScrollViewer>
         </Border>

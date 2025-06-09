@@ -15,15 +15,16 @@ namespace VisualNovelEditor;
 public class Logger
 {
     private static Logger logger;
+    public ProjectLogger projectLogger;
     //List<string> logList = new();
     public const string filePathConst = "saves\\savelog.txt";
     
     
 
-    // private Logger()
-    // {
-    //     
-    // }
+    private Logger()
+    {
+        projectLogger = new ProjectLogger();
+    }
 
     public static Logger getInstance()
     {
@@ -73,20 +74,20 @@ public class Logger
     //     }
     // }
 
-    public void ProjectSerialize(string filePath)
+    public void ProjectSerialize()
     {
-        using (var writer = new StreamWriter(File.Open(filePath, FileMode.Create)))
-        {
-            
-        }
+        // using (var writer = new StreamWriter(File.Open(filePath, FileMode.Create)))
+        // {
+        //     
+        // }
     }
 
     public void ProjectsDeserialize(string filePath)
     {
-        using (var reader = new StreamReader(File.Open(filePath, FileMode.Open)))
-        {
-            
-        }
+        // using (var reader = new StreamReader(File.Open(filePath, FileMode.Open)))
+        // {
+        //     
+        // }
     }
     
     public void Txt_Serialize(string filePath, ScenesContainer scenesContainer)

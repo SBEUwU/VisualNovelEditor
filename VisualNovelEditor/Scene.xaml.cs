@@ -403,7 +403,7 @@ public partial class Scene : Window
     //     _supportViewPort.refreshLbScenes();
     // }
     
-    private void OpenAs(string filePath)
+    public void OpenAs(string filePath)
     {
         scenesContainer = logger.Txt_Deserialize(filePath);
         Invoker.scenesContainer = scenesContainer;
@@ -486,6 +486,7 @@ public partial class Scene : Window
         if (sfd.ShowDialog() == true)
         {
             logger.Txt_Serialize(sfd.FileName, scenesContainer);
+            logger.projectLogger.AddProjectPath(sfd.FileName);
         }
     }
     
